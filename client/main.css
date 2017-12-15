@@ -1,0 +1,116 @@
+/* CSS declarations go here */
+#main {
+    width: 130px;
+    height: 40px;
+    /*border: 1px solid black;*/
+    display: -webkit-flex; /* Safari */
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    display: inline-block;
+    flex-wrap: none;
+    overflow:hidden;
+    position: relative;
+    font-size:12px;
+    border-radius:0px;
+    padding: 0;
+    padding-top:5px;
+    border: none;
+    background: none;
+    border-right: solid;
+    border-right-width: thin;
+    font-weight: bold;
+}
+
+#button_bottom {
+    display: -webkit-flex; /* Safari */
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    display: inline-block;
+    flex-wrap: none;
+    overflow:hidden;
+    font-size:14px;
+    border-radius:0px;
+    padding: 8px;
+  animation: pulse 1s;
+  background-color:rgba(6, 69, 115, 1);
+  color:white;
+  background-color: 
+  margin:0 auto;
+}
+
+#bottom_box{
+    clear: both;
+    width:100%;
+    margin-bottom: 12px;
+    border-bottom: 2px solid;
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+#Title{
+    font-size: xx-large;
+    text-align: left;
+}
+
+#radioid{
+    width: calc(100% - 0px);
+    height: calc(100% - 0px);
+    white-space: nowrap;
+    display: inline-block;
+    overflow: visible;
+    position: relative;
+}
+
+p{
+    padding-top: 0px; 
+    padding-bottom:0px; 
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h2{
+    padding-top: 0px; 
+    padding-bottom:0px; 
+    font-family:open sans,sans-serif;
+}
+
+
+table {
+    font-family: open sans,, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+
+button{
+    -webkit-transition-duration: 0.2s; /* Safari */
+    transition-duration: 0.2s;
+    float: left; /* Float the buttons side by side */
+}
+
+button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+button:active {
+  transform: translateY(4px);
+}
+
+#inner {
+  width:930px; margin:0 auto;
+
+}
+
+#foot{
+    color:white;
+    padding-right:20px;
+    font-size:14px;
+    font-family:open sans,sans-serif;
+
+}

@@ -1,0 +1,226 @@
+
+<head>
+  <link rel="stylesheet" href="main.css"/>
+  <title >DDA One Week DRCTs</title>
+</head>
+
+<body>
+<div class="txtNew" style=" width: 100%; position: absolute; top: 50px;"><h1 style="line-height:1em; text-align:center;"><span style="color:#064573;"><span style="font-family: open sans,sans-serif; font-size:38px;">
+  DECENTRALIZED DERIVATIVES ASSOCIATION
+  <div style="padding:10px"><div  style=" margin:0 auto;text-align:center;padding:0;border-bottom: 2px solid rgba(61, 155, 233, 1); width: 738px; height: 5px;"></div></div>
+  </span></span>
+
+  <div id="inner">
+    {{> radioform}}
+  </div>
+
+
+  </h1>
+
+<br>
+<br>
+<br>
+<br>
+<div class="mainpart" style="position:static;padding-left:100px; width: 980px;">
+<h2 class="dapp-header" id="Title">One Week ETH/USD - Standard DRCT Contracts
+</h2>
+  <p id="radioselection"></p>
+  {{#if showFactory}}
+  {{> factory}}
+  {{/if}}
+  {{#if showCashout}}
+    {{> cashout}}
+  {{/if}}
+  {{#if showEnter}}
+    {{> enter}}
+  {{/if}}
+  {{#if showBulletin}}
+    {{> bulletin}}
+  {{/if}}
+    {{#if showmySwaps}}
+    {{> mySwaps}}
+  {{/if}}
+    {{#if showExit}}
+    {{> exit}}
+    {{/if}}
+  {{#if showOracle}}
+    {{> Oracle}}
+  {{/if}}
+  <br>  <br>  <br>
+  <br>
+  <div id= "bottom_box"><div id="cdetails_h"><h2> + Contract Details:</h2></div>
+  <div id="cdetails_b" style="display:none">
+    <p>--2x exposure to underlying rate
+    <br>--Contract caps at 50% move (100% of collateral used up)
+    <br>--Contracts start every Friday at 4pm EST
+    <br>--Contracts end the following Friday at 4pm EST
+    <br>--Oracle is a 5 exchange volume weighted average.  Full details <a href="https://github.com/DecentralizedDerivatives/Oracles">here</a>
+    <br>--Operator fee of 0.5%
+    <br>--1000 DRCT tokens per ETH
+  </p>
+    </div>
+  </div>
+
+  <div id= "bottom_box"><div id="H2_h"><h2> + How to Use:</h2></div>
+   <div id= "H2_b" style="display:none"> <p>--Choose long or short the rate
+    <br>-- Enter amount of Ether you want to put into Contract
+    <br>--Enter the premium in Ether you will pay someone to take other side (how desperate are you?)
+    <br> - Click create contract
+    <br> - Wait for transaction to mined (check your metamask) and click 'Address Result'
+    <br> - Click 'Send Funds' to complete your transation.
+    <br>--If someone enters your swap, you can check the 'My Swaps' and see that you have some tokens
+    <br>--After the contract, be sure to go cash out your tokens
+</p>
+</div>
+</div>
+<div id= "bottom_box">
+  <div class = "bottom_box" id = "Protips_h"><h2> +   Pro tips:</h2></div>
+    <div id = "Protips_b" style="display:none">
+      <p> --Check Open contracts (maybe you can match someone and get paid for it!)
+    <br> --Check Open contracts for how much premium you may need to pay
+    <br> --If no one enters your contract or you want to exit before someone does, be sure to click exit and cash out your tokens
+  </p>
+</div>
+</div>
+</div>
+<footer style="padding:0px; background-color:rgba(6, 69, 115, 1); text-align:right;">
+ <div id="foot"><br>
+    <p><a href="https://www.decentralizedderivatives.org" id="foot">www.decentralizedderivatives.org</a></p>
+    <p><a href="info@decentralizedderivatives.org" id="foot">info@decentralizedderivatives.org</a></p>
+  <br>
+</div>
+</footer>
+
+</div>
+
+</body>
+
+<template name="radioform">
+<div style="width: 100%">
+<button class="radioFactory" id="main">CREATE CONTRACT</button>
+<button class="radioCashout" id='main'>CASH OUT</button>
+<button class="radioEnter" id='main'>ENTER SWAP</button>
+<button class="radioExit" id='main'>EXIT</button>
+<button class="radioBulletin" id='main'>OPEN SWAPS</button>
+<button class="radioOracle" id='main'>QUERY ORACLE</button>
+<button class="radiomySwaps" id='main' style = "border-right:none" >MY SWAPS</button>
+</div>
+</template>
+
+
+
+<template name ="bulletin">
+<br><br><br><br>
+    
+    <h4> Contract State
+      <select id="CState">
+      <option value="1">Open</option>
+      <option value="0">Created</option>
+       <option value="2">Entered</option>
+        <option value="3">Tokenized</option>
+         <option value="4">Paid</option>
+    </select>
+  </h4>
+    <button class="bulletin" id="button_bottom">List Opens</button>
+    <br>
+    <br>
+    <p id="bulletinState"> ---- </p>
+    <br>
+    <br>
+</template>
+
+<template name ="mySwaps">
+<br><br><br><br>
+    <button class="MySwaps" id="button_bottom"> Show My Swaps </button>
+    <br><br><p id="openswaplist"> ---- </p>
+    <br>
+    <br>
+</template>
+
+<template name ="Oracle">
+<br><br><br>
+    <p>Enter Date: <input type="text" id="odate" name="odate" value="2017.12.01"></p>
+    <br>
+    <button class="Oracle" id="button_bottom"> Get Value </button>
+    <br>
+    <br>
+    <p id="oraclevals"> ---- </p>
+    <br>
+
+</template>
+
+
+<template name="hello">
+  <p>Amount of Ether in your metamask account: {{counter}} {{TemplateVar.get "counter"}}</p>
+</template>
+
+
+<template name ="factory">
+  <h4>Start Date:  <u> 12/08/2017 </u> </h4> 
+    <h4> Long or Short:
+    <select id="isLong">
+      <option value="true">Long</option>
+      <option value="false">Short</option>
+    </select>
+  </h4>
+      <h4>Amount of Ether: <input type="text" id='amount_a' name="" value=0><i>Must be greater than .1</i></h4>
+      <h4>Premium amount: <input type="text" id='premium' name="" value=0><i>Must be greater than .001</i></h4>
+    <div><div id="inner">
+      <button class="create" id="button_bottom"> Create Contract </button>
+    </div></div>
+    <div id = "CreationResult" style="visibility:visible">
+      <button class="addresult" id="button_bottom">Address Result:</button>
+      <button class="initiate" name="sendbutton" id="button_bottom" style="visibility:visible;"> Send Funds </button>
+      <br>
+    </div>
+    <br>
+    <p id="returnedadd"></p>
+
+</template>
+
+
+<template name="cashout">
+<br><br><br><br>
+    <button class="balances" id="button_bottom">Get Balances</button>
+    <br><br>
+    <div id='Balances' style = "visibility: hidden">
+      <p>Balance Long Token:  <i id="longbalance"></i></p>
+      <p>Balance Short Token:  <i id="shortbalance"></i></p>
+    </div>
+    <button class="cashout" id="button_bottom">Cash Out</button>
+    <br>
+    <br>
+</template>
+
+<template name="exit">
+<br><br><br><br>
+<form id="exit" action="/action_page.php"
+onsubmit = "return validateForm()" method = "post">
+  Swap Address:<input type="text" name="" value=""><br>
+</form>
+<br>
+    <button class="exit" id="button_bottom">  Exit  </button>
+    <br>
+    <br>
+</template>
+
+<template name="enter">
+<br><br><br><br>
+<form id="enter" action="/action_page.php"
+onsubmit = "return validateForm()" method = "post">
+  Swap Address:<input type="text" name="" value=""><br>
+</form>
+<br>
+    <h4> Long or Short:
+    <select id="isLong_b">
+      <option value="true">Long</option>
+      <option value="false">Short</option>
+    </select>
+  </h4>
+      <h4>Amount of Ether: <input type="text" id='amount_b' name="" value=0></h4>
+
+    <button class="enter" id="button_bottom">  Enter Swap  </button>
+    <br>
+    <br>
+</template>
+
