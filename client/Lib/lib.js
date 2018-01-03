@@ -10,7 +10,7 @@
 
  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-web4 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io"));
+web4 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io"));
   
 
 

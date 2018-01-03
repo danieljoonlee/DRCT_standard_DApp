@@ -14,8 +14,8 @@ var oABI =[{"constant":false,"inputs":[{"name":"_new_owner","type":"address"}],"
 var weABI =[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_amount","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"withdraw","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"total_supply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"bal","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"CreateToken","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_owner","type":"address"},{"indexed":true,"name":"_spender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_success","type":"bool"},{"indexed":false,"name":"_message","type":"string"}],"name":"StateChanged","type":"event"}]
 var userABI = [{"constant":false,"inputs":[{"name":"_swapadd","type":"address"},{"name":"_amounta","type":"uint256"},{"name":"_amountb","type":"uint256"},{"name":"_premium","type":"uint256"},{"name":"_isLong","type":"bool"}],"name":"Initiate","outputs":[{"name":"","type":"bool"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_amounta","type":"uint256"},{"name":"_amountb","type":"uint256"},{"name":"_isLong","type":"bool"},{"name":"_swapadd","type":"address"}],"name":"Enter","outputs":[{"name":"","type":"bool"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_factory_address","type":"address"}],"name":"setFactory","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"factory_address","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]
 
-var factoryAddress1 ="0xfac388d2e660a54129757d9bcac69f7f00a69bc4";
-var factoryAddress2 ="0xc99CC3CeD3208A5637bdb52cD2aD03550A62F71C";
+var factoryAddress1 ="0x8C23D5e676C1deF821bE36abA1E2B0b0a3e5f7bF";
+var factoryAddress2 ="INVALID_ADDRESS";
 
 Session.set('showFactory', true); 
 
@@ -93,8 +93,8 @@ Template.factory.events({
 }
 	   });
 
-Template.body.onRendered({
-  setInitialVars(){
+Template.connection.events({
+'click #connection_h': function (err, template) {
     console.log('starting');
     var net = web3.version.network;
     if(net == 1){net = "This is the Ethereum Mainnet"}
@@ -108,7 +108,7 @@ Template.body.onRendered({
     document.getElementById("Network").innerHTML = net;
     document.getElementById("Address").innerHTML = acct;
     document.getElementById("Funds").innerHTML = funds;
-}
+},
 })
   Template.body.helpers({
     showCashout() {
@@ -340,7 +340,7 @@ Template.mySwaps.events({
 	let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
 	transferEvent.get((error, logs) => {
 		console.log('test',logs.length)
-	  	for(i = logs.length-1; i > 0; i--){
+	  	for(i = logs.length-1; i >= 0; i--){
   	 	    var creator_add = logs[i].args['_sender'];
   	 	    var j = 0;
 				var add = logs[i].args['_created'];

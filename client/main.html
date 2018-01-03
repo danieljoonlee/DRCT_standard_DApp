@@ -84,14 +84,7 @@
   </p>
 </div>
 </div>
-  <div id= "bottom_box" style="text-align:right"><div id="connection_h">
-    <h4> + Connection Status:</h4></div>
-    <div id="connection_b" style="display:none;text-align:left">
-      <p>Network: <i id='Network'> Not Connected (Check Metamask)</i></p>
-      <p>Address: <i id='Address'> None </i></p>
-      <p>Funds: <i id='Funds'>0</i> <i>Ether</i></p>
-    </div>
-</div>
+{{> connection}}
 </div>
 <footer style="padding:0px; background-color:rgba(6, 69, 115, 1); text-align:right;">
  <div id="foot"><br>
@@ -120,13 +113,24 @@
 </template>
 
 
+<template name="connection">
+    <div id= "bottom_box" style="text-align:right"><div id="connection_h">
+    <h4> + Connection Status:</h4></div>
+    <div id="connection_b" style="display:none;text-align:left">
+      <p>Note, these contracts are mainnet...you should be too</p>
+      <p>Network: <i id='Network'> Not Connected (Check Metamask)</i></p>
+      <p>Address: <i id='Address'> None </i></p>
+      <p>Funds: <i id='Funds'>0</i> <i>Ether</i></p>
+    </div>
+  </div>
+</template>
 
 <template name ="bulletin">
 <br><br><br><br>
     <h4>Start Date:      
     <select id="startDate">
       <option value="20180119">19 January 2018</option>
-      <option value="20180126S">26 January 2018</option>
+       <!--<option value="20180126S">26 January 2018</option>-->
   </select></h4>
     <h4> Contract State
       <select id="CState">
@@ -150,7 +154,7 @@
   <h4>Start Date:      
     <select id="startDate">
       <option value="20180119">19 January 2018</option>
-      <option value="20180126S">26 January 2018</option>
+      <!--<option value="20180126S">26 January 2018</option>-->
   </select></h4>
     <div id='CapValues'>
       <p>Cap Values are +/- 50% of the starting value (4pm on Start Date)</p>
@@ -187,7 +191,7 @@
   <h4>Start Date:      
     <select id="startDate">
       <option value="20180119">19 January 2018</option>
-      <option value="20180126S">26 January 2018</option>
+      <!--<option value="20180126S">26 January 2018</option>-->
     </select></h4> 
     <h4> Long or Short:
     <select id="isLong">
@@ -246,7 +250,7 @@ onsubmit = "return validateForm()" method = "post">
     <h4>Start Date:      
     <select id="startDate">
       <option value="20180119">19 January 2018</option>
-      <option value="20180126S">26 January 2018</option>
+       <!--<option value="20180126S">26 January 2018</option>-->
   </select></h4>
   <h4> Long or Short:
     <select id="isLong_b">
