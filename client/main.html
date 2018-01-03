@@ -22,7 +22,7 @@
 <br>
 <br>
 <div class="mainpart" style="position:static;padding-left:100px; width: 980px;">
-<h2 class="dapp-header" id="Title">One Week ETH/USD - Standard DRCT Contracts
+<h2 class="dapp-header" id="Title">One Week BTC/USD -2x -  Standard DRCT Contracts
 </h2>
   <p id="radioselection"></p>
   {{#if showFactory}}
@@ -50,8 +50,8 @@
   <br>
   <div id= "bottom_box"><div id="cdetails_h"><h2> + Contract Details:</h2></div>
   <div id="cdetails_b" style="display:none">
-    <p>--1x exposure to underlying rate
-      <br>--This contract starts at 4 PM EST on 12/29/2017
+    <p>--2x exposure to underlying rate
+      <br>--This contract starts at 4 PM EST on Start Date
     <br>--Contract caps at 50% move (100% of collateral used up)
     <br>--Contracts end the following Friday at 4pm EST
     <br>--Oracle is a 5 exchange volume weighted average.  Full details <a href="https://github.com/DecentralizedDerivatives/Oracles">here</a>
@@ -84,6 +84,14 @@
   </p>
 </div>
 </div>
+  <div id= "bottom_box" style="text-align:right"><div id="connection_h">
+    <h4> + Connection Status:</h4></div>
+    <div id="connection_b" style="display:none;text-align:left">
+      <p>Network: <i id='Network'> Not Connected (Check Metamask)</i></p>
+      <p>Address: <i id='Address'> None </i></p>
+      <p>Funds: <i id='Funds'>0</i> <i>Ether</i></p>
+    </div>
+</div>
 </div>
 <footer style="padding:0px; background-color:rgba(6, 69, 115, 1); text-align:right;">
  <div id="foot"><br>
@@ -96,6 +104,8 @@
 </div>
 
 </body>
+
+
 
 <template name="radioform">
 <div style="width: 100%">
@@ -113,7 +123,11 @@
 
 <template name ="bulletin">
 <br><br><br><br>
-    
+    <h4>Start Date:      
+    <select id="startDate">
+      <option value="20180119">19 January 2018</option>
+      <option value="20180126S">26 January 2018</option>
+  </select></h4>
     <h4> Contract State
       <select id="CState">
       <option value="1">Open</option>
@@ -133,6 +147,24 @@
 
 <template name ="mySwaps">
 <br><br><br><br>
+  <h4>Start Date:      
+    <select id="startDate">
+      <option value="20180119">19 January 2018</option>
+      <option value="20180126S">26 January 2018</option>
+  </select></h4>
+    <div id='CapValues'>
+      <p>Cap Values are +/- 50% of the starting value (4pm on Start Date)</p>
+      <p>Start Value:  <i id="startvalue"></i></p>
+      <p>Cap Value (Min):  <i id="capmin"></i></p>
+      <p>Cap Value (Max):  <i id="capmax"></i></p>
+    </div>
+    <button class="balances" id="button_bottom">Get Open Token Balances</button>
+    <br><br>
+    <div id='Balances' style = "visibility: hidden">
+      <p>Balance Long Token:  <i id="longbalance"></i></p>
+      <p>Balance Short Token:  <i id="shortbalance"></i></p>
+    </div>
+    <br>
     <button class="MySwaps" id="button_bottom"> Show My Swaps </button>
     <br><br><p id="openswaplist"> ---- </p>
     <br>
@@ -151,14 +183,12 @@
 
 </template>
 
-
-<template name="hello">
-  <p>Amount of Ether in your metamask account: {{counter}} {{TemplateVar.get "counter"}}</p>
-</template>
-
-
 <template name ="factory">
-  <h4>Start Date:  <u> 12/08/2017 </u> </h4> 
+  <h4>Start Date:      
+    <select id="startDate">
+      <option value="20180119">19 January 2018</option>
+      <option value="20180126S">26 January 2018</option>
+    </select></h4> 
     <h4> Long or Short:
     <select id="isLong">
       <option value="true">Long</option>
@@ -186,8 +216,8 @@
     <button class="balances" id="button_bottom">Get Balances</button>
     <br><br>
     <div id='Balances' style = "visibility: hidden">
-      <p>Balance Long Token:  <i id="longbalance"></i></p>
-      <p>Balance Short Token:  <i id="shortbalance"></i></p>
+      <p>Balance Base1 Token:  <i id="longbalance"></i></p>
+      <p>Balance Base2 Token:  <i id="shortbalance"></i></p>
     </div>
     <button class="cashout" id="button_bottom">Cash Out</button>
     <br>
@@ -213,7 +243,12 @@ onsubmit = "return validateForm()" method = "post">
   Swap Address:<input type="text" name="" value=""><br>
 </form>
 <br>
-    <h4> Long or Short:
+    <h4>Start Date:      
+    <select id="startDate">
+      <option value="20180119">19 January 2018</option>
+      <option value="20180126S">26 January 2018</option>
+  </select></h4>
+  <h4> Long or Short:
     <select id="isLong_b">
       <option value="true">Long</option>
       <option value="false">Short</option>
