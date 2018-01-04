@@ -20,6 +20,12 @@
     font-weight: bold;
 }
 
+.mainpart{
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+}
+
 #button_bottom {
     display: -webkit-flex; /* Safari */
     -webkit-flex-wrap: wrap; /* Safari 6.1+ */
@@ -43,6 +49,17 @@
     border-bottom: 2px solid;
     border-radius: 4px;
     margin-bottom: 6px;
+}
+
+#bottom_box2{
+    clear: both;
+    width:100%;
+    margin-bottom: 0px;
+    border-radius: 0px;
+    margin-bottom: 0px;
+    padding-top: 0px; 
+    padding-bottom:0px; 
+    font-size: small;
 }
 #Title{
     font-size: xx-large;

@@ -275,9 +275,6 @@ Template.Oracle.events({
 }
 });
 
-Template.mySwaps.onRendered({
-
-})
 Template.mySwaps.events({
 
 		'click button.balances':function (err, template) {
@@ -480,6 +477,10 @@ $("#cdetails_h").click(function(){
 
 $("#connection_h").click(function(){
     $("#connection_b").toggle();
+});
+
+$("#disclaimer_h").click(function(){
+    $("#disclaimer_b").toggle();
 });
 
 $("#H2_h").click(function(){

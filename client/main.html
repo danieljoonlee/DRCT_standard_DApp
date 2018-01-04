@@ -21,7 +21,7 @@
 <br>
 <br>
 <br>
-<div class="mainpart" style="position:static;padding-left:100px; width: 980px;">
+<div class="mainpart">
 <h2 class="dapp-header" id="Title">One Week BTC/USD -2x -  Standard DRCT Contracts
 </h2>
   <p id="radioselection"></p>
@@ -85,6 +85,14 @@
 </div>
 </div>
 {{> connection}}
+ <div id= "bottom_box2" style="text-align:right"><div id="disclaimer_h">
+    <h4> + Disclaimer:</h4></div>
+    <div id="disclaimer_b" style="display:none;text-align:left">
+      <p> --DDA contracts are still in an alpha stage</p>
+      <p> --Use of the Site and participation in transactions may carry financial risk. You acknowledge and agree that you are aware of such risks</p>
+      <p> --The site may not be appropriate or available for use in some jurisdictions.</p>
+    </div>
+  </div>
 </div>
 <footer style="padding:0px; background-color:rgba(6, 69, 115, 1); text-align:right;">
  <div id="foot"><br>
@@ -114,7 +122,7 @@
 
 
 <template name="connection">
-    <div id= "bottom_box" style="text-align:right"><div id="connection_h">
+    <div id= "bottom_box2" style="text-align:right"><div id="connection_h">
     <h4> + Connection Status:</h4></div>
     <div id="connection_b" style="display:none;text-align:left">
       <p>Note, these contracts are mainnet...you should be too</p>
