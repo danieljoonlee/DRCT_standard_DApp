@@ -19,98 +19,7 @@ var factoryAddress2 ="INVALID_ADDRESS";
 
 Session.set('showFactory', true); 
 
-Template.factory.events({
-	//get input values
-	'click button.create': function (err, template) {
-	var select = document.getElementById('startDate');
-   	var contract_date = select.options[select.selectedIndex].value;
-	console.log(startDate);
-	var factoryAddress = (contract_date == "20180119" ? factoryAddress1 : factoryAddress2);
-	console.log(factoryAddress);
-	var changeIt = document.getElementById('CreationResult');
-	var fContract = web3.eth.contract(fABI).at(factoryAddress);
-    fContract.deployContract({from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
-    if(!error) {
-        console.log("#" + result + "#");
-        changeIt.style.visibility = 'visible';
-    } else {
-        console.error(error);
-    }
-  })
-    //now send money to the WETH
-    //then create swap with details
-    //send WETH to contract
-},
-	'click button.addresult': function (err, template) {
-	var select = document.getElementById('startDate');
-   	var contract_date = select.options[select.selectedIndex].value;
-	console.log(contract_date);
-	var factoryAddress = (contract_date == "20180119" ? factoryAddress1 : factoryAddress2);
-	var changeIt = document.getElementsByName('sendbutton')[0];
-	var fContract = web3.eth.contract(fABI).at(factoryAddress);
-	let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
-	transferEvent.get((error, logs) => {
-	  // we have the logs, now print them
-	  logs.forEach(log => console.log(log.args['_created']))
-	  console.log(logs[logs.length-1].args['_created'], logs[logs.length-1].args['_sender'])
-	  for(i = logs.length-1; i >= 0; i--){
-	  	if(logs[i].args['_sender'] == web3.eth.accounts[0]){
-	 		 var check = logs[i].args['_created'];
-	 		 i = 0;
-	 	}
-  	  }
-  	  console.log(check);
-  	  if(check != null){
-  	  	document.getElementById("returnedadd").innerHTML = check;
-  	  	changeIt.style.visibility = 'visible';
-  		}
-	})
-	},
-	'click button.initiate': function (err, template) {
-	var select1 = document.getElementById('startDate');
-   	var contract_date = select1.options[select1.selectedIndex].value;
-	console.log(startDate);
-	var factoryAddress = (contract_date == "20180119" ? factoryAddress1 : factoryAddress2);
-	var amount_a = web3.toWei(document.getElementById("amount_a").value, 'ether');
-	var premium = web3.toWei(document.getElementById("premium").value, 'ether');
-	var total = eval(amount_a) + eval(premium);
-	var select = document.getElementById('isLong');
-   	var isLong = select.options[select.selectedIndex].value;
-	var swapadd = document.getElementById("returnedadd").innerHTML;
-	console.log('initvars:',swapadd,amount_a,amount_a,premium,isLong);
-	console.log('test');
-	var fContract = web4.eth.contract(fABI).at(factoryAddress);
-	var usercontractAddress = fContract.user_contract.call();
-	console.log('UC',usercontractAddress);
-	var userContract = web3.eth.contract(userABI).at(usercontractAddress);
-    userContract.Initiate(swapadd,amount_a,amount_a,premium,isLong,{from:web3.eth.accounts[0],value:total,gas: 4000000},function(error, result){
-    if(!error) {
-        console.log("#" + result + "#");
-    } else {
-        console.error(error);
-    }
-  })
-}
-	   });
-
-Template.connection.events({
-'click #connection_h': function (err, template) {
-    console.log('starting');
-    var net = web3.version.network;
-    if(net == 1){net = "This is the Ethereum Mainnet"}
-    else if (net ==3){net = "This is the Ropsten Network"}
-      else {net = "Unkown Network"}
-    var acct = web3.eth.accounts[0];
-    var funds = web3.fromWei(web4.eth.getBalance(web3.eth.accounts[0]), 'ether').toNumber();
-    console.log('net',net);
-    console.log('account',acct);
-    console.log('funds',funds);
-    document.getElementById("Network").innerHTML = net;
-    document.getElementById("Address").innerHTML = acct;
-    document.getElementById("Funds").innerHTML = funds;
-},
-})
-  Template.body.helpers({
+Template.body.helpers({
     showCashout() {
       return Session.get('showCashout');
     },
@@ -209,140 +118,275 @@ Template.radioform.events({
 
 });
 
+
+Template.connection.onCreated(function connectionOC(){
+	this.net = new ReactiveVar("");
+	this.acct = new ReactiveVar("");
+	this.funds = new ReactiveVar(0);
+	});
+
+Template.connection.helpers({
+	net(){
+		return Template.instance().net.get();
+	},
+	acct(){
+		return Template.instance().acct.get();
+	},
+	funds(){
+		return Template.instance().funds.get();
+	}
+})
+
+Template.connection.events({
+'click #connection_h'(event,instance){
+    console.log('starting');
+    var net1 = web3.version.network;
+    if(net1 == 1){network_res = "This is the Ethereum Mainnet"}
+    	else if (net1 ==3){network_res = "This is the Ropsten Network"}
+    	else {network_res = "Not connected or Unkown Network"}
+	instance.net.set(network_res);
+    instance.acct.set(web3.eth.accounts[0]);
+    instance.funds.set(web3.fromWei(web4.eth.getBalance(web3.eth.accounts[0]), 'ether').toNumber());
+},
+})
+
+
+Template.factory.onCreated(function factoryOC(){
+	this.returnedadd = new ReactiveVar("");
+	});
+
+Template.factory.helpers({
+	returnedadd(){
+		return Template.instance().returnedadd.get();
+	}
+})
+
+Template.factory.events({
+	//get input values
+	'click button.create': function (err, template) {
+	var select = document.getElementById('startDate');
+   	var contract_date = select.options[select.selectedIndex].value;
+	console.log(startDate);
+	var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
+	console.log(factoryAddress);
+	var fContract = web3.eth.contract(fABI).at(factoryAddress);
+    fContract.deployContract({from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
+    if(!error) {
+        console.log("#" + result + "#");
+    } else {
+        console.error(error);
+    }
+  })
+    //now send money to the WETH
+    //then create swap with details
+    //send WETH to contract
+},
+	'click button.addresult'(event,instance){
+	var select = document.getElementById('startDate');
+   	var contract_date = select.options[select.selectedIndex].value;
+	console.log(contract_date);
+	var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
+	var fContract = web3.eth.contract(fABI).at(factoryAddress);
+	let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
+	transferEvent.get((error, logs) => {
+	  // we have the logs, now print them
+	  logs.forEach(log => console.log(log.args['_created']))
+	  console.log(logs[logs.length-1].args['_created'], logs[logs.length-1].args['_sender'])
+	  for(i = logs.length-1; i >= 0; i--){
+	  	if(logs[i].args['_sender'] == web3.eth.accounts[0]){
+	 		 var check = logs[i].args['_created'];
+	 		 i = 0;
+	 	}
+  	  }
+  	  if(check != null){
+  	  	instance.returnedadd.set(check);
+  		}
+	})
+	},
+	'click button.initiate'(event,instance){
+	var select1 = document.getElementById('startDate');
+   	var contract_date = select1.options[select1.selectedIndex].value;
+	console.log(startDate);
+	var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
+	var amount_a = web3.toWei(document.getElementById("amount_a").value, 'ether');
+	var premium = web3.toWei(document.getElementById("premium").value, 'ether');
+	var total = eval(amount_a) + eval(premium);
+	var select = document.getElementById('isLong');
+   	var isLong = select.options[select.selectedIndex].value;
+	var swapadd = instance.returnedadd.curValue;
+	console.log(swapadd);
+	console.log('initvars:',swapadd,amount_a,amount_a,premium,isLong);
+	console.log('test');
+	var fContract = web4.eth.contract(fABI).at(factoryAddress);
+	var usercontractAddress = fContract.user_contract.call();
+	console.log('UC',usercontractAddress);
+	var userContract = web3.eth.contract(userABI).at(usercontractAddress);
+    userContract.Initiate(swapadd,amount_a,amount_a,premium,isLong,{from:web3.eth.accounts[0],value:total,gas: 4000000},function(error, result){
+    if(!error) {
+        console.log("#" + result + "#");
+    } else {
+        console.error(error);
+    }
+  })
+}
+});
+
 Template.bulletin.events({
 
 	'click button.bulletin': function (err, template) {
-	 var select = document.getElementById('CState');
-   	 var cState = select.options[select.selectedIndex].value;
-   	 console.log('pars',cState);
-   	 	var select = document.getElementById('startDate');
-   	var contract_date = select.options[select.selectedIndex].value;
-	var factoryAddress = (contract_date == "20180119" ? factoryAddress1 : factoryAddress2);
-	console.log(factoryAddress);
-	 var fContract = web3.eth.contract(fABI).at(factoryAddress);
-	  var check = "<table><tr><th>State</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
-	let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
-	transferEvent.get((error, logs) => {
-		console.log('test',logs.length)
-	  	for(i = logs.length-1; i >= 0; i--){
-			var add = logs[i].args['_created'];
-  	 	    console.log(add);
-			var sInstance = web4.eth.contract(sABI).at(add);
-			var State= sInstance.current_state.call().toNumber();
-			if(State == cState){
-				var long_party = sInstance.long_party.call();
-				var short_party = sInstance.short_party.call();
-				var token_a_amount = web3.fromWei(sInstance.token_a_amount.call().toNumber(), 'ether');
-				var token_b_amount = web3.fromWei(sInstance.token_b_amount.call().toNumber(), 'ether');
+		document.getElementById("bulletinState").innerHTML ="loading...";
+		var select = document.getElementById('CState');
+	   	var cState = select.options[select.selectedIndex].value;
+	   	var select = document.getElementById('startDate');
+	   	var contract_date = select.options[select.selectedIndex].value;
+		var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
+		var fContract = web3.eth.contract(fABI).at(factoryAddress);
+		var check = "<table><tr><th>State</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
+		let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
+		transferEvent.get((error, logs) => {
+			console.log('test',logs.length)
+		  	for(i = logs.length-1; i >= 0; i--){
+				var add = logs[i].args['_created'];
+				var sInstance = web4.eth.contract(sABI).at(add);
+				var State= sInstance.current_state.call().toNumber();
+				if(State == cState){
+					var long_party = sInstance.long_party.call();
+					var short_party = sInstance.short_party.call();
+					var token_a_amount = web3.fromWei(sInstance.token_a_amount.call().toNumber(), 'ether');
+					var token_b_amount = web3.fromWei(sInstance.token_b_amount.call().toNumber(), 'ether');
 
-						try{
-							var premium = web3.fromWei(sInstance.premium.call().toNumber(), 'ether');
-						}
-						catch(err){
-							var premium = 0;
-						}
-						check +='<tr><td>'+State +"</td><td>"+ add + "</td><td>"+token_a_amount+"</td><td>"+token_b_amount+"</td><td> "+premium +"</td><td> " + long_party+"</td><td> " + short_party+"</td></tr>";
+							try{
+								var premium = web3.fromWei(sInstance.premium.call().toNumber(), 'ether');
+							}
+							catch(err){
+								var premium = 0;
+							}
+							check +='<tr><td>'+State +"</td><td>"+ add + "</td><td>"+token_a_amount+"</td><td>"+token_b_amount+"</td><td> "+premium +"</td><td> " + long_party+"</td><td> " + short_party+"</td></tr>";
+				}
+
 			}
-
-		}
-		check += '</table>';
-		console.log(check);
-		document.getElementById("bulletinState").innerHTML = check;
-	})
-}
+			check += '</table>';
+			document.getElementById("bulletinState").innerHTML = check;
+		})
+	}
 });
 
+Template.Oracle.onCreated(function factoryOC(){
+	this.oraclevals = new ReactiveVar("");
+	});
 
-Template.Oracle.events({
-
-	'click button.Oracle': function (err, template) {
-	var datestr = document.getElementById("odate").value;
-	var timestamp = (new Date(datestr.split(".").join("-")).getTime())/1000;
-	console.log(timestamp);
-	var fContract = web4.eth.contract(fABI).at(factoryAddress1);
-	var oracleAddress = fContract.oracle_address.call();
-	console.log(oracleAddress);
-	var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
-	oracleInstance.RetrieveData(timestamp,function(error, result){
-    if(!error) {
-        console.log("#" + result + "#");
-        document.getElementById("oraclevals").innerHTML = result/1000;
-    } else {
-        console.error(error);
-        document.getElementById("oraclevals").innerHTML = 'undefined';
-    }
+Template.Oracle.helpers({
+	oraclevals(){
+		return Template.instance().oraclevals.get();
+	}
 })
-}
+Template.Oracle.events({
+	'click button.Oracle'(event,instance){
+		var datestr = document.getElementById("odate").value;
+		var timestamp = (new Date(datestr.split(".").join("-")).getTime())/1000;
+		var fContract = web4.eth.contract(fABI).at(factoryAddress1);
+		var oracleAddress = fContract.oracle_address.call();
+		var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
+		oracleInstance.RetrieveData(timestamp,function(error, result){
+	    	if(!error) {
+	       		instance.oraclevals.set(result/1000);
+	    	} else {
+	        	console.error(error);
+	        	instance.oraclevals.set('undefined');
+	    	}
+		})
+	}
 });
+
+
+Template.mySwaps.onCreated(function factoryOC(){
+	this.startvalue = new ReactiveVar("");
+	this.capmin = new ReactiveVar("");
+	this.capmax = new ReactiveVar("");
+	this.longbalance = new ReactiveVar("");
+	this.shortbalance = new ReactiveVar("");
+});
+
+Template.mySwaps.helpers({
+	startvalue(){
+		return Template.instance().startvalue.get();
+	},
+	capmin(){
+		return Template.instance().capmin.get();
+	},
+	capmax(){
+		return Template.instance().capmax.get();
+	},
+	longbalance(){
+		return Template.instance().longbalance.get();
+	},
+	shortbalance(){
+		return Template.instance().shortbalance.get();
+	}
+})
 
 Template.mySwaps.events({
-
-		'click button.balances':function (err, template) {
-		//get both balances
+	'click button.balances'(event,instance){
 		var select = document.getElementById('startDate');
 	   	var contract_date = select.options[select.selectedIndex].value;
-		console.log(contract_date);
-		var factoryAddress = (contract_date == "20180119" ? factoryAddress1 : factoryAddress2);
+		var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
 		var fContract = web4.eth.contract(fABI).at(factoryAddress);
 		var oracleAddress = fContract.oracle_address.call();
 		var sDate = fContract.start_date.call();
-		console.log(sDate);
-		console.log(oracleAddress);
 		var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
 		oracleInstance.RetrieveData(sDate,function(error, result){
 	    if(!error) {
-	        console.log("#" + result + "#");
-	        document.getElementById("startvalue").innerHTML = (result/1000);
-	        document.getElementById("capmin").innerHTML = (result/1000)-.5*(result/1000);
-	        document.getElementById("capmax").innerHTML =  (result/1000)+.5*(result/1000);
+	        instance.startvalue.set(result/1000);
+	        instance.capmin.set((result/1000)-.5*(result/1000));
+	        instance.capmax.set((result/1000)+.5*(result/1000));
 	    } else {
 	        console.error(error);
-	        document.getElementById("capmin").innerHTML = 'undefined';
-	        document.getElementById("capmax").innerHTML = 'undefined';
+	        instance.capmin.set('undefined');
+	        instance.capmax.set('undefined')
 	    }
 		})
 		var fContract = web4.eth.contract(fABI).at(factoryAddress);
 		var token_a =fContract.long_drct.call();
 		var token_b =fContract.short_drct.call();
-		console.log('toks',token_a,token_b);
 		var we1Instance = web3.eth.contract(weABI).at(token_a);
 		var we2Instance = web3.eth.contract(weABI).at(token_b);
 		var changeIt = document.getElementById('Balances');
 	    we1Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
 	    if(!error) {
-	        console.log("#" + result + "#");
-	        document.getElementById("longbalance").innerHTML = result;
+	    	if(result<1){result = 0};
+	    	console.log(result);
+	        instance.longbalance.set(result);
 	    } else {
 	        console.error(error);
 	    }
 	    })
 	     we2Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
 	    if(!error) {
-	        console.log("#" + result + "#");
-	        document.getElementById("shortbalance").innerHTML = result;
+	    	if(result<1){result = 0};
+	    	console.log(result);
+	        instance.shortbalance.set(result);
 	    } else {
 	        console.error(error);
 	    }
-  	  	changeIt.style.visibility = 'visible';
-	})
-},
+		  	changeIt.style.visibility = 'visible';
+		})
+	},
 
-	'click button.MySwaps': function (err, template) {
+	'click button.MySwaps'(event,instance){
+	document.getElementById("openswaplist").innerHTML = "loading..."
 	var select = document.getElementById('startDate');
    	var contract_date = select.options[select.selectedIndex].value;
-	console.log(contract_date);
-	var factoryAddress = (contract_date == "20180119" ? factoryAddress1 : factoryAddress2);
-	 var fContract = web3.eth.contract(fABI).at(factoryAddress);
-	 var check = "<table><tr><th>State</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
+	var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
+	var fContract = web3.eth.contract(fABI).at(factoryAddress);
+	var check = "<table><tr><th>State</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
 	let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
 	transferEvent.get((error, logs) => {
 		console.log('test',logs.length)
 	  	for(i = logs.length-1; i >= 0; i--){
   	 	    var creator_add = logs[i].args['_sender'];
   	 	    var j = 0;
-				var add = logs[i].args['_created'];
+			var add = logs[i].args['_created'];
 				if (creator_add == web3.eth.accounts[0]){j = 1;}
-	  	 	    console.log(add);
 				var sInstance = web4.eth.contract(sABI).at(add);
 				var long_party = sInstance.long_party.call();
 				var short_party = sInstance.short_party.call();
@@ -350,14 +394,13 @@ Template.mySwaps.events({
 				var State= sInstance.current_state.call().toNumber();
 				var token_a_amount = web3.fromWei(sInstance.token_a_amount.call().toNumber(), 'ether');
 				var token_b_amount = web3.fromWei(sInstance.token_b_amount.call().toNumber(), 'ether');
-
-						try{
-							var premium = web3.fromWei(sInstance.premium.call().toNumber(), 'ether');
-						}
-						catch(err){
-							var premium = 0;
-						}
-						check +='<tr><td>'+State +"</td><td>"+ add + "</td><td>"+token_a_amount+"</td><td>"+token_b_amount+"</td><td> "+premium +"</td><td> " + long_party+"</td><td> " + short_party+"</td></tr>";
+					try{
+						var premium = web3.fromWei(sInstance.premium.call().toNumber(), 'ether');
+					}
+					catch(err){
+						var premium = 0;
+					}
+					check +='<tr><td>'+State +"</td><td>"+ add + "</td><td>"+token_a_amount+"</td><td>"+token_b_amount+"</td><td> "+premium +"</td><td> " + long_party+"</td><td> " + short_party+"</td></tr>";
 			}
 
 		}
@@ -368,47 +411,60 @@ Template.mySwaps.events({
 },
 });
 
+Template.cashout.onCreated(function cashoutOC(){
+	this.longbalance2= new ReactiveVar("");
+	this.shortbalance2= new ReactiveVar("");
+	});
+
+Template.cashout.helpers({
+	longbalance2(){
+		return Template.instance().longbalance2.get();
+	},
+	shortbalance2(){
+		return Template.instance().shortbalance2.get();
+	}
+})
 
 
 Template.cashout.events({
-	'click button.balances':function (err, template) {
+	'click button.balances'(event,instance){
 		//get both balances
 		var fContract = web4.eth.contract(fABI).at(factoryAddress1);
 		var token_a =fContract.token_a.call();
 		var token_b =fContract.token_b.call();
-		console.log('toks',token_a,token_b);
 		var we1Instance = web3.eth.contract(weABI).at(token_a);
 		var we2Instance = web3.eth.contract(weABI).at(token_b);
 		var changeIt = document.getElementById('Balances');
+		changeIt.style.visibility = 'visible';
 	    we1Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
 	    if(!error) {
-	        console.log("#" + result + "#");
-	        document.getElementById("longbalance").innerHTML = result;
+	    	if(result<1){result = 0};
+	    	console.log('working',result)
+	        instance.longbalance2.set(result);
 	    } else {
 	        console.error(error);
 	    }
 	    })
 	     we2Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
 	    if(!error) {
-	        console.log("#" + result + "#");
-	        document.getElementById("shortbalance").innerHTML = result;
+	    	if(result<1){result = 0};
+	        instance.shortbalance2.set(result);
 	    } else {
 	        console.error(error);
 	    }
-  	  	changeIt.style.visibility = 'visible';
 	})
 },
-	'click button.cashout':function (err, template) {
+	'click button.cashout'(event,instance){
 		var fContract = web4.eth.contract(fABI).at(factoryAddress1);
 		var token_a =fContract.token_a.call();
 		var token_b =fContract.token_b.call();
 		var we1Instance = web3.eth.contract(weABI).at(token_a);
 		var we2Instance = web3.eth.contract(weABI).at(token_b);
-		var longbalance = document.getElementById("longbalance").innerHTML;
-		var shortbalance = document.getElementById("shortbalance").innerHTML;
+		var longbalance = instance.longbalance2.curValue;
+		var shortbalance = instance.shortbalance2.curValue;
 	if (longbalance> 0){
 		we1Instance.withdraw(longbalance,{from:web3.eth.accounts[0],value:0,gas: 2000000},function(error, result){
-	    if(!error) {
+	    if(error) {
 	        console.log("#" + result + "#")
 	    } else {
 	        console.error(error);
@@ -453,7 +509,7 @@ Template.enter.events({
 			var select = document.getElementById('startDate');
    		var contract_date = select.options[select.selectedIndex].value;
 		console.log(contract_date);
-		var factoryAddress = (contract_date == "20180119" ? factoryAddress1 : factoryAddress2);
+		var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
 		console.log(factoryAddress);
 		console.log(amount_b,amount_b,isLong,s_address);
 		var fContract = web4.eth.contract(fABI).at(factoryAddress);

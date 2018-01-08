@@ -111,8 +111,8 @@
 <template name="radioform">
 <div style="width: 100%">
 <button class="radioFactory" id="main">CREATE CONTRACT</button>
-<button class="radioCashout" id='main'>CASH OUT</button>
 <button class="radioEnter" id='main'>ENTER SWAP</button>
+<button class="radioCashout" id='main'>CASH OUT</button>
 <button class="radioExit" id='main'>EXIT</button>
 <button class="radioBulletin" id='main'>OPEN SWAPS</button>
 <button class="radioOracle" id='main'>QUERY ORACLE</button>
@@ -126,79 +126,17 @@
     <h4> + Connection Status:</h4></div>
     <div id="connection_b" style="display:none;text-align:left">
       <p>Note, these contracts are mainnet...you should be too</p>
-      <p>Network: <i id='Network'> Not Connected (Check Metamask)</i></p>
-      <p>Address: <i id='Address'> None </i></p>
-      <p>Funds: <i id='Funds'>0</i> <i>Ether</i></p>
+      <p>Network: <i> {{net}} </i></p>
+      <p>Address: <i> {{acct}} </i></p>
+      <p>Funds: <i> {{funds}} </i> <i>Ether</i></p>
     </div>
   </div>
-</template>
-
-<template name ="bulletin">
-<br><br><br><br>
-    <h4>Start Date:      
-    <select id="startDate">
-      <option value="20180119">19 January 2018</option>
-       <!--<option value="20180126S">26 January 2018</option>-->
-  </select></h4>
-    <h4> Contract State
-      <select id="CState">
-      <option value="1">Open</option>
-      <option value="0">Created</option>
-       <option value="2">Entered</option>
-        <option value="3">Tokenized</option>
-         <option value="4">Paid</option>
-    </select>
-  </h4>
-    <button class="bulletin" id="button_bottom">List Opens</button>
-    <br>
-    <br>
-    <p id="bulletinState"> ---- </p>
-    <br>
-    <br>
-</template>
-
-<template name ="mySwaps">
-<br><br><br><br>
-  <h4>Start Date:      
-    <select id="startDate">
-      <option value="20180119">19 January 2018</option>
-      <!--<option value="20180126S">26 January 2018</option>-->
-  </select></h4>
-    <div id='CapValues'>
-      <p>Cap Values are +/- 50% of the starting value (4pm on Start Date)</p>
-      <p>Start Value:  <i id="startvalue"></i></p>
-      <p>Cap Value (Min):  <i id="capmin"></i></p>
-      <p>Cap Value (Max):  <i id="capmax"></i></p>
-    </div>
-    <button class="balances" id="button_bottom">Get Open Token Balances</button>
-    <br><br>
-    <div id='Balances' style = "visibility: hidden">
-      <p>Balance Long Token:  <i id="longbalance"></i></p>
-      <p>Balance Short Token:  <i id="shortbalance"></i></p>
-    </div>
-    <br>
-    <button class="MySwaps" id="button_bottom"> Show My Swaps </button>
-    <br><br><p id="openswaplist"> ---- </p>
-    <br>
-    <br>
-</template>
-
-<template name ="Oracle">
-<br><br><br>
-    <p>Enter Date: <input type="text" id="odate" name="odate" value="2017.12.01"></p>
-    <br>
-    <button class="Oracle" id="button_bottom"> Get Value </button>
-    <br>
-    <br>
-    <p id="oraclevals"> ---- </p>
-    <br>
-
 </template>
 
 <template name ="factory">
   <h4>Start Date:      
     <select id="startDate">
-      <option value="20180119">19 January 2018</option>
+      <option value="20180112">12 January 2018</option>
       <!--<option value="20180126S">26 January 2018</option>-->
     </select></h4> 
     <h4> Long or Short:
@@ -218,7 +156,44 @@
       <br>
     </div>
     <br>
-    <p id="returnedadd"></p>
+    <p> {{returnedadd}}</p>
+
+</template>
+
+<template name ="bulletin">
+<br><br><br><br>
+    <h4>Start Date:      
+    <select id="startDate">
+      <option value="20180112">12 January 2018</option>
+       <!--<option value="20180126S">26 January 2018</option>-->
+  </select></h4>
+    <h4> Contract State
+      <select id="CState">
+      <option value="1">Open</option>
+      <option value="0">Created</option>
+       <option value="2">Entered</option>
+        <option value="3">Tokenized</option>
+         <option value="4">Paid</option>
+    </select>
+  </h4>
+    <button class="bulletin" id="button_bottom">List Opens</button>
+    <br>
+    <br>
+    <p id="bulletinState">-----</p>
+    <br>
+    <br>
+</template>
+
+
+<template name ="Oracle">
+<br><br><br>
+    <p>Enter Date: <input type="text" id="odate" name="odate" value="2018.01.03"></p>
+    <br>
+    <button class="Oracle" id="button_bottom"> Get Value </button>
+    <br>
+    <br>
+    <p>{{oraclevals}} </p>
+    <br>
 
 </template>
 
@@ -228,8 +203,8 @@
     <button class="balances" id="button_bottom">Get Balances</button>
     <br><br>
     <div id='Balances' style = "visibility: hidden">
-      <p>Balance Base1 Token:  <i id="longbalance"></i></p>
-      <p>Balance Base2 Token:  <i id="shortbalance"></i></p>
+      <p>Balance Base1 Token:  <i> {{longbalance2}} </i></p>
+      <p>Balance Base2 Token:  <i> {{shortbalance2}} </i></p>
     </div>
     <button class="cashout" id="button_bottom">Cash Out</button>
     <br>
@@ -257,7 +232,7 @@ onsubmit = "return validateForm()" method = "post">
 <br>
     <h4>Start Date:      
     <select id="startDate">
-      <option value="20180119">19 January 2018</option>
+      <option value="20180112">12 January 2018</option>
        <!--<option value="20180126S">26 January 2018</option>-->
   </select></h4>
   <h4> Long or Short:
@@ -273,3 +248,30 @@ onsubmit = "return validateForm()" method = "post">
     <br>
 </template>
 
+
+
+<template name ="mySwaps">
+<br><br><br><br>
+  <h4>Start Date:      
+    <select id="startDate">
+      <option value="20180112">12 January 2018</option>
+      <!--<option value="20180126S">26 January 2018</option>-->
+  </select></h4>
+    <div id='CapValues'>
+      <p>Cap Values are +/- 50% of the starting value (4pm on Start Date)</p>
+      <p>Start Value:  <i>{{startvalue}}</i></p>
+      <p>Cap Value (Min):  <i>{{capmin}}</i></p>
+      <p>Cap Value (Max):  <i>{{capmax}}</i></p>
+    </div>
+    <button class="balances" id="button_bottom">Get Open Token Balances</button>
+    <br><br>
+    <div id='Balances' style = "visibility: hidden">
+      <p>Balance Long Token:  <i> {{longbalance}} </i></p>
+      <p>Balance Short Token:  <i> {{shortbalance}} </i></p>
+    </div>
+    <br>
+    <button class="MySwaps" id="button_bottom"> Show My Swaps </button>
+    <br><br><p id="openswaplist"> </p>
+    <br>
+    <br>
+</template>
