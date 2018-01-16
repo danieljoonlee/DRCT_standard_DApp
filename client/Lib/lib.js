@@ -10,7 +10,7 @@
 
  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-web4 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io"));
+web4 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io"));
   
 
 
@@ -19,15 +19,18 @@ web4 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io"));
 web3.version.getNetwork((err, netId) => {
   switch (netId) {
     case "1":
-      console.log('This is mainnet')
+      console.log('This is mainnet');
+      alert('Please connect to the Ropsten network via MetaMask');
       break
     case "2":
-      console.log('This is the deprecated Morden test network.')
+      console.log('This is the deprecated Morden test network.');
+      alert('Please connect to the Ropsten network via MetaMask');
       break
     case "3":
       console.log('This is the ropsten test network.')
       break
     default:
+      alert('Please connect to the Ropsten network via MetaMask');
       console.log('This is an unknown network.')
   }
 })
@@ -35,7 +38,8 @@ web3.version.getNetwork((err, netId) => {
 web4.version.getNetwork((err, netId) => {
   switch (netId) {
     case "1":
-      console.log('This is mainnet')
+      console.log('This is mainnet');
+      alert('This DApp requires a connection to the Ropsten network via MetaMask');
       break
     case "2":
       console.log('This is the deprecated Morden test network.')

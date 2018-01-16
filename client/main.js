@@ -14,8 +14,7 @@ var oABI =[{"constant":false,"inputs":[{"name":"_new_owner","type":"address"}],"
 var weABI =[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_amount","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_value","type":"uint256"}],"name":"withdraw","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"total_supply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"bal","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"CreateToken","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_amount","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_owner","type":"address"},{"indexed":true,"name":"_spender","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_success","type":"bool"},{"indexed":false,"name":"_message","type":"string"}],"name":"StateChanged","type":"event"}]
 var userABI = [{"constant":false,"inputs":[{"name":"_swapadd","type":"address"},{"name":"_amounta","type":"uint256"},{"name":"_amountb","type":"uint256"},{"name":"_premium","type":"uint256"},{"name":"_isLong","type":"bool"}],"name":"Initiate","outputs":[{"name":"","type":"bool"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_amounta","type":"uint256"},{"name":"_amountb","type":"uint256"},{"name":"_isLong","type":"bool"},{"name":"_swapadd","type":"address"}],"name":"Enter","outputs":[{"name":"","type":"bool"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"name":"_factory_address","type":"address"}],"name":"setFactory","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"factory_address","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]
 
-var factoryAddress1 ="0x8C23D5e676C1deF821bE36abA1E2B0b0a3e5f7bF";
-var factoryAddress2 ="INVALID_ADDRESS";
+var factoryAddress ="0x262be937a1dc12ef881250df4794a6dc9a4229f4";
 
 Session.set('showFactory', true); 
 
@@ -164,28 +163,25 @@ Template.factory.helpers({
 Template.factory.events({
 	//get input values
 	'click button.create': function (err, template) {
-	var select = document.getElementById('startDate');
-   	var contract_date = select.options[select.selectedIndex].value;
-	console.log(startDate);
-	var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
+	var select = document.getElementById('startDate').value;
+	var contract_date = (new Date(select).getTime())/1000;
 	console.log(factoryAddress);
 	var fContract = web3.eth.contract(fABI).at(factoryAddress);
-    fContract.deployContract({from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
+    fContract.deployContract(contract_date,{from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
     if(!error) {
         console.log("#" + result + "#");
     } else {
         console.error(error);
     }
   })
+},
     //now send money to the WETH
     //then create swap with details
     //send WETH to contract
-},
 	'click button.addresult'(event,instance){
-	var select = document.getElementById('startDate');
-   	var contract_date = select.options[select.selectedIndex].value;
+	var select = document.getElementById('startDate').value;
+	var contract_date = (new Date(select).getTime())/1000;
 	console.log(contract_date);
-	var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
 	var fContract = web3.eth.contract(fABI).at(factoryAddress);
 	let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
 	transferEvent.get((error, logs) => {
@@ -204,10 +200,6 @@ Template.factory.events({
 	})
 	},
 	'click button.initiate'(event,instance){
-	var select1 = document.getElementById('startDate');
-   	var contract_date = select1.options[select1.selectedIndex].value;
-	console.log(startDate);
-	var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
 	var amount_a = web3.toWei(document.getElementById("amount_a").value, 'ether');
 	var premium = web3.toWei(document.getElementById("premium").value, 'ether');
 	var total = eval(amount_a) + eval(premium);
@@ -235,35 +227,36 @@ Template.bulletin.events({
 
 	'click button.bulletin': function (err, template) {
 		document.getElementById("bulletinState").innerHTML ="loading...";
-		var select = document.getElementById('CState');
-	   	var cState = select.options[select.selectedIndex].value;
-	   	var select = document.getElementById('startDate');
-	   	var contract_date = select.options[select.selectedIndex].value;
-		var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
+	   	var select = document.getElementById('startDate').value;
+		var contract_date = (new Date(select).getTime())/1000;
 		var fContract = web3.eth.contract(fABI).at(factoryAddress);
 		var check = "<table><tr><th>State</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
 		let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
 		transferEvent.get((error, logs) => {
-			console.log('test',logs.length)
-		  	for(i = logs.length-1; i >= 0; i--){
-				var add = logs[i].args['_created'];
-				var sInstance = web4.eth.contract(sABI).at(add);
-				var State= sInstance.current_state.call().toNumber();
-				if(State == cState){
-					var long_party = sInstance.long_party.call();
-					var short_party = sInstance.short_party.call();
-					var token_a_amount = web3.fromWei(sInstance.token_a_amount.call().toNumber(), 'ether');
-					var token_b_amount = web3.fromWei(sInstance.token_b_amount.call().toNumber(), 'ether');
+			var sDate = fContract.created_contracts(add);
+			console.log(sDate);
+			if (sDate ==contract_date){
+				console.log('test',logs.length)
+			  	for(i = logs.length-1; i >= 0; i--){
+					var add = logs[i].args['_created'];
+					var sInstance = web4.eth.contract(sABI).at(add);
+					var State= sInstance.current_state.call().toNumber();
+					if(State == cState){
+						var long_party = sInstance.long_party.call();
+						var short_party = sInstance.short_party.call();
+						var token_a_amount = web3.fromWei(sInstance.token_a_amount.call().toNumber(), 'ether');
+						var token_b_amount = web3.fromWei(sInstance.token_b_amount.call().toNumber(), 'ether');
 
-							try{
-								var premium = web3.fromWei(sInstance.premium.call().toNumber(), 'ether');
-							}
-							catch(err){
-								var premium = 0;
-							}
-							check +='<tr><td>'+State +"</td><td>"+ add + "</td><td>"+token_a_amount+"</td><td>"+token_b_amount+"</td><td> "+premium +"</td><td> " + long_party+"</td><td> " + short_party+"</td></tr>";
+								try{
+									var premium = web3.fromWei(sInstance.premium.call().toNumber(), 'ether');
+								}
+								catch(err){
+									var premium = 0;
+								}
+								check +='<tr><td>'+State +"</td><td>"+ add + "</td><td>"+token_a_amount+"</td><td>"+token_b_amount+"</td><td> "+premium +"</td><td> " + long_party+"</td><td> " + short_party+"</td></tr>";
+					}
+
 				}
-
 			}
 			check += '</table>';
 			document.getElementById("bulletinState").innerHTML = check;
@@ -283,7 +276,9 @@ Template.Oracle.helpers({
 Template.Oracle.events({
 	'click button.Oracle'(event,instance){
 		var datestr = document.getElementById("odate").value;
-		var timestamp = (new Date(datestr.split(".").join("-")).getTime())/1000;
+		console.log(datestr);
+		var timestamp = (new Date(datestr).getTime())/1000;
+		console.log(timestamp);
 		var fContract = web4.eth.contract(fABI).at(factoryAddress1);
 		var oracleAddress = fContract.oracle_address.call();
 		var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
@@ -327,14 +322,12 @@ Template.mySwaps.helpers({
 
 Template.mySwaps.events({
 	'click button.balances'(event,instance){
-		var select = document.getElementById('startDate');
-	   	var contract_date = select.options[select.selectedIndex].value;
-		var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
+		var select = document.getElementById('startDate').value;
+		var contract_date = (new Date(select).getTime())/1000;
 		var fContract = web4.eth.contract(fABI).at(factoryAddress);
 		var oracleAddress = fContract.oracle_address.call();
-		var sDate = fContract.start_date.call();
 		var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
-		oracleInstance.RetrieveData(sDate,function(error, result){
+		oracleInstance.RetrieveData(contract_date,function(error, result){
 	    if(!error) {
 	        instance.startvalue.set(result/1000);
 	        instance.capmin.set((result/1000)-.5*(result/1000));
@@ -346,8 +339,8 @@ Template.mySwaps.events({
 	    }
 		})
 		var fContract = web4.eth.contract(fABI).at(factoryAddress);
-		var token_a =fContract.long_drct.call();
-		var token_b =fContract.short_drct.call();
+		var token_a =fContract.long_tokens(contract_date);
+		var token_b =fContract.short_tokens(contract_date);
 		var we1Instance = web3.eth.contract(weABI).at(token_a);
 		var we2Instance = web3.eth.contract(weABI).at(token_b);
 		var changeIt = document.getElementById('Balances');
@@ -373,12 +366,9 @@ Template.mySwaps.events({
 	},
 
 	'click button.MySwaps'(event,instance){
-	document.getElementById("openswaplist").innerHTML = "loading..."
-	var select = document.getElementById('startDate');
-   	var contract_date = select.options[select.selectedIndex].value;
-	var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
+	document.getElementById("openswaplist").innerHTML = "loading...";
 	var fContract = web3.eth.contract(fABI).at(factoryAddress);
-	var check = "<table><tr><th>State</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
+	var check = "<table><tr><th>State</th><th>Start Date</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
 	let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
 	transferEvent.get((error, logs) => {
 		console.log('test',logs.length)
@@ -390,6 +380,7 @@ Template.mySwaps.events({
 				var sInstance = web4.eth.contract(sABI).at(add);
 				var long_party = sInstance.long_party.call();
 				var short_party = sInstance.short_party.call();
+				var sDate = fContract.created_contracts(add);
 			if(j == 1 || long_party == web3.eth.accounts[0] || short_party==web3.eth.accounts[0]){
 				var State= sInstance.current_state.call().toNumber();
 				var token_a_amount = web3.fromWei(sInstance.token_a_amount.call().toNumber(), 'ether');
@@ -400,7 +391,7 @@ Template.mySwaps.events({
 					catch(err){
 						var premium = 0;
 					}
-					check +='<tr><td>'+State +"</td><td>"+ add + "</td><td>"+token_a_amount+"</td><td>"+token_b_amount+"</td><td> "+premium +"</td><td> " + long_party+"</td><td> " + short_party+"</td></tr>";
+					check +='<tr><td>'+State +"</td><td>"+ sDate + "</td><td>"+ add + "</td><td>"+token_a_amount+"</td><td>"+token_b_amount+"</td><td> "+premium +"</td><td> " + long_party+"</td><td> " + short_party+"</td></tr>";
 			}
 
 		}
@@ -429,7 +420,7 @@ Template.cashout.helpers({
 Template.cashout.events({
 	'click button.balances'(event,instance){
 		//get both balances
-		var fContract = web4.eth.contract(fABI).at(factoryAddress1);
+		var fContract = web4.eth.contract(fABI).at(factoryAddress);
 		var token_a =fContract.token_a.call();
 		var token_b =fContract.token_b.call();
 		var we1Instance = web3.eth.contract(weABI).at(token_a);
@@ -455,7 +446,7 @@ Template.cashout.events({
 	})
 },
 	'click button.cashout'(event,instance){
-		var fContract = web4.eth.contract(fABI).at(factoryAddress1);
+		var fContract = web4.eth.contract(fABI).at(factoryAddress);
 		var token_a =fContract.token_a.call();
 		var token_b =fContract.token_b.call();
 		var we1Instance = web3.eth.contract(weABI).at(token_a);
@@ -506,11 +497,6 @@ Template.enter.events({
 		var select = document.getElementById('isLong_b');
 	   	var isLong = eval(select.options[select.selectedIndex].value);
 		var s_address = "" + x.elements[0].value;
-			var select = document.getElementById('startDate');
-   		var contract_date = select.options[select.selectedIndex].value;
-		console.log(contract_date);
-		var factoryAddress = (contract_date == "20180112" ? factoryAddress1 : factoryAddress2);
-		console.log(factoryAddress);
 		console.log(amount_b,amount_b,isLong,s_address);
 		var fContract = web4.eth.contract(fABI).at(factoryAddress);
 		var usercontractAddress = fContract.user_contract.call();

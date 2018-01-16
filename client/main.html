@@ -134,11 +134,7 @@
 </template>
 
 <template name ="factory">
-  <h4>Start Date:      
-    <select id="startDate">
-      <option value="20180112">12 January 2018</option>
-      <!--<option value="20180126S">26 January 2018</option>-->
-    </select></h4> 
+  <h4>Start Date:  <input type="date" id="startDate"></h4>
     <h4> Long or Short:
     <select id="isLong">
       <option value="true">Long</option>
@@ -162,11 +158,7 @@
 
 <template name ="bulletin">
 <br><br><br><br>
-    <h4>Start Date:      
-    <select id="startDate">
-      <option value="20180112">12 January 2018</option>
-       <!--<option value="20180126S">26 January 2018</option>-->
-  </select></h4>
+    <h4>Start Date:  <input type="date" id="startDate"></h4>
     <h4> Contract State
       <select id="CState">
       <option value="1">Open</option>
@@ -187,13 +179,17 @@
 
 <template name ="Oracle">
 <br><br><br>
-    <p>Enter Date: <input type="text" id="odate" name="odate" value="2018.01.03"></p>
+    <p>Enter Date: <input type="date" id="oDate"></p>
     <br>
     <button class="Oracle" id="button_bottom"> Get Value </button>
-    <br>
-    <br>
+     <br>
+     <br>
     <p>{{oraclevals}} </p>
     <br>
+    <br>
+    <button class="isToken" id="button_bottom"> Is Token? </button>
+    <br>
+    <button class="createToken" id="button_bottom"> Create Token </button>
 
 </template>
 
@@ -230,11 +226,7 @@ onsubmit = "return validateForm()" method = "post">
   Swap Address:<input type="text" name="" value=""><br>
 </form>
 <br>
-    <h4>Start Date:      
-    <select id="startDate">
-      <option value="20180112">12 January 2018</option>
-       <!--<option value="20180126S">26 January 2018</option>-->
-  </select></h4>
+    <h4>Start Date:  <input type="date" id="startDate"></h4>
   <h4> Long or Short:
     <select id="isLong_b">
       <option value="true">Long</option>
@@ -252,11 +244,6 @@ onsubmit = "return validateForm()" method = "post">
 
 <template name ="mySwaps">
 <br><br><br><br>
-  <h4>Start Date:      
-    <select id="startDate">
-      <option value="20180112">12 January 2018</option>
-      <!--<option value="20180126S">26 January 2018</option>-->
-  </select></h4>
     <div id='CapValues'>
       <p>Cap Values are +/- 50% of the starting value (4pm on Start Date)</p>
       <p>Start Value:  <i>{{startvalue}}</i></p>
@@ -265,11 +252,21 @@ onsubmit = "return validateForm()" method = "post">
     </div>
     <button class="balances" id="button_bottom">Get Open Token Balances</button>
     <br><br>
-    <div id='Balances' style = "visibility: hidden">
+    <div id='Balances' style = "visibility: visible">
       <p>Balance Long Token:  <i> {{longbalance}} </i></p>
       <p>Balance Short Token:  <i> {{shortbalance}} </i></p>
-    </div>
     <br>
+    <form id="exit" action="/action_page.php"
+        onsubmit = "return validateForm()" method = "post">
+          Reciever Address:<input type="text" name="" value=""><br><br>
+          Type: <select id="isLong">
+            <option value="true">Long</option>
+            <option value="false">Short</option>
+          </select>
+          / Amount:      <input type="text" id='amount_a' name="" value=0><i>Must be greater than 1</i><br><br>
+        </form>
+    <button class="sendToken" id="button_bottom">Send Token</button>
+  </div>
     <button class="MySwaps" id="button_bottom"> Show My Swaps </button>
     <br><br><p id="openswaplist"> </p>
     <br>
