@@ -181,15 +181,19 @@
 <br><br><br>
     <p>Enter Date: <input type="date" id="oDate"></p>
     <br>
-    <button class="Oracle" id="button_bottom"> Get Value </button>
+    <button class="Oracle" id="button_bottom"> Get Value </button><button class="isToken" id="button_bottom"> Has Token? </button>
      <br>
      <br>
+     <br>
+    <p>{{existToken}} </p>
     <p>{{oraclevals}} </p>
     <br>
     <br>
-    <button class="isToken" id="button_bottom"> Is Token? </button>
+    
     <br>
-    <button class="createToken" id="button_bottom"> Create Token </button>
+    <div id="TokenCreator" style="visibilty:hidden">
+    <button class="newTokens" id="button_bottom"> Create Token </button>
+    </div>
 
 </template>
 
