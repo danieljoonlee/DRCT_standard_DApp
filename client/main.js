@@ -977,6 +977,337 @@ var userABI = [
       "type": "constructor"
     }
   ]
+var sABI = [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "token_a_amount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_amount_a",
+          "type": "uint256"
+        },
+        {
+          "name": "_amount_b",
+          "type": "uint256"
+        },
+        {
+          "name": "_sender_is_long",
+          "type": "bool"
+        },
+        {
+          "name": "_senderAdd",
+          "type": "address"
+        }
+      ],
+      "name": "EnterSwap",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "current_state",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_amount_a",
+          "type": "uint256"
+        },
+        {
+          "name": "_amount_b",
+          "type": "uint256"
+        },
+        {
+          "name": "_sender_is_long",
+          "type": "bool"
+        },
+        {
+          "name": "_senderAdd",
+          "type": "address"
+        }
+      ],
+      "name": "CreateSwap",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "short_party",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_begin",
+          "type": "uint256"
+        },
+        {
+          "name": "_end",
+          "type": "uint256"
+        }
+      ],
+      "name": "forcePay",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "showPrivateVars",
+      "outputs": [
+        {
+          "name": "_userContract",
+          "type": "address"
+        },
+        {
+          "name": "num_DRCT_long",
+          "type": "uint256"
+        },
+        {
+          "name": "numb_DRCT_short",
+          "type": "uint256"
+        },
+        {
+          "name": "swap_share_long",
+          "type": "uint256"
+        },
+        {
+          "name": "swap_share_short",
+          "type": "uint256"
+        },
+        {
+          "name": "long_token_addr",
+          "type": "address"
+        },
+        {
+          "name": "short_token_addr",
+          "type": "address"
+        },
+        {
+          "name": "oracle_addr",
+          "type": "address"
+        },
+        {
+          "name": "token_a_addr",
+          "type": "address"
+        },
+        {
+          "name": "token_b_addr",
+          "type": "address"
+        },
+        {
+          "name": "swap_multiplier",
+          "type": "uint256"
+        },
+        {
+          "name": "swap_duration",
+          "type": "uint256"
+        },
+        {
+          "name": "swap_start_date",
+          "type": "uint256"
+        },
+        {
+          "name": "swap_end_date",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "long_party",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "createTokens",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "factory_address",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "Exit",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "premium",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "token_b_amount",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_factory_address",
+          "type": "address"
+        },
+        {
+          "name": "_creator",
+          "type": "address"
+        },
+        {
+          "name": "_userContract",
+          "type": "address"
+        },
+        {
+          "name": "_start_date",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_token_a",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_token_b",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_start_date",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_end_date",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_creating_party",
+          "type": "address"
+        }
+      ],
+      "name": "SwapCreation",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_long_token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_short_token",
+          "type": "address"
+        }
+      ],
+      "name": "PaidOut",
+      "type": "event"
+    }
+  ]
 
 var factoryAddress ="0x36ffc02abdd069899ef3afac857b850d6f96fa74";
 
@@ -1193,33 +1524,34 @@ Template.bulletin.events({
 		document.getElementById("bulletinState").innerHTML ="loading...";
 	   	var select = document.getElementById('startDate').value;
 		var contract_date = (new Date(select).getTime())/1000;
+		var cState = document.getElementById('CState').value; 
 		var fContract = web3.eth.contract(fABI).at(factoryAddress);
 		var check = "<table><tr><th>State</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
 		let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
 		transferEvent.get((error, logs) => {
-			var sDate = fContract.created_contracts(add);
-			console.log(sDate);
-			if (sDate ==contract_date){
-				console.log('test',logs.length)
-			  	for(i = logs.length-1; i >= 0; i--){
-					var add = logs[i].args['_created'];
-					var sInstance = web4.eth.contract(sABI).at(add);
-					var State= sInstance.current_state.call().toNumber();
-					if(State == cState){
-						var long_party = sInstance.long_party.call();
-						var short_party = sInstance.short_party.call();
-						var token_a_amount = web3.fromWei(sInstance.token_a_amount.call().toNumber(), 'ether');
-						var token_b_amount = web3.fromWei(sInstance.token_b_amount.call().toNumber(), 'ether');
+			console.log('test',logs.length)
+			for(i = logs.length-1; i >= 0; i--){
+				var add = logs[i].args['_created'];
+				var f2 = web4.eth.contract(fABI).at(factoryAddress);
+				var sDate = f2.created_contracts(add);
+				console.log(sDate);
+				if (sDate ==contract_date){
+				var sInstance = web4.eth.contract(sABI).at(add);
+				var State= sInstance.current_state.call().toNumber();
+				if(State == cState){
+					var long_party = sInstance.long_party.call();
+					var short_party = sInstance.short_party.call();
+					var token_a_amount = web3.fromWei(sInstance.token_a_amount.call().toNumber(), 'ether');
+					var token_b_amount = web3.fromWei(sInstance.token_b_amount.call().toNumber(), 'ether');
 
-								try{
-									var premium = web3.fromWei(sInstance.premium.call().toNumber(), 'ether');
-								}
-								catch(err){
-									var premium = 0;
-								}
-								check +='<tr><td>'+State +"</td><td>"+ add + "</td><td>"+token_a_amount+"</td><td>"+token_b_amount+"</td><td> "+premium +"</td><td> " + long_party+"</td><td> " + short_party+"</td></tr>";
+							try{
+								var premium = web3.fromWei(sInstance.premium.call().toNumber(), 'ether');
+							}
+							catch(err){
+								var premium = 0;
+							}
+							check +='<tr><td>'+State +"</td><td>"+ add + "</td><td>"+token_a_amount+"</td><td>"+token_b_amount+"</td><td> "+premium +"</td><td> " + long_party+"</td><td> " + short_party+"</td></tr>";
 					}
-
 				}
 			}
 			check += '</table>';
@@ -1244,11 +1576,11 @@ Template.Oracle.helpers({
 Template.Oracle.events({
 	'click button.Oracle'(event,instance){
 		var datestr = document.getElementById("oDate").value;
-		console.log(datestr);
 		var timestamp = (new Date(datestr).getTime())/1000;
-		console.log(timestamp);
 		var fContract = web4.eth.contract(fABI).at(factoryAddress);
 		var oracleAddress = fContract.oracle_address.call();
+		console.log(timestamp);
+		console.log(oracleAddress);
 		var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
 		oracleInstance.RetrieveData(timestamp,function(error, result){
 	    	if(!error) {
@@ -1267,8 +1599,8 @@ Template.Oracle.events({
 		console.log(timestamp);
 		var fContract = web4.eth.contract(fABI).at(factoryAddress);
 		var tokens = fContract.getTokens(timestamp);
-		console.log(tokens);
-	    if(tokens.length > 5) {gc
+		console.log(tokens[0]);
+	    if(tokens[0] != "0x0000000000000000000000000000000000000000" && tokens[1] != "0x0000000000000000000000000000000000000000") {
 	       		instance.existToken.set('True');
 	    } else {
 	        	instance.existToken.set("False, token must be created");
@@ -1386,7 +1718,8 @@ Template.mySwaps.events({
 				var sInstance = web4.eth.contract(sABI).at(add);
 				var long_party = sInstance.long_party.call();
 				var short_party = sInstance.short_party.call();
-				var sDate = fContract.created_contracts(add);
+				var f2 = web4.eth.contract(fABI).at(factoryAddress);
+				var sDate = f2.created_contracts(add);
 			if(j == 1 || long_party == web3.eth.accounts[0] || short_party==web3.eth.accounts[0]){
 				var State= sInstance.current_state.call().toNumber();
 				var token_a_amount = web3.fromWei(sInstance.token_a_amount.call().toNumber(), 'ether');

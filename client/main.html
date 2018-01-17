@@ -22,7 +22,7 @@
 <br>
 <br>
 <div class="mainpart">
-<h2 class="dapp-header" id="Title">One Week BTC/USD -2x -  Standard DRCT Contracts
+<h2 class="dapp-header" id="Title">One Week BTC/USD -  Standard DRCT Contracts
 </h2>
   <p id="radioselection"></p>
   {{#if showFactory}}
@@ -52,13 +52,11 @@
   <div id="cdetails_b" style="display:none">
     <p>--2x exposure to underlying rate
       <br>--This contract starts at 4 PM EST on Start Date
-    <br>--Contract caps at 50% move (100% of collateral used up)
+    <br>--Contract caps at 100% move (100% of collateral used up)
     <br>--Contracts end the following Friday at 4pm EST
     <br>--Oracle is a 5 exchange volume weighted average.  Full details <a href="https://github.com/DecentralizedDerivatives/Oracles">here</a>
     <br>--Operator fee of 0.5%
     <br>--1000 DRCT tokens per ETH
-    <br>--<b>Long Token Address</b> 0xde665e320f276aa7eb043d9cf3428ddb85e6079c
-    <br>--<b>Short Token Address</b> 0x7590206eb1a32cb6a18b2b1ec82d7e546d761350
   </p>
     </div>
   </div>
@@ -230,7 +228,6 @@ onsubmit = "return validateForm()" method = "post">
   Swap Address:<input type="text" name="" value=""><br>
 </form>
 <br>
-    <h4>Start Date:  <input type="date" id="startDate"></h4>
   <h4> Long or Short:
     <select id="isLong_b">
       <option value="true">Long</option>
