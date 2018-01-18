@@ -1309,7 +1309,7 @@ var sABI = [
     }
   ]
 
-var factoryAddress ="0x36ffc02abdd069899ef3afac857b850d6f96fa74";
+var factoryAddress ="0xdEdE1d5E2E58b10eEBc5908659581900992751c0";
 
 Session.set('showFactory', true); 
 
@@ -1739,6 +1739,31 @@ Template.mySwaps.events({
 		document.getElementById("openswaplist").innerHTML = check;
 	})
 },
+  'click button.sendToken'(event,instance){
+    var select = document.getElementById('isLong');
+    var isLong = select.options[select.selectedIndex].value;
+    var toAdd =document.getElementById("receiver").value ;
+    var amount = document.getElementById("amount_send").value;
+      var select2 = document.getElementById('startDate').value;
+    var contract_date = (new Date(select2).getTime())/1000;
+    console.log(isLong,toAdd, amount);
+    var fContract = web4.eth.contract(fABI).at(factoryAddress);
+    var token;
+    var token_instance;
+    if(isLong){
+      token = fContract.long_tokens(contract_date);
+      token_instance = web3.eth.contract(weABI).at(token);
+    }
+    else{
+      token = fContract.long_tokens(contract_date);
+      token_instance = web3.eth.contract(weABI).at(token);
+    }
+    token_instance.transfer(toAdd,amount,{from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
+      if (error){
+        console.log(error); 
+      }
+    })
+  },
 });
 
 Template.cashout.onCreated(function cashoutOC(){

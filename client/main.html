@@ -245,6 +245,7 @@ onsubmit = "return validateForm()" method = "post">
 
 <template name ="mySwaps">
 <br><br><br><br>
+ <h4>Start Date:  <input type="date" id="startDate"></h4>
     <div id='CapValues'>
       <p>Cap Values are +/- 50% of the starting value (4pm on Start Date)</p>
       <p>Start Value:  <i>{{startvalue}}</i></p>
@@ -259,12 +260,12 @@ onsubmit = "return validateForm()" method = "post">
     <br>
     <form id="exit" action="/action_page.php"
         onsubmit = "return validateForm()" method = "post">
-          Reciever Address:<input type="text" name="" value=""><br><br>
+          Reciever Address:<input type="text" id="receiver" name="" value=""><br><br>
           Type: <select id="isLong">
             <option value="true">Long</option>
             <option value="false">Short</option>
           </select>
-          / Amount:      <input type="text" id='amount_a' name="" value=0><i>Must be greater than 1</i><br><br>
+          / Amount:      <input type="text" id='amount_send' name="" value=0><i>Must be greater than 1</i><br><br>
         </form>
     <button class="sendToken" id="button_bottom">Send Token</button>
   </div>
