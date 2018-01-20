@@ -1668,8 +1668,8 @@ Template.mySwaps.events({
 		oracleInstance.RetrieveData(contract_date,function(error, result){
 	    if(!error) {
 	        instance.startvalue.set(result/1000);
-	        instance.capmin.set((result/1000)-.5*(result/1000));
-	        instance.capmax.set((result/1000)+.5*(result/1000));
+	        instance.capmin.set(0);
+	        instance.capmax.set((result/1000)+(result/1000));
 	    } else {
 	        console.error(error);
 	        instance.capmin.set('undefined');
