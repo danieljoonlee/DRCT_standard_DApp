@@ -1,13 +1,19 @@
-# DRCT_standard_DApp
+# DRCT Decentarlized Application
 
 Code for drct.decentralizedderivatives.org
 
 
-Necessary meteor libaries:
-ethereum:web3
-session
+Node, Meteor and following libaries are necessary to build:
+* ethereum:web3
+* session
 
+To clone on local machine:
 
+        --change factory contract in your main.js file to your own
+        --Change lib.js file to point to preffered network (currently on mainnet)
+        cd ./DRCT_standard_DApp
+        meteor
+        
 
 This webpage builds the DApp at drct.decentralizedderivatives.org 
 
