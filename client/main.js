@@ -1309,7 +1309,7 @@ var sABI = [
     }
   ]
 
-var factoryAddress ="0xdEdE1d5E2E58b10eEBc5908659581900992751c0";
+var factoryAddress ="0xaf7d69fc8a14eb37ae07ddef4b209d157cbe4738";
 
 Session.set('showFactory', true); 
 
@@ -1487,7 +1487,7 @@ Template.factory.events({
 	  	if(logs[i].args['_sender'] == web3.eth.accounts[0]){
 	 		 var check = logs[i].args['_created'];
 	 		 i = 0;
-	 	}
+	 	   }
   	  }
   	  if(check != null){
   	  	instance.returnedadd.set(check);
