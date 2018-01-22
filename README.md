@@ -4,7 +4,11 @@ Code for drct.decentralizedderivatives.org
 
 
 Necessary meteor libaries:
-meteor add ethereum:web3
-meteor add session
+ethereum:web3
+session
 
-or you can just use: npm install
+
+
+This webpage builds the DApp at drct.decentralizedderivatives.org 
+
+Follow our video tutorial here: https://www.youtube.com/watch?v=NdBqfzAeHFg
