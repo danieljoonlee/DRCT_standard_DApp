@@ -142,7 +142,7 @@
     </select>
   </h4>
       <h4>Amount of Ether: <input type="text" id='amount_a' name="" value=0><i>Must be greater than .1</i></h4>
-      <h4>Premium amount: <input type="text" id='premium' name="" value=0><i>Must be greater than .001</i></h4>
+      <!--<h4>Premium amount: <input type="text" id='premium' name="" value=0><i>Must be greater than .001</i></h4>-->
     <div><div id="inner">
       <button class="create" id="button_bottom"> Create Contract </button>
     </div></div>
@@ -150,11 +150,11 @@
       <button class="addresult" id="button_bottom">Address Result:</button>
       <button class="initiate" name="sendbutton" id="button_bottom" style="visibility:visible;"> Send Funds </button>
           <br><br><br>
+          Swap Address:<input type="text" id="sendfund_add" name="" value={{returnedadd}} style="width:400px"><br>
+        <br>
           <i>Note: If you are the first DRCT contract for a given start date, you will need to create long/short DRCT token contracts in the Oracle tab. </i>
       <br>
     </div>
-    <br>
-    <p> {{returnedadd}}</p>
 
 </template>
 

@@ -1311,7 +1311,7 @@ var sABI = [
 
 var factoryAddress ="0xaf7d69fc8a14eb37ae07ddef4b209d157cbe4738";
 
-Session.set('showFactory', true); 
+Session.set('showFactory', true);  
 
 Template.body.helpers({
     showCashout() {
@@ -1474,16 +1474,12 @@ Template.factory.events({
     //then create swap with details
     //send WETH to contract
 	'click button.addresult'(event,instance){
-	var select = document.getElementById('startDate').value;
-	var contract_date = (new Date(select).getTime())/1000;
-	console.log(contract_date);
+	instance.returnedadd.set('loading...');
 	var fContract = web3.eth.contract(fABI).at(factoryAddress);
-	let transferEvent = fContract.ContractCreation({}, {fromBlock: 0, toBlock: 'latest'})
+	let transferEvent = fContract.ContractCreation({}, {fromBlock: 4953776, toBlock: 'latest'})
 	transferEvent.get((error, logs) => {
-	  // we have the logs, now print them
-	  logs.forEach(log => console.log(log.args['_created']))
 	  console.log(logs[logs.length-1].args['_created'], logs[logs.length-1].args['_sender'])
-	  for(i = logs.length-1; i >= 0; i--){
+	  for(i = [logs.length-1]; i >= 0; i--){
 	  	if(logs[i].args['_sender'] == web3.eth.accounts[0]){
 	 		 var check = logs[i].args['_created'];
 	 		 i = 0;
@@ -1492,6 +1488,9 @@ Template.factory.events({
   	  if(check != null){
   	  	instance.returnedadd.set(check);
   		}
+      else{
+        instance.returnedadd.set('No contract found, check Metamask');
+      }
 	})
 	},
 	'click button.initiate'(event,instance){
