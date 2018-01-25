@@ -43,3 +43,5 @@ Lastly, start your local host
 Change your metamask to Localhost 8545
 
 Import private keys from top of Ganache-cli
+
+And lastly, change your factor in the main.js file (line 1312)
