@@ -1,7 +1,7 @@
 
 <head>
   <link rel="stylesheet" href="main.css"/>
- <link rel="icon" href="/public/favicon_s5j_icon.ico?/v1">
+ <link rel="icon" href="/favicon2.png?v=3">
   <title >DDA -- DRCT</title>
 </head>
 
@@ -70,7 +70,7 @@
     <br> - Note that a 'Transaction Error. Exception thrown...' is actually just a warning from metamask about gas.  The contract will go through fine.  
     <br> - Wait for transaction to mined (check your Metamask) and click 'Address Result'
     <br> - Click 'Send Funds' to complete your transation.
-    <br>--If someone enters your swap, you can check the 'My Swaps' and see that you have some tokens
+    <br>--If someone enters your contract, you can check the 'My Positions' and see that you have some tokens
     <br>--After the contract, be sure to go cash out your tokens
     <br>--For a complete tutorial, check out our DApp tutorial video: <a href="https://www.youtube.com/watch?v=NdBqfzAeHFg">here</a>
 </p>
@@ -112,12 +112,12 @@
 <template name="radioform">
 <div style="width: 100%">
 <button class="radioFactory" id="main">CREATE CONTRACT</button>
-<button class="radioEnter" id='main'>ENTER SWAP</button>
+<button class="radioEnter" id='main'>ENTER</button>
 <button class="radioCashout" id='main'>CASH OUT</button>
 <button class="radioExit" id='main'>EXIT</button>
-<button class="radioBulletin" id='main'>OPEN SWAPS</button>
+<button class="radioBulletin" id='main'>OPEN CONTRACTS</button>
 <button class="radioOracle" id='main'>QUERY ORACLE</button>
-<button class="radiomySwaps" id='main' style = "border-right:none" >MY SWAPS</button>
+<button class="radiomySwaps" id='main' style = "border-right:none" >MY POSITIONS</button>
 </div>
 </template>
 
@@ -151,7 +151,7 @@
       <button class="addresult" id="button_bottom">Address Result</button>
       <button class="initiate" name="sendbutton" id="button_bottom" style="visibility:visible;"> Send Funds </button>
           <br><br><br>
-          Swap Address:<input type="text" id="sendfund_add" name="" value={{returnedadd}} style="width:400px"><br>
+          Contract Address:<input type="text" id="sendfund_add" name="" value={{returnedadd}} style="width:400px"><br>
         <br>
           <i>Note: If you are the first DRCT contract for a given start date, you will need to create long/short DRCT token contracts in the Oracle tab. </i>
       <br>
@@ -197,7 +197,7 @@
     
     <br>
     <div id="TokenCreator" style="visibilty:hidden">
-    <button class="newTokens" id="button_bottom"> Create Token </button>
+    <button class="newTokens" id="button_bottom"> Create Token </button><button class="oraclePush" id="button_bottom"> Execute Oracle Call </button><button class="oracleFund" id="button_bottom"> Fund Oracle </button>
     </div>
 
 </template>
@@ -220,7 +220,7 @@
 <br><br><br><br>
 <form id="exit" action="/action_page.php"
 onsubmit = "return validateForm()" method = "post">
-  Swap Address:<input type="text" name="" value=""><br>
+  Contract Address:<input type="text" name="" value=""><br>
 </form>
 <br>
     <button class="exit" id="button_bottom">  Exit  </button>
@@ -232,7 +232,7 @@ onsubmit = "return validateForm()" method = "post">
 <br><br><br><br>
 <form id="enter" action="/action_page.php"
 onsubmit = "return validateForm()" method = "post">
-  Swap Address:<input type="text" name="" value=""><br>
+  Contract Address:<input type="text" name="" value=""><br>
 </form>
 <br>
   <h4> Long or Short:
@@ -243,7 +243,7 @@ onsubmit = "return validateForm()" method = "post">
   </h4>
       <h4>Amount of Ether: <input type="text" id='amount_b' name="" value=0></h4>
 
-    <button class="enter" id="button_bottom">  Enter Swap  </button>
+    <button class="enter" id="button_bottom">  Enter Contract  </button>
     <br>
     <br>
 </template>
@@ -276,7 +276,7 @@ onsubmit = "return validateForm()" method = "post">
         </form>
     <button class="sendToken" id="button_bottom">Send Token</button>
   </div>
-    <button class="MySwaps" id="button_bottom"> Show My Swaps </button>
+    <button class="MySwaps" id="button_bottom"> Show My Contracts </button>
     <br><br><p id="openswaplist"> </p>
     <br>
     <br>

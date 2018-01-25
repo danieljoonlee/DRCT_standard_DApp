@@ -572,14 +572,68 @@ var fABI =[
   ]
 var oABI =[
     {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "queried",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "PushData",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "constant": false,
       "inputs": [
         {
-          "name": "_new_owner",
-          "type": "address"
+          "name": "_oraclizeID",
+          "type": "bytes32"
+        },
+        {
+          "name": "_result",
+          "type": "string"
         }
       ],
-      "name": "setOwner",
+      "name": "__callback",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "myid",
+          "type": "bytes32"
+        },
+        {
+          "name": "result",
+          "type": "string"
+        },
+        {
+          "name": "proof",
+          "type": "bytes"
+        }
+      ],
+      "name": "__callback",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -605,28 +659,51 @@ var oABI =[
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": true,
       "inputs": [
         {
-          "name": "_key",
-          "type": "uint256"
-        },
-        {
-          "name": "_value",
+          "name": "",
           "type": "uint256"
         }
       ],
-      "name": "StoreDocument",
-      "outputs": [],
+      "name": "oracle_values",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
-      "inputs": [],
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_date",
+          "type": "uint256"
+        }
+      ],
+      "name": "getQuery",
+      "outputs": [
+        {
+          "name": "_isValue",
+          "type": "bool"
+        }
+      ],
       "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "constructor"
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "fund",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
     },
     {
       "anonymous": false,
@@ -643,6 +720,18 @@ var oABI =[
         }
       ],
       "name": "DocumentStored",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "description",
+          "type": "string"
+        }
+      ],
+      "name": "newOraclizeQuery",
       "type": "event"
     }
   ]
@@ -1625,6 +1714,26 @@ Template.Oracle.events({
 	        	changeIt.style.visibility = 'visible';
 	    }
 	},
+    'click button.oraclePush'(event,instance){
+    var fContract = web4.eth.contract(fABI).at(factoryAddress);
+    var oracleAddress = fContract.oracle_address.call();
+    var oracleInstance = web3.eth.contract(oABI).at(oracleAddress);
+    oracleInstance.PushData(function(error, result){
+        if(error) {
+            console.error(error);
+        }
+    })
+  },
+  'click button.oracleFund'(event,instance){
+    var fContract = web4.eth.contract(fABI).at(factoryAddress);
+    var oracleAddress = fContract.oracle_address.call();
+    console.log(oracleAddress);
+    var oracleInstance = web3.eth.contract(oABI).at(oracleAddress);
+    oracleInstance.fund({value:web3.toWei(.01,'ether')},function(error, result){
+        if(error) {
+            console.error(error);        }
+    })
+  },
 		'click button.newTokens'(event,instance){
 		var datestr = document.getElementById("oDate").value;
 		console.log(datestr);
