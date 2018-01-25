@@ -1,7 +1,8 @@
 
 <head>
   <link rel="stylesheet" href="main.css"/>
-  <title >DDA One Week DRCTs</title>
+ <link rel="icon" href="/public/favicon_s5j_icon.ico?/v1">
+  <title >DDA -- DRCT</title>
 </head>
 
 <body>
@@ -142,12 +143,12 @@
     </select>
   </h4>
       <h4>Amount of Ether: <input type="text" id='amount_a' name="" value=0><i>Must be greater than .1</i></h4>
-      <!--<h4>Premium amount: <input type="text" id='premium' name="" value=0><i>Must be greater than .001</i></h4>-->
+      <h4>Premium amount: <input type="text" id='premium' name="" value=0><i>Must be greater than .001</i></h4>
     <div><div id="inner">
       <button class="create" id="button_bottom"> Create Contract </button>
     </div></div>
     <div id = "CreationResult" style="visibility:visible">
-      <button class="addresult" id="button_bottom">Address Result:</button>
+      <button class="addresult" id="button_bottom">Address Result</button>
       <button class="initiate" name="sendbutton" id="button_bottom" style="visibility:visible;"> Send Funds </button>
           <br><br><br>
           Swap Address:<input type="text" id="sendfund_add" name="" value={{returnedadd}} style="width:400px"><br>
@@ -171,7 +172,9 @@
     </select>
   </h4>
     <button class="bulletin" id="button_bottom">List Opens</button>
+    <!--<button class="openDates" id="button_bottom">List Open Dates</button>-->
     <br>
+    <p id="openDate_list"></p>
     <br>
     <p id="bulletinState">-----</p>
     <br>

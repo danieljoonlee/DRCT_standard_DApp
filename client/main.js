@@ -1556,7 +1556,26 @@ Template.bulletin.events({
 			check += '</table>';
 			document.getElementById("bulletinState").innerHTML = check;
 		})
-	}
+	},
+  'click button.openDates': function (err, template) {
+    document.getElementById("openDateList").innerHTML ="loading...";
+
+    /*var fContract = web4.eth.contract(fABI).at(factoryAddress);
+    var now = getDate() -getDate()%86400;
+    for(i=now, i<=s + 365*86400, i + 86400){
+      var tokens = fContract.getTokens(timestamp);
+      var num_Con = 0;
+      var token == false;
+      console.log(tokens[0]);
+        if(tokens[0] != "0x0000000000000000000000000000000000000000" && tokens[1] != "0x0000000000000000000000000000000000000000") {
+              instance.existToken.set('True');
+        } 
+      var check = "<table><tr><th>Date</th><th>Contracts</th></tr>";
+              check +='<tr><td>'+sDate +"</td><td>"+ num_Con + "</td></tr>";
+          }
+      check += '</table>';
+      document.getElementById("openDate_list").innerHTML = check;*/
+  }
 });
 
 Template.Oracle.onCreated(function factoryOC(){
