@@ -7,7 +7,7 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import './main.html';
 import './Lib/lib.js';
 
-
+//You can minimize the ABI's for easier reading...
 var fABI =[
     {
       "constant": false,
@@ -1646,24 +1646,37 @@ Template.bulletin.events({
 			document.getElementById("bulletinState").innerHTML = check;
 		})
 	},
-  'click button.openDates': function (err, template) {
+  'click button.openDates': async function (err, template) {
     document.getElementById("openDateList").innerHTML ="loading...";
 
-    /*var fContract = web4.eth.contract(fABI).at(factoryAddress);
-    var now = getDate() -getDate()%86400;
-    for(i=now, i<=s + 365*86400, i + 86400){
-      var tokens = fContract.getTokens(timestamp);
-      var num_Con = 0;
-      var token == false;
-      console.log(tokens[0]);
-        if(tokens[0] != "0x0000000000000000000000000000000000000000" && tokens[1] != "0x0000000000000000000000000000000000000000") {
-              instance.existToken.set('True');
-        } 
-      var check = "<table><tr><th>Date</th><th>Contracts</th></tr>";
-              check +='<tr><td>'+sDate +"</td><td>"+ num_Con + "</td></tr>";
-          }
+    var fContract = web4.eth.contract(fABI).at(factoryAddress);
+    var starting_contracts = {};
+    var check = "<table><tr><th>Start Date</th><th>Contracts</th></tr>";
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    //How do we make the 1000 a variable number?
+    //this is also really slow..
+    for(i = 0; i < 1000; i++){
+      var add =fContract.contracts(i);
+      console.log(add);
+      if(add != '0x'){
+        var sdate = fContract.created_contracts(add);
+        console.log(sdate);
+        sdate = parseInt(sdate);
+        if (isNaN(starting_contracts[sdate.toString()])){
+          starting_contracts[sdate.toString()] = 0;
+        }
+        if (sdate > 0){
+          starting_contracts[sdate.toString()] +=  1;
+        }
+        var stringDate = new Date(sdate * 1000);
+        check +='<tr><td>'+months[stringDate.getMonth()] + ' ' + stringDate.getDate() + ' ' + stringDate.getFullYear() +"</td><td>"+ starting_contracts[sdate.toString()] + "</td></tr>";
+      }
+      else{
+        i = 1000;
+      }
+      }
       check += '</table>';
-      document.getElementById("openDate_list").innerHTML = check;*/
+      document.getElementById("openDateList").innerHTML = check;
   }
 });
 
@@ -1809,7 +1822,7 @@ Template.mySwaps.events({
 		var we1Instance = web3.eth.contract(weABI).at(token_a);
 		var we2Instance = web3.eth.contract(weABI).at(token_b);
 		var changeIt = document.getElementById('Balances');
-	    we1Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
+	    we1Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0},function(error, result){
 	    if(!error) {
 	    	if(result<1){result = 0};
 	    	console.log(result);
@@ -1818,7 +1831,7 @@ Template.mySwaps.events({
 	        console.error(error);
 	    }
 	    })
-	     we2Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
+	     we2Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0},function(error, result){
 	    if(!error) {
 	    	if(result<1){result = 0};
 	    	console.log(result);
@@ -1885,7 +1898,7 @@ Template.mySwaps.events({
       token = fContract.long_tokens(contract_date);
       token_instance = web3.eth.contract(weABI).at(token);
     }
-    token_instance.transfer(toAdd,amount,{from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
+    token_instance.transfer(toAdd,amount,{from:web3.eth.accounts[0],value: 0},function(error, result){
       if (error){
         console.log(error); 
       }
@@ -1918,7 +1931,7 @@ Template.cashout.events({
 		var we2Instance = web3.eth.contract(weABI).at(token_b);
 		var changeIt = document.getElementById('Balances');
 		changeIt.style.visibility = 'visible';
-	    we1Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
+	    we1Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0},function(error, result){
 	    if(!error) {
 	    	if(result<1){result = 0};
 	    	console.log('working',result)
@@ -1927,7 +1940,7 @@ Template.cashout.events({
 	        console.error(error);
 	    }
 	    })
-	     we2Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
+	     we2Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0},function(error, result){
 	    if(!error) {
 	    	if(result<1){result = 0};
 	        instance.shortbalance2.set(result);
@@ -1945,7 +1958,7 @@ Template.cashout.events({
 		var longbalance = instance.longbalance2.curValue;
 		var shortbalance = instance.shortbalance2.curValue;
 	if (longbalance> 0){
-		we1Instance.withdraw(longbalance,{from:web3.eth.accounts[0],value:0,gas: 2000000},function(error, result){
+		we1Instance.withdraw(longbalance,{from:web3.eth.accounts[0],value:0},function(error, result){
 	    if(error) {
 	        console.log("#" + result + "#")
 	    } else {
@@ -1954,7 +1967,7 @@ Template.cashout.events({
 	})
 	}
 	if (shortbalance> 0){
-		we2Instance.withdraw(shortbalance,{from:web3.eth.accounts[0],value:0,gas: 2000000},function(error, result){
+		we2Instance.withdraw(shortbalance,{from:web3.eth.accounts[0],value:0},function(error, result){
 	    if(!error) {
 	        console.log("#" + result + "#")
 	    } else {
@@ -1971,7 +1984,7 @@ Template.exit.events({
 		var s_address = x.elements[0].value;
 	console.log(s_address)
     	var sContract = web3.eth.contract(sABI).at(s_address);
-	    sContract.Exit({from:web3.eth.accounts[0],value: 0,gas: 2000000},function(error, result){
+	    sContract.Exit({from:web3.eth.accounts[0],value: 0},function(error, result){
 	    if(!error) {
 	        console.log("#" + result + "#")
 	    } else {
