@@ -1536,12 +1536,17 @@ Template.connection.events({
 
 Template.factory.onCreated(function factoryOC(){
 	this.returnedadd = new ReactiveVar("");
+  this.howto = new ReactiveVar(false);
+
 	});
 
 Template.factory.helpers({
 	returnedadd(){
 		return Template.instance().returnedadd.get();
-	}
+	},
+  howto:function(){
+    return Template.instance().howto.get();
+  }
 })
 
 Template.factory.events({
@@ -1549,16 +1554,27 @@ Template.factory.events({
 	'click button.create': function (err, template) {
 	var select = document.getElementById('startDate').value;
 	var contract_date = (new Date(select).getTime())/1000;
-	console.log(factoryAddress);
-	var fContract = web3.eth.contract(fABI).at(factoryAddress);
+  console.log(contract_date,(Date.now()/1000 - 6*86400));
+  if(contract_date < (Date.now()/1000 - 6*86400) || isNaN(contract_date)){
+    console.log(contract_date,(Date.now()/1000 - 6*86400));
+    alert('Date must be within the past 7 days or in the future');
+  }
+  else{
+  	console.log(factoryAddress);
+  	var fContract = web3.eth.contract(fABI).at(factoryAddress);
     fContract.deployContract(contract_date,{from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
-    if(!error) {
-        console.log("#" + result + "#");
-    } else {
-        console.error(error);
-    }
-  })
-},
+      if(!error) {
+          console.log("#" + result + "#");
+      } else {
+          console.error(error);
+      }
+    })
+  }
+  },
+  'click .H2_h': function(event,template) {
+    var holder = template.howto.get();
+    template.howto.set(!holder);
+  },
     //now send money to the WETH
     //then create swap with details
     //send WETH to contract
@@ -1590,28 +1606,48 @@ Template.factory.events({
    	var isLong = select.options[select.selectedIndex].value;
 	var swapadd = instance.returnedadd.curValue;
 	console.log(swapadd);
-	console.log('initvars:',swapadd,amount_a,amount_a,premium,isLong);
-	console.log('test');
-	var fContract = web4.eth.contract(fABI).at(factoryAddress);
-	var usercontractAddress = fContract.user_contract.call();
-	console.log('UC',usercontractAddress);
-	var userContract = web3.eth.contract(userABI).at(usercontractAddress);
-    userContract.Initiate(swapadd,amount_a,amount_a,premium,isLong,{from:web3.eth.accounts[0],value:total,gas: 4000000},function(error, result){
-    if(!error) {
-        console.log("#" + result + "#");
-    } else {
-        console.error(error);
-    }
-  })
+  if(swapadd.length < 42 || amount_a < .1 || premium < 0){
+    alert('Contract Address must be a valid address and the amount Ether must be >= .1')
+  }
+  else{
+  	console.log('initvars:',swapadd,amount_a,amount_a,premium,isLong);
+  	console.log('test');
+  	var fContract = web4.eth.contract(fABI).at(factoryAddress);
+  	var usercontractAddress = fContract.user_contract.call();
+  	console.log('UC',usercontractAddress);
+  	var userContract = web3.eth.contract(userABI).at(usercontractAddress);
+      userContract.Initiate(swapadd,amount_a,amount_a,premium,isLong,{from:web3.eth.accounts[0],value:total,gas: 4000000},function(error, result){
+      if(!error) {
+          console.log("#" + result + "#");
+      } else {
+          console.error(error);
+      }
+    })
+  }
 }
 });
+
+
+Template.bulletin.onCreated(function factoryOC(){
+  this.howto = new ReactiveVar(false);
+  });
+
+Template.bulletin.helpers({
+  howto:function(){
+    return Template.instance().howto.get();
+  }
+})
 
 Template.bulletin.events({
 
 	'click button.bulletin': function (err, template) {
-		document.getElementById("bulletinState").innerHTML ="loading...";
-	   	var select = document.getElementById('startDate').value;
+	 var select = document.getElementById('startDate').value;
 		var contract_date = (new Date(select).getTime())/1000;
+    if(isNaN(contract_date)){
+    alert('Enter a valid date');
+    }
+  else{
+    document.getElementById("bulletinState").innerHTML ="loading...";
 		var cState = document.getElementById('CState').value; 
 		var fContract = web3.eth.contract(fABI).at(factoryAddress);
 		var check = "<table><tr><th>State</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
@@ -1644,13 +1680,20 @@ Template.bulletin.events({
 			}
 			check += '</table>';
 			document.getElementById("bulletinState").innerHTML = check;
-		})
+		  })
+    }
 	},
+  'click .H2_h': function(event,template) {
+    var holder = template.howto.get();
+    template.howto.set(!holder);
+  },
   'click button.openDates': async function (err, template) {
     document.getElementById("openDateList").innerHTML ="loading...";
 
     var fContract = web4.eth.contract(fABI).at(factoryAddress);
     var starting_contracts = {};
+    var newcheck = [];
+    var j = -1;
     var check = "<table><tr><th>Start Date</th><th>Contracts</th></tr>";
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     //How do we make the 1000 a variable number?
@@ -1662,18 +1705,25 @@ Template.bulletin.events({
         var sdate = fContract.created_contracts(add);
         console.log(sdate);
         sdate = parseInt(sdate);
-        if (isNaN(starting_contracts[sdate.toString()])){
-          starting_contracts[sdate.toString()] = 0;
+        if(sdate > (Date.now()/1000 - 16*86400)){
+            var stringDate = new Date(sdate * 1000);
+            if (isNaN(starting_contracts[sdate.toString()])){
+              starting_contracts[sdate.toString()] = 1;
+              j +=1;
+              newcheck.push('<tr><td>'+months[stringDate.getUTCMonth()] + ' ' + stringDate.getUTCDate() + ' ' + stringDate.getUTCFullYear() +"</td><td>"+ starting_contracts[sdate.toString()] + "</td></tr>");
+            }
+            else{
+                starting_contracts[sdate.toString()] +=  1;
+                newcheck[j] ='<tr><td>'+months[stringDate.getUTCMonth()] + ' ' + stringDate.getUTCDate() + ' ' + stringDate.getUTCFullYear() +"</td><td>"+ starting_contracts[sdate.toString()] + "</td></tr>";
+            }
+}
         }
-        if (sdate > 0){
-          starting_contracts[sdate.toString()] +=  1;
+        else{
+          i = 1000;
         }
-        var stringDate = new Date(sdate * 1000);
-        check +='<tr><td>'+months[stringDate.getMonth()] + ' ' + stringDate.getDate() + ' ' + stringDate.getFullYear() +"</td><td>"+ starting_contracts[sdate.toString()] + "</td></tr>";
       }
-      else{
-        i = 1000;
-      }
+      for(i = 0; i <= j; i++){
+        check += newcheck[i];
       }
       check += '</table>';
       document.getElementById("openDateList").innerHTML = check;
@@ -1683,6 +1733,7 @@ Template.bulletin.events({
 Template.Oracle.onCreated(function factoryOC(){
 	this.oraclevals = new ReactiveVar("");
 	this.existToken = new ReactiveVar("");
+  this.howto = new ReactiveVar(false);
 	});
 
 Template.Oracle.helpers({
@@ -1691,41 +1742,58 @@ Template.Oracle.helpers({
 	},
 	existToken(){
 		return Template.instance().existToken.get();
-	}
+	},
+  howto:function(){
+    return Template.instance().howto.get();
+  }
 })
 Template.Oracle.events({
 	'click button.Oracle'(event,instance){
 		var datestr = document.getElementById("oDate").value;
-		var timestamp = (new Date(datestr).getTime())/1000;
-		var fContract = web4.eth.contract(fABI).at(factoryAddress);
-		var oracleAddress = fContract.oracle_address.call();
-		console.log(timestamp);
-		console.log(oracleAddress);
-		var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
-		oracleInstance.RetrieveData(timestamp,function(error, result){
-	    	if(!error) {
-	       		instance.oraclevals.set(result/1000);
-	    	} else {
-	        	console.error(error);
-	        	instance.oraclevals.set('undefined');
-	    	}
-		})
+    var timestamp = (new Date(datestr).getTime())/1000;
+    if(isNaN(timestamp)){
+    alert('Enter a valid date');
+    }
+  else{
+  		
+
+  		var fContract = web4.eth.contract(fABI).at(factoryAddress);
+  		var oracleAddress = fContract.oracle_address.call();
+  		console.log(timestamp);
+  		console.log(oracleAddress);
+  		var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
+  		oracleInstance.RetrieveData(timestamp,function(error, result){
+  	    	if(!error) {
+  	       		instance.oraclevals.set(result/1000);
+  	    	} else {
+  	        	console.error(error);
+  	        	instance.oraclevals.set('undefined');
+  	    	}
+  		})
+    }
 	},
+  'click .H2_h': function(event,template) {
+    var holder = template.howto.get();
+    template.howto.set(!holder);
+  },
 	'click button.isToken'(event,instance){
 		var datestr = document.getElementById("oDate").value;
-		console.log(datestr);
-		var changeIt = document.getElementById('TokenCreator');
-		var timestamp = (new Date(datestr).getTime())/1000;
-		console.log(timestamp);
-		var fContract = web4.eth.contract(fABI).at(factoryAddress);
-		var tokens = fContract.getTokens(timestamp);
-		console.log(tokens[0]);
-	    if(tokens[0] != "0x0000000000000000000000000000000000000000" && tokens[1] != "0x0000000000000000000000000000000000000000") {
-	       		instance.existToken.set('True');
-	    } else {
-	        	instance.existToken.set("False, token must be created");
-	        	changeIt.style.visibility = 'visible';
-	    }
+    var timestamp = (new Date(datestr).getTime())/1000;
+    if(isNaN(timestamp)){
+    alert('Enter a valid date');
+    }
+     else{
+  		var changeIt = document.getElementById('TokenCreator');
+  		var fContract = web4.eth.contract(fABI).at(factoryAddress);
+  		var tokens = fContract.getTokens(timestamp);
+  		console.log(tokens[0]);
+  	    if(tokens[0] != "0x0000000000000000000000000000000000000000" && tokens[1] != "0x0000000000000000000000000000000000000000") {
+  	       		instance.existToken.set('True');
+  	    } else {
+  	        	instance.existToken.set("False, token must be created");
+  	        	changeIt.style.visibility = 'visible';
+  	    }
+    }
 	},
     'click button.oraclePush'(event,instance){
     var fContract = web4.eth.contract(fABI).at(factoryAddress);
@@ -1749,25 +1817,29 @@ Template.Oracle.events({
   },
 		'click button.newTokens'(event,instance){
 		var datestr = document.getElementById("oDate").value;
-		console.log(datestr);
-		var timestamp = (new Date(datestr).getTime())/1000;
-		console.log(timestamp);
-		var fContract = web3.eth.contract(fABI).at(factoryAddress);
-		fContract.deployTokenContract(timestamp,true,{from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
-	    	if(!error) {
-	       		console.log(result);
-	    	} else {
-	        	console.error(error);
-	    	}
-		});
-		fContract.deployTokenContract(timestamp,false,{from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
-	    	if(!error) {
-	       		console.log(result);
-	    	} else {
-	        	console.error(error);
-	    	}
-		});
-	}
+    var timestamp = (new Date(datestr).getTime())/1000;
+    if(isNaN(timestamp)){
+      alert('Enter a valid date');
+    }
+    else{
+  		console.log(datestr);
+  		var fContract = web3.eth.contract(fABI).at(factoryAddress);
+  		fContract.deployTokenContract(timestamp,true,{from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
+  	    	if(!error) {
+  	       		console.log(result);
+  	    	} else {
+  	        	console.error(error);
+  	    	}
+  		});
+  		fContract.deployTokenContract(timestamp,false,{from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
+  	    	if(!error) {
+  	       		console.log(result);
+  	    	} else {
+  	        	console.error(error);
+  	    	}
+  		});
+	 }
+  }
 
 });
 
@@ -1778,6 +1850,7 @@ Template.mySwaps.onCreated(function factoryOC(){
 	this.capmax = new ReactiveVar("");
 	this.longbalance = new ReactiveVar("");
 	this.shortbalance = new ReactiveVar("");
+  this.howto = new ReactiveVar(false);
 });
 
 Template.mySwaps.helpers({
@@ -1795,53 +1868,65 @@ Template.mySwaps.helpers({
 	},
 	shortbalance(){
 		return Template.instance().shortbalance.get();
-	}
+	},
+  howto:function(){
+    return Template.instance().howto.get();
+  }
 })
 
 Template.mySwaps.events({
 	'click button.balances'(event,instance){
 		var select = document.getElementById('startDate').value;
 		var contract_date = (new Date(select).getTime())/1000;
-		var fContract = web4.eth.contract(fABI).at(factoryAddress);
-		var oracleAddress = fContract.oracle_address.call();
-		var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
-		oracleInstance.RetrieveData(contract_date,function(error, result){
-	    if(!error) {
-	        instance.startvalue.set(result/1000);
-	        instance.capmin.set(0);
-	        instance.capmax.set((result/1000)+(result/1000));
-	    } else {
-	        console.error(error);
-	        instance.capmin.set('undefined');
-	        instance.capmax.set('undefined')
-	    }
-		})
-		var fContract = web4.eth.contract(fABI).at(factoryAddress);
-		var token_a =fContract.long_tokens(contract_date);
-		var token_b =fContract.short_tokens(contract_date);
-		var we1Instance = web3.eth.contract(weABI).at(token_a);
-		var we2Instance = web3.eth.contract(weABI).at(token_b);
-		var changeIt = document.getElementById('Balances');
-	    we1Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0},function(error, result){
-	    if(!error) {
-	    	if(result<1){result = 0};
-	    	console.log(result);
-	        instance.longbalance.set(result);
-	    } else {
-	        console.error(error);
-	    }
-	    })
-	     we2Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0},function(error, result){
-	    if(!error) {
-	    	if(result<1){result = 0};
-	    	console.log(result);
-	        instance.shortbalance.set(result);
-	    } else {
-	        console.error(error);
-	    }
-		  	changeIt.style.visibility = 'visible';
-		})
+    if(isNaN(contract_date)){
+      alert('Enter a valid date');
+    }
+    else{
+  		var fContract = web4.eth.contract(fABI).at(factoryAddress);
+  		var oracleAddress = fContract.oracle_address.call();
+  		var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
+  		oracleInstance.RetrieveData(contract_date,function(error, result){
+  	    if(!error) {
+  	        instance.startvalue.set(result/1000);
+  	        instance.capmin.set(0);
+  	        instance.capmax.set((result/1000)+(result/1000));
+  	    } else {
+  	        console.error(error);
+  	        instance.capmin.set('undefined');
+  	        instance.capmax.set('undefined')
+  	    }
+  		})
+  		var fContract = web4.eth.contract(fABI).at(factoryAddress);
+  		var token_a =fContract.long_tokens(contract_date);
+  		var token_b =fContract.short_tokens(contract_date);
+  		var we1Instance = web3.eth.contract(weABI).at(token_a);
+  		var we2Instance = web3.eth.contract(weABI).at(token_b);
+  		var changeIt = document.getElementById('Balances');
+  	    we1Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0},function(error, result){
+  	    if(!error) {
+  	    	if(result<1){result = 0};
+  	    	console.log(result);
+  	        instance.longbalance.set(result);
+  	    } else {
+  	        console.error(error);
+  	    }
+  	    })
+  	     we2Instance.balanceOf(web3.eth.accounts[0],{from:web3.eth.accounts[0],value: 0},function(error, result){
+  	    if(!error) {
+  	    	if(result<1){result = 0};
+  	    	console.log(result);
+  	        instance.shortbalance.set(result);
+  	    } else {
+  	        console.error(error);
+  	    }
+  		  	changeIt.style.visibility = 'visible';
+  		})
+       }
 	},
+  'click .H2_h': function(event,template) {
+    var holder = template.howto.get();
+    template.howto.set(!holder);
+  },
 
 	'click button.MySwaps'(event,instance){
 	document.getElementById("openswaplist").innerHTML = "loading...";
@@ -1886,29 +1971,35 @@ Template.mySwaps.events({
     var amount = document.getElementById("amount_send").value;
       var select2 = document.getElementById('startDate').value;
     var contract_date = (new Date(select2).getTime())/1000;
-    console.log(isLong,toAdd, amount);
-    var fContract = web4.eth.contract(fABI).at(factoryAddress);
-    var token;
-    var token_instance;
-    if(isLong){
-      token = fContract.long_tokens(contract_date);
-      token_instance = web3.eth.contract(weABI).at(token);
+    if(isNaN(contract_date) || amount < 1){
+      alert('Sending a token requires a valid date and amount');
     }
     else{
-      token = fContract.long_tokens(contract_date);
-      token_instance = web3.eth.contract(weABI).at(token);
-    }
-    token_instance.transfer(toAdd,amount,{from:web3.eth.accounts[0],value: 0},function(error, result){
-      if (error){
-        console.log(error); 
+      console.log(isLong,toAdd, amount);
+      var fContract = web4.eth.contract(fABI).at(factoryAddress);
+      var token;
+      var token_instance;
+      if(isLong){
+        token = fContract.long_tokens(contract_date);
+        token_instance = web3.eth.contract(weABI).at(token);
       }
-    })
+      else{
+        token = fContract.long_tokens(contract_date);
+        token_instance = web3.eth.contract(weABI).at(token);
+      }
+      token_instance.transfer(toAdd,amount,{from:web3.eth.accounts[0],value: 0},function(error, result){
+        if (error){
+          console.log(error); 
+        }
+      })
+    }
   },
 });
 
 Template.cashout.onCreated(function cashoutOC(){
 	this.longbalance2= new ReactiveVar("");
 	this.shortbalance2= new ReactiveVar("");
+  this.howto = new ReactiveVar(false);
 	});
 
 Template.cashout.helpers({
@@ -1917,7 +2008,10 @@ Template.cashout.helpers({
 	},
 	shortbalance2(){
 		return Template.instance().shortbalance2.get();
-	}
+	},
+  howto:function(){
+    return Template.instance().howto.get();
+  }
 })
 
 
@@ -1949,6 +2043,10 @@ Template.cashout.events({
 	    }
 	})
 },
+  'click .H2_h': function(event,template) {
+    var holder = template.howto.get();
+    template.howto.set(!holder);
+  },
 	'click button.cashout'(event,instance){
 		var fContract = web4.eth.contract(fABI).at(factoryAddress);
 		var token_a =fContract.token_a.call();
@@ -1978,11 +2076,26 @@ Template.cashout.events({
 	},
 });
 
+
+Template.exit.onCreated(function factoryOC(){
+  this.howto = new ReactiveVar(false);
+  });
+
+Template.exit.helpers({
+  howto:function(){
+    return Template.instance().howto.get();
+  }
+})
+
 Template.exit.events({
 	'click button.exit':function (err, template) {
 		var x = document.getElementById("exit");
 		var s_address = x.elements[0].value;
-	console.log(s_address)
+	console.log(s_address);
+  if(s_address.length < 42){
+    alert('Contract Address must be a valid address')
+  }
+  else{
     	var sContract = web3.eth.contract(sABI).at(s_address);
 	    sContract.Exit({from:web3.eth.accounts[0],value: 0},function(error, result){
 	    if(!error) {
@@ -1991,9 +2104,23 @@ Template.exit.events({
 	        console.error(error);
 	    }
 	})
+    }
 },
+  'click .H2_h': function(event,template) {
+    var holder = template.howto.get();
+    template.howto.set(!holder);
+  },
 });
 
+Template.enter.onCreated(function factoryOC(){
+  this.howto = new ReactiveVar(false);
+  });
+
+Template.enter.helpers({
+  howto:function(){
+    return Template.instance().howto.get();
+  }
+})
 Template.enter.events({
 	'click button.enter':function (err, template) {
 		var x = document.getElementById("enter");
@@ -2001,6 +2128,10 @@ Template.enter.events({
 		var select = document.getElementById('isLong_b');
 	   	var isLong = eval(select.options[select.selectedIndex].value);
 		var s_address = "" + x.elements[0].value;
+  if(s_address.length < 42){
+    alert('Contract Address must be a valid address')
+  }
+  else{
 		console.log(amount_b,amount_b,isLong,s_address);
 		var fContract = web4.eth.contract(fABI).at(factoryAddress);
 		var usercontractAddress = fContract.user_contract.call();
@@ -2013,7 +2144,12 @@ Template.enter.events({
 	        console.error(error);
 	    }
 	})
+    }
 },
+  'click .H2_h': function(event,template) {
+    var holder = template.howto.get();
+    template.howto.set(!holder);
+  }
 });
 
 $(document).ready(function(){
@@ -2027,10 +2163,6 @@ $("#connection_h").click(function(){
 
 $("#disclaimer_h").click(function(){
     $("#disclaimer_b").toggle();
-});
-
-$("#H2_h").click(function(){
-    $("#H2_b").toggle();
 });
 $("#Protips_h").click(function(){
     $("#Protips_b").toggle();
