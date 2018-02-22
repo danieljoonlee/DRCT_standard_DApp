@@ -1403,103 +1403,10 @@ var factoryAddress ="0xaf7d69fc8a14eb37ae07ddef4b209d157cbe4738";
 Session.set('showFactory', true);  
 
 Template.body.helpers({
-    showCashout() {
-      return Session.get('showCashout');
-    },
         showFactory() {
       return Session.get('showFactory');
     },
-    showExit() {
-      return Session.get('showExit');
-    }
-    ,  showBulletin() {
-      return Session.get('showBulletin');
-    }
-    ,  showmySwaps() {
-      return Session.get('showmySwaps');
-    }
-    ,  showOracle() {
-      return Session.get('showOracle');
-    }    
-    ,  showEnter() {
-      return Session.get('showEnter');
-    }
   });
-
-
-Template.radioform.events({
-	   'click button.radioFactory'(event) {
-	Session.set('showExit', false);
-	Session.set('showBulletin', false);
-	Session.set('showOracle', false);
-	Session.set('showCashout', false);
-	Session.set('showmySwaps', false);
-	Session.set('showEnter', false);
-	event.preventDefault();
-      Session.set('showFactory', true);
-    },
-    'click button.radioEnter'(event) {
-	Session.set('showExit', false);
-	Session.set('showBulletin', false);
-	Session.set('showOracle', false);
-	Session.set('showCashout', false);
-	Session.set('showmySwaps', false);
-	Session.set('showFactory', false);
-	event.preventDefault();
-      Session.set('showEnter', true);
-    },
-   'click button.radioCashout'(event) {
-	Session.set('showFactory', false);
-	Session.set('showExit', false);
-	Session.set('showBulletin', false);
-	Session.set('showOracle', false);
-	Session.set('showmySwaps', false);
-	Session.set('showEnter', false);
-	event.preventDefault();
-      Session.set('showCashout', true);
-    },
-        'click button.radioExit'(event) {
-	Session.set('showCashout', false);
-	Session.set('showFactory', false);
-	Session.set('showBulletin', false);
-	Session.set('showOracle', false);
-	Session.set('showmySwaps', false);
-	Session.set('showEnter', false);
-	event.preventDefault();
-      Session.set('showExit', true);
-    },
-        'click button.radioBulletin'(event) {
-	Session.set('showCashout', false);
-	Session.set('showFactory', false);
-	Session.set('showExit', false);
-	Session.set('showOracle', false);
-	Session.set('showmySwaps', false);
-	Session.set('showEnter', false);
-	event.preventDefault();
-      Session.set('showBulletin', true);
-    },
-            'click button.radiomySwaps'(event) {
-	Session.set('showCashout', false);
-	Session.set('showFactory', false);
-	Session.set('showExit', false);
-	Session.set('showOracle', false);
-	Session.set('showBulletin', false);
-	Session.set('showEnter', false);
-	event.preventDefault();
-      Session.set('showmySwaps', true);
-    },
-            'click button.radioOracle'(event) {
-	Session.set('showCashout', false);
-	Session.set('showFactory', false);
-	Session.set('showExit', false);
-	Session.set('showmySwaps', false);
-	Session.set('showBulletin', false);
-	Session.set('showEnter', false);
-	event.preventDefault();
-      Session.set('showOracle', true);
-    }
-
-});
 
 
 Template.connection.onCreated(function connectionOC(){

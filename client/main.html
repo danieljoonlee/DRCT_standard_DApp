@@ -6,68 +6,27 @@
 </head>
 
 <body>
-<div class="txtNew" style=" width: 100%; position: absolute; top: 50px;"><h1 style="line-height:1em; text-align:center;"><span style="color:#064573;"><span style="font-family: open sans,sans-serif; font-size:38px;">
-  DECENTRALIZED DERIVATIVES ASSOCIATION
-  <div style="padding:10px"><div  style=" margin:0 auto;text-align:center;padding:0;border-bottom: 2px solid rgba(61, 155, 233, 1); width: 738px; height: 5px;"></div></div>
+<div class="txtNew" style=" width: 100%; position: absolute; top: 15px;"><span style="color:#064573;"><span style="font-family: open sans,sans-serif; font-size:38px;">
+  <div class="dropdown">
+    <button class="dropbtn">MENU
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">HOME</a>
+      <a href="#">TOKEN TRADER</a>
+      <a href="#">CONTRACT DETAILS</a>
+      <a href="#">HOW TO USE</a>
+      <a href="#">WEBSITE</a>
+      <a href="#">SUPPORT</a>
+    </div>
+  </div> 
+  <div style="padding-top:15px"><div  style=" margin:0 auto;text-align:center;padding:0px;border-bottom: 2px solid rgba(61, 155, 233, 1); width: 100%; height: 5px;"></div></div>
   </span></span>
-
-  <div id="inner">
-    {{> radioform}}
-  </div>
-
-
-  </h1>
-
-<br>
-<br>
-<br>
-<br>
 <div class="mainpart">
 <h2 class="dapp-header" id="Title">One Week BTC/USD -  Standard DRCT Contracts
 </h2>
-  <p id="radioselection"></p>
-  {{#if showFactory}}
   {{> factory}}
-  {{/if}}
-  {{#if showCashout}}
-    {{> cashout}}
-  {{/if}}
-  {{#if showEnter}}
-    {{> enter}}
-  {{/if}}
-  {{#if showBulletin}}
-    {{> bulletin}}
-  {{/if}}
-    {{#if showmySwaps}}
-    {{> mySwaps}}
-  {{/if}}
-    {{#if showExit}}
-    {{> exit}}
-    {{/if}}
-  {{#if showOracle}}
-    {{> Oracle}}
-  {{/if}}
-  <div id= "bottom_box"><div id="cdetails_h"><h2> + Contract Details:</h2></div>
-  <div id="cdetails_b" style="display:none">
-    <p>--1x exposure to underlying rate
-      <br>--This contract starts at 00:00:00 GMT on Start Date
-    <br>--Contract caps at 100% move (100% of collateral used up)
-    <br>--Contracts end the following week and can be paid out 24 hours after expiration (time for Oracle to update).  
-    <br>--Oracle is a publicly operated Oraclize API pull: Full details <a href="https://github.com/DecentralizedDerivatives/Public_Oracle">here</a>
-    <br>--Operator fee of 0.5%
-    <br>--1000 DRCT tokens per ETH
-  </p>
-    </div>
-  </div>
-<div id= "bottom_box">
-  <div class = "bottom_box" id = "Protips_h"><h2> +   Pro tips:</h2></div>
-    <div id = "Protips_b" style="display:none">
-      <p> --Check Open contracts (maybe you can match someone and get paid for it!)
-    <br> --Check Open contracts for how much premium you may need to pay
-    <br> --If no one enters your contract or you want to exit before someone does, be sure to click exit and cash out your tokens
-  </p>
-</div>
-</div>
+
 {{> connection}}
  <div id= "bottom_box2" style="text-align:right"><div id="disclaimer_h">
     <h4> + Disclaimer:</h4></div>
@@ -90,21 +49,6 @@
 
 </body>
 
-
-
-<template name="radioform">
-<div style="width: 100%">
-<button class="radioFactory" id="main">CREATE CONTRACT</button>
-<button class="radioEnter" id='main'>ENTER</button>
-<button class="radioCashout" id='main'>CASH OUT</button>
-<button class="radioExit" id='main'>EXIT</button>
-<button class="radioBulletin" id='main'>OPEN CONTRACTS</button>
-<button class="radioOracle" id='main'>QUERY ORACLE</button>
-<button class="radiomySwaps" id='main' style = "border-right:none" >MY POSITIONS</button>
-</div>
-</template>
-
-
 <template name="connection">
     <div id= "bottom_box2" style="text-align:right"><div id="connection_h">
     <h4> + Connection Status:</h4></div>
@@ -118,46 +62,34 @@
 </template>
 
 <template name ="factory">
-  <h4>Start Date:  <input type="date" id="startDate"><i>Must be within the next 20 days</i></h4>
-    <h4> Long or Short:
-    <select id="isLong">
-      <option value="true">Long</option>
-      <option value="false">Short</option>
-    </select>
-  </h4>
-      <h4>Amount of Ether: <input type="text" id='amount_a' name="" value=0><i>Must be greater than or equal to .1</i></h4>
-      <h4>Premium amount: <input type="text" id='premium' name="" value=0></h4>
-    <div><div id="inner">
-      <button class="create" id="button_bottom"> Create Contract </button>
-    </div></div>
-    <div id = "CreationResult" style="visibility:visible">
-      <button class="addresult" id="button_bottom">Address Result</button>
-    </div>
-      <button class="initiate" name="sendbutton" id="button_bottom" style="visibility:visible;"> Send Funds </button>
-          <br><br><br>
-          Contract Address:<input type="text" id="sendfund_add" name="" value={{returnedadd}} style="width:400px"><br>
-        <br>
-          <i>Note: If you are the first DRCT contract for a given start date, you will need to create long/short DRCT token contracts in the Oracle tab. </i>
-      <br>
-      <br>
-      <br>
-  <div id= "bottom_box"><div class="H2_h"><h2> + How to Use:</h2></div>
-   {{#if howto}}
-   <p>--Pick the start date of the contract (end date is 7 days after this)
-    <br>--Choose long or short the rate
-    <br>-- Enter amount of Ether you want to put into Contract
-    <br>--Enter the premium in Ether you will pay someone to take other side (how desperate are you?)
-    <br>-- Click create contract
-    <br>-- Wait for transaction to mined (check your Metamask) and click 'Address Result'.  The addresss result button gives you the last created address from your Metamask account.  If you want to manually enter an address, you can do that in the text field.
-    <br>-- Click 'Send Funds' to complete your transation.
-    <br>-- Note that a 'Transaction Error. Exception thrown...' is actually just a warning from metamask about gas.  The contract will go through fine.  
-    <br>--You can check the 'My Positions' and see that you have some tokens when someone else enters the other side
-    <br>--After the contract is paid out, be sure to go cash out your tokens
-    <br>--For a complete tutorial, check out our DApp tutorial video: <a href="https://www.youtube.com/watch?v=NdBqfzAeHFg">here</a>
-      </p>
-  {{/if}}
 
-</div>
+   <div class="outer">
+    <div class="innerwrap">
+        <div class="leftdiv">
+          <h2>My Positions</h2>
+                  {{> mySwaps}}
+        </div>
+
+        <div class="rightdiv">
+          <h2>BTC/USD Price - 1 month</h2>
+          <div class="tv-layout-width">
+          <div id="tv-medium-widget-container" class="tv-external-tools__widget-block">
+          <div id="tv-medium-widget" class="tv-external-tools__widget-frame-container tv-external-tools__widget-border" style="width: auto; height: auto;"><div id="tradingview_08e29-wrapper" style="position: relative;box-sizing: content-box;width:auto;height:auto;margin: 0 auto !important;padding: 0 !important;font-family:Arial,sans-serif;"><div style="width:auto;height:auto;background: #fff;padding: 0 !important;"><iframe id="tradingview_08e29" src="https://www.tradingview.com/mediumwidgetembed/?symbols=Bitcoin%20%2F%20USD&amp;Bitcoin%20%2F%20USD=COINBASE%3ABTCUSD%7C1m&amp;locale=en&amp;trendLineColor=%234bafe9&amp;underLineColor=%23dbeffb&amp;fontColor=%2383888D&amp;gridLineColor=%23e9e9ea&amp;chartOnly=1&amp;width=1000px&amp;height=800px&amp;utm_source=www.tradingview.com&amp;utm_medium=widget&amp;utm_campaign=symbol-overview" style="margin: 0 !important; padding: 0 !important; width:100%; height: 300px;" frameborder="0" allowtransparency="true" scrolling="no"></iframe></div><div style="position:absolute;display: block;box-sizing: content-box;height: 24px;width: 100%;bottom: 0;left: 0;margin: 0;padding: 0;font-family: Arial,sans-serif;"><div style="display: block;margin: 0 1px 1px 1px;line-height: 7px;box-sizing: content-box;height: 11px;padding: 6px 10px;text-align: right;background: #fff;"><a href="https://www.tradingview.com/?utm_source=www.tradingview.com&amp;utm_medium=widget&amp;utm_campaign=symbol-overview" target="_blank" style="color: #0099d4;text-decoration: none;font-size: 11px;"><span style="color: #b4b4b4;font-size: 11px;">Quotes by</span> TradingView</a></div></div></div></div>
+         </div>
+        </div>
+            <h2> Today's Queried Valued: ... <i>What's this?</i><button>Query Oracle</button></h2>
+        </div>
+      </div>
+      <div class="innerwrap">
+      <div class="leftdiv">
+        <h2>Open Dates</h2>
+      </div>
+      <div class="rightdiv">
+        <h2> Open Contracts</h2>
+      </div>
+
+    </div>
+  </div>
 </template>
 
 <template name ="bulletin">
