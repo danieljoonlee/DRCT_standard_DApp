@@ -10,8 +10,13 @@
 
  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-web4 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io"));
+
   
+    // Use Mist/MetaMask's provider
+  web4 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+if (typeof web4 !== 'undefined4') {
+ web4 = new Web3(new Web3.providers.HttpProvider("https://mainnet.infura.io"));
+  }
 
 web3.version.getNetwork((err, netId) => {
   switch (netId) {

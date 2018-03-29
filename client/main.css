@@ -22,8 +22,12 @@
 
 .mainpart{
     margin: auto;
-    width: 80%;
+    width: 85%;
     padding: 10px;
+}
+
+.centered{
+  display: inline-block;
 }
 
 #button_bottom {

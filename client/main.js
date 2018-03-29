@@ -1400,7 +1400,7 @@ var sABI = [
 
 var factoryAddress ="0xaf7d69fc8a14eb37ae07ddef4b209d157cbe4738";
 
-Session.set('showFactory', true);  
+Session.set('showmySwaps', true);  
 
 Template.body.helpers({
     showCashout() {
