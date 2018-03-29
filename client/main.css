@@ -106,6 +106,7 @@ tr:nth-child(even) {
 
 
 button{
+	
     -webkit-transition-duration: 0.2s; /* Safari */
     transition-duration: 0.2s;
     float: left; /* Float the buttons side by side */
@@ -125,7 +126,7 @@ button:active {
 }
 
 #foot{
-    color:white;
+    color: white;
     padding-right:20px;
     font-size:14px;
     font-family:open sans,sans-serif;
