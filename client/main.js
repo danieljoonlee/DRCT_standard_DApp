@@ -1400,103 +1400,53 @@ var sABI = [
 
 var factoryAddress ="0xaf7d69fc8a14eb37ae07ddef4b209d157cbe4738";
 
-Session.set('showmySwaps', true);  
+Session.set('showPortfolio', true);  
 
 Template.body.helpers({
-    showCashout() {
-      return Session.get('showCashout');
-    },
         showFactory() {
       return Session.get('showFactory');
     },
-    showExit() {
-      return Session.get('showExit');
+    showAbout() {
+      return Session.get('showAbout');
     }
-    ,  showBulletin() {
-      return Session.get('showBulletin');
+    ,  showExchange() {
+      return Session.get('showExchange');
     }
-    ,  showmySwaps() {
-      return Session.get('showmySwaps');
-    }
-    ,  showOracle() {
-      return Session.get('showOracle');
-    }    
-    ,  showEnter() {
-      return Session.get('showEnter');
+    ,  showPortfolio() {
+      return Session.get('showPortfolio');
     }
   });
 
 
 Template.radioform.events({
 	   'click button.radioFactory'(event) {
-	Session.set('showExit', false);
-	Session.set('showBulletin', false);
-	Session.set('showOracle', false);
-	Session.set('showCashout', false);
-	Session.set('showmySwaps', false);
-	Session.set('showEnter', false);
+	Session.set('showExchange', false);
+	Session.set('showPortfolio', false);
+  session.set('showAbout',false);
 	event.preventDefault();
       Session.set('showFactory', true);
     },
-    'click button.radioEnter'(event) {
-	Session.set('showExit', false);
-	Session.set('showBulletin', false);
-	Session.set('showOracle', false);
-	Session.set('showCashout', false);
-	Session.set('showmySwaps', false);
+    'click button.radioAbout'(event) {
+	Session.set('showExchange', false);
+	Session.set('showPortfolio', false);
 	Session.set('showFactory', false);
 	event.preventDefault();
-      Session.set('showEnter', true);
+      Session.set('showAbout', true);
     },
-   'click button.radioCashout'(event) {
+
+        'click button.radioExchange'(event) {
+	Session.set('showAbout', false);
 	Session.set('showFactory', false);
-	Session.set('showExit', false);
-	Session.set('showBulletin', false);
-	Session.set('showOracle', false);
-	Session.set('showmySwaps', false);
-	Session.set('showEnter', false);
+	Session.set('showPortfolio', false);
 	event.preventDefault();
-      Session.set('showCashout', true);
+      Session.set('showExchange', true);
     },
-        'click button.radioExit'(event) {
-	Session.set('showCashout', false);
+            'click button.radioPortfolio'(event) {
+	Session.set('showAbout', false);
 	Session.set('showFactory', false);
-	Session.set('showBulletin', false);
-	Session.set('showOracle', false);
-	Session.set('showmySwaps', false);
-	Session.set('showEnter', false);
+	Session.set('showExchange', false);
 	event.preventDefault();
-      Session.set('showExit', true);
-    },
-        'click button.radioBulletin'(event) {
-	Session.set('showCashout', false);
-	Session.set('showFactory', false);
-	Session.set('showExit', false);
-	Session.set('showOracle', false);
-	Session.set('showmySwaps', false);
-	Session.set('showEnter', false);
-	event.preventDefault();
-      Session.set('showBulletin', true);
-    },
-            'click button.radiomySwaps'(event) {
-	Session.set('showCashout', false);
-	Session.set('showFactory', false);
-	Session.set('showExit', false);
-	Session.set('showOracle', false);
-	Session.set('showBulletin', false);
-	Session.set('showEnter', false);
-	event.preventDefault();
-      Session.set('showmySwaps', true);
-    },
-            'click button.radioOracle'(event) {
-	Session.set('showCashout', false);
-	Session.set('showFactory', false);
-	Session.set('showExit', false);
-	Session.set('showmySwaps', false);
-	Session.set('showBulletin', false);
-	Session.set('showEnter', false);
-	event.preventDefault();
-      Session.set('showOracle', true);
+      Session.set('showPortfolio', true);
     }
 
 });
@@ -1527,7 +1477,7 @@ Template.connection.events({
     if(net1 == 1){network_res = "This is the Ethereum Mainnet"}
     	else if (net1 ==3){network_res = "This is the Ropsten Network"}
     	else {network_res = "Not connected or Unkown Network"}
-	instance.net.set(network_res);
+	  instance.net.set(network_res);
     instance.acct.set(web3.eth.accounts[0]);
     instance.funds.set(web3.fromWei(web4.eth.getBalance(web3.eth.accounts[0]), 'ether').toNumber());
 },
@@ -1628,26 +1578,26 @@ Template.factory.events({
 });
 
 
-Template.bulletin.onCreated(function factoryOC(){
+Template.exchange.onCreated(function factoryOC(){
   this.howto = new ReactiveVar(false);
   });
 
-Template.bulletin.helpers({
+Template.exchange.helpers({
   howto:function(){
     return Template.instance().howto.get();
   }
 })
 
-Template.bulletin.events({
+Template.exchange.events({
 
-	'click button.bulletin': function (err, template) {
+	'click button.exchange': function (err, template) {
 	 var select = document.getElementById('startDate').value;
 		var contract_date = (new Date(select).getTime())/1000;
     if(isNaN(contract_date)){
     alert('Enter a valid date');
     }
   else{
-    document.getElementById("bulletinState").innerHTML ="loading...";
+    document.getElementById("exchangeState").innerHTML ="loading...";
 		var cState = document.getElementById('CState').value; 
 		var fContract = web3.eth.contract(fABI).at(factoryAddress);
 		var check = "<table><tr><th>State</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
@@ -1679,7 +1629,7 @@ Template.bulletin.events({
 				}
 			}
 			check += '</table>';
-			document.getElementById("bulletinState").innerHTML = check;
+			document.getElementById("exchangeState").innerHTML = check;
 		  })
     }
 	},
@@ -1730,121 +1680,9 @@ Template.bulletin.events({
   }
 });
 
-Template.Oracle.onCreated(function factoryOC(){
-	this.oraclevals = new ReactiveVar("");
-	this.existToken = new ReactiveVar("");
-  this.howto = new ReactiveVar(false);
-	});
-
-Template.Oracle.helpers({
-	oraclevals(){
-		return Template.instance().oraclevals.get();
-	},
-	existToken(){
-		return Template.instance().existToken.get();
-	},
-  howto:function(){
-    return Template.instance().howto.get();
-  }
-})
-Template.Oracle.events({
-	'click button.Oracle'(event,instance){
-		var datestr = document.getElementById("oDate").value;
-    var timestamp = (new Date(datestr).getTime())/1000;
-    if(isNaN(timestamp)){
-    alert('Enter a valid date');
-    }
-  else{
-  		
-
-  		var fContract = web4.eth.contract(fABI).at(factoryAddress);
-  		var oracleAddress = fContract.oracle_address.call();
-  		console.log(timestamp);
-  		console.log(oracleAddress);
-  		var oracleInstance = web4.eth.contract(oABI).at(oracleAddress);
-  		oracleInstance.RetrieveData(timestamp,function(error, result){
-  	    	if(!error) {
-  	       		instance.oraclevals.set(result/1000);
-  	    	} else {
-  	        	console.error(error);
-  	        	instance.oraclevals.set('undefined');
-  	    	}
-  		})
-    }
-	},
-  'click .H2_h': function(event,template) {
-    var holder = template.howto.get();
-    template.howto.set(!holder);
-  },
-	'click button.isToken'(event,instance){
-		var datestr = document.getElementById("oDate").value;
-    var timestamp = (new Date(datestr).getTime())/1000;
-    if(isNaN(timestamp)){
-    alert('Enter a valid date');
-    }
-     else{
-  		var changeIt = document.getElementById('TokenCreator');
-  		var fContract = web4.eth.contract(fABI).at(factoryAddress);
-  		var tokens = fContract.getTokens(timestamp);
-  		console.log(tokens[0]);
-  	    if(tokens[0] != "0x0000000000000000000000000000000000000000" && tokens[1] != "0x0000000000000000000000000000000000000000") {
-  	       		instance.existToken.set('True');
-  	    } else {
-  	        	instance.existToken.set("False, token must be created");
-  	        	changeIt.style.visibility = 'visible';
-  	    }
-    }
-	},
-    'click button.oraclePush'(event,instance){
-    var fContract = web4.eth.contract(fABI).at(factoryAddress);
-    var oracleAddress = fContract.oracle_address.call();
-    var oracleInstance = web3.eth.contract(oABI).at(oracleAddress);
-    oracleInstance.PushData(function(error, result){
-        if(error) {
-            console.error(error);
-        }
-    })
-  },
-  'click button.oracleFund'(event,instance){
-    var fContract = web4.eth.contract(fABI).at(factoryAddress);
-    var oracleAddress = fContract.oracle_address.call();
-    console.log(oracleAddress);
-    var oracleInstance = web3.eth.contract(oABI).at(oracleAddress);
-    oracleInstance.fund({value:web3.toWei(.01,'ether')},function(error, result){
-        if(error) {
-            console.error(error);        }
-    })
-  },
-		'click button.newTokens'(event,instance){
-		var datestr = document.getElementById("oDate").value;
-    var timestamp = (new Date(datestr).getTime())/1000;
-    if(isNaN(timestamp)){
-      alert('Enter a valid date');
-    }
-    else{
-  		console.log(datestr);
-  		var fContract = web3.eth.contract(fABI).at(factoryAddress);
-  		fContract.deployTokenContract(timestamp,true,{from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
-  	    	if(!error) {
-  	       		console.log(result);
-  	    	} else {
-  	        	console.error(error);
-  	    	}
-  		});
-  		fContract.deployTokenContract(timestamp,false,{from:web3.eth.accounts[0],value:0,gas: 4000000},function(error, result){
-  	    	if(!error) {
-  	       		console.log(result);
-  	    	} else {
-  	        	console.error(error);
-  	    	}
-  		});
-	 }
-  }
-
-});
 
 
-Template.mySwaps.onCreated(function factoryOC(){
+Template.portfolio.onCreated(function factoryOC(){
 	this.startvalue = new ReactiveVar("");
 	this.capmin = new ReactiveVar("");
 	this.capmax = new ReactiveVar("");
@@ -1853,7 +1691,7 @@ Template.mySwaps.onCreated(function factoryOC(){
   this.howto = new ReactiveVar(false);
 });
 
-Template.mySwaps.helpers({
+Template.portfolio.helpers({
 	startvalue(){
 		return Template.instance().startvalue.get();
 	},
@@ -1874,7 +1712,7 @@ Template.mySwaps.helpers({
   }
 })
 
-Template.mySwaps.events({
+Template.portfolio.events({
 	'click button.balances'(event,instance){
 		var select = document.getElementById('startDate').value;
 		var contract_date = (new Date(select).getTime())/1000;
@@ -1928,7 +1766,7 @@ Template.mySwaps.events({
     template.howto.set(!holder);
   },
 
-	'click button.MySwaps'(event,instance){
+	'click button.Portfolio'(event,instance){
 	document.getElementById("openswaplist").innerHTML = "loading...";
 	var fContract = web3.eth.contract(fABI).at(factoryAddress);
 	var check = "<table><tr><th>State</th><th>Start Date</th><th>Address</th><th>Token A Amount</th><th>Token B Amount</th><th>Premium</th><th>Long Party</th><th>ShortParty</th></tr>";
@@ -1995,7 +1833,7 @@ Template.mySwaps.events({
     }
   },
 });
-
+/*
 Template.cashout.onCreated(function cashoutOC(){
 	this.longbalance2= new ReactiveVar("");
 	this.shortbalance2= new ReactiveVar("");
@@ -2075,83 +1913,7 @@ Template.cashout.events({
 	}
 	},
 });
-
-
-Template.exit.onCreated(function factoryOC(){
-  this.howto = new ReactiveVar(false);
-  });
-
-Template.exit.helpers({
-  howto:function(){
-    return Template.instance().howto.get();
-  }
-})
-
-Template.exit.events({
-	'click button.exit':function (err, template) {
-		var x = document.getElementById("exit");
-		var s_address = x.elements[0].value;
-	console.log(s_address);
-  if(s_address.length < 42){
-    alert('Contract Address must be a valid address')
-  }
-  else{
-    	var sContract = web3.eth.contract(sABI).at(s_address);
-	    sContract.Exit({from:web3.eth.accounts[0],value: 0},function(error, result){
-	    if(!error) {
-	        console.log("#" + result + "#")
-	    } else {
-	        console.error(error);
-	    }
-	})
-    }
-},
-  'click .H2_h': function(event,template) {
-    var holder = template.howto.get();
-    template.howto.set(!holder);
-  },
-});
-
-Template.enter.onCreated(function factoryOC(){
-  this.howto = new ReactiveVar(false);
-  });
-
-Template.enter.helpers({
-  howto:function(){
-    return Template.instance().howto.get();
-  }
-})
-Template.enter.events({
-	'click button.enter':function (err, template) {
-		var x = document.getElementById("enter");
-		var amount_b =eval(web3.toWei(document.getElementById("amount_b").value, 'ether'));
-		var select = document.getElementById('isLong_b');
-	   	var isLong = eval(select.options[select.selectedIndex].value);
-		var s_address = "" + x.elements[0].value;
-  if(s_address.length < 42){
-    alert('Contract Address must be a valid address')
-  }
-  else{
-		console.log(amount_b,amount_b,isLong,s_address);
-		var fContract = web4.eth.contract(fABI).at(factoryAddress);
-		var usercontractAddress = fContract.user_contract.call();
-		console.log('UC',usercontractAddress);
-		var userContract = web3.eth.contract(userABI).at(usercontractAddress);
-	    userContract.Enter(amount_b,amount_b,isLong,s_address,{from:web3.eth.accounts[0],value:amount_b,gas: 4000000},function(error, result){
-	    if(!error) {
-	        console.log("#" + result + "#")
-	    } else {
-	        console.error(error);
-	    }
-	})
-    }
-},
-  'click .H2_h': function(event,template) {
-    var holder = template.howto.get();
-    template.howto.set(!holder);
-  }
-});
-
+*/
 $(document).ready(function(){
 $("#cdetails_h").click(function(){
     $("#cdetails_b").toggle();

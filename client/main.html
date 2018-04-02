@@ -1,4 +1,3 @@
-
 <head>
   <link rel="stylesheet" href="main.css"/>
  <link rel="icon" href="/favicon2.png?v=3">
@@ -6,11 +5,9 @@
 </head>
 
 <body>
-<div class="txtNew" style=" width: 100%; position: absolute; top: 50px;">
+<div style=" width: 100%; height:100%; position: absolute; top: 10px;">
 <h1 style="line-height:1em; text-align:center;">
-<img src="/favicon.png" alt="favicon" style="width:200px;height:200px;" align="center">
-<br>
-<br>
+<br><br>
 <span style="color:#064573;"><span style="font-family: open sans,sans-serif; font-size:38px;"> DECENTRALIZED DERIVATIVES ASSOCIATION
   <div style="padding:10px">
  
@@ -19,61 +16,18 @@
 
   <div id="inner">{{> radioform}}</div>
   </h1>
-
-<br>
-<br>
-<br>
-<br>
 <div class="mainpart">
-<h2 class="dapp-header" id="Title">One Week BTC/USD -  Standard DRCT Contracts
-</h2>
-  <p id="radioselection"></p>
-  {{#if showFactory}}
-  {{> factory}}
-  {{/if}}
-  {{#if showCashout}}
-    {{> cashout}}
-  {{/if}}
-  {{#if showEnter}}
-    {{> enter}}
-  {{/if}}
-  {{#if showBulletin}}
-    {{> bulletin}}
-  {{/if}}
-    {{#if showmySwaps}}
-    {{> mySwaps}}
-  {{/if}}
-    {{#if showExit}}
-    {{> exit}}
-    {{/if}}
-  {{#if showOracle}}
-    {{> Oracle}}
-  {{/if}}
-  <div id= "bottom_box"><div id="cdetails_h"><h2> + Contract Details:</h2></div>
-  <div id="cdetails_b" style="display:none">
-    <p>
-	<ul style="margin-top: 0;">
-	<li>1x exposure to underlying rate.</li>
-    <li>This contract starts at 00:00:00 GMT on Start Date.</li>
-    <li>Contract caps at 100% move (100% of collateral used up).</li>
-    <li>Contracts end the following week and can be paid out 24 hours after expiration (this is the time required for Oracle to update).</li> 
-    <li>Oracle is a publicly operated Oraclize API pull: Full details <a href="https://github.com/DecentralizedDerivatives/Public_Oracle">here.</a></li>
-    <li>There is a nominal contract fee of 0.5%.</li>
-    <li>1000 DRCT tokens per ETH.</li>
-	</ul>
-	</p>
-    </div>
-  </div>
-<div id= "bottom_box">
-  <div class = "bottom_box" id = "Protips_h"><h2> +   Pro tips:</h2></div>
-    <div id = "Protips_b" style="display:none">
-      <p> --Check Open contracts (maybe you can match someone and get paid for it!)
-    <br> --Check Open contracts to determine if, and how much, of a premium will assist soliciting a contract.
-    <br> --If no one enters your contract or you want to exit before someone does, be sure to click exit and cash out your tokens.
-  </p>
-</div>
-</div>
-{{> connection}}
+<br> 
+
+<p id="radioselection"></p>
+  {{#if showFactory}}   {{> factory}}  {{/if}}
+  {{#if showAbout}}   {{> about}}  {{/if}}
+  {{#if showExchange}}  {{> exchange}} {{/if}}
+  {{#if showPortfolio}}   {{> portfolio}}  {{/if}}
+
+<div id="bottomcontainer">
+
+  {{> connection}}
  <div id= "bottom_box2" style="text-align:right"><div id="disclaimer_h">
     <h4> + Disclaimer:</h4></div>
     <div id="disclaimer_b" style="display:none;text-align:left">
@@ -83,13 +37,15 @@
     </div>
   </div>
 </div>
-<footer style="padding:0px; background-color:rgba(6, 69, 115, 1); text-align:right;">
+</div>
+<div class="footer">
+      <img src="/favicon.png" alt="favicon" style="width:100px;"  align="left">
  <div id="foot"><br>
     <p><a href="https://www.decentralizedderivatives.org" id="foot">www.decentralizedderivatives.org</a></p>
     <p><a href="mailto:info@decentralizedderivatives.org" id="foot">info@decentralizedderivatives.org</a></p>
   <br>
 </div>
-</footer>
+</div>
 
 </div>
 
@@ -100,11 +56,11 @@
 <template name="radioform">
   <div style="width:100%; text-align: center;">
 <div class="centered">
-<button class="radiomySwaps" id='main' >MY PORTFOLIO</button>
-<button class="radioBulletin" id='main'>EXCHANGE</button>
+<button class="radioPortfolio" id='main' >MY PORTFOLIO</button>
+<button class="radioExchange" id='main'>EXCHANGE</button>
 
 <button class="radioFactory" id="main">CREATE CONTRACT</button>
-<button class="radioEnter" id='main' style = "border-right:none" >HOW TO</button>
+<button class="radioAbout" id='main' style = "border-right:none" >HOW TO</button>
 </div>
 </div>
 </template>
@@ -155,53 +111,17 @@
 </div>
 </template>
 
-<template name ="bulletin">
+<template name ="exchange">
 
-    <h4>Start Date:  <input type="date" id="startDate"></h4>
-    <h4> Contract State:
-      <select id="CState">
-      <option value="1">Open</option>
-      <option value="0">Created</option>
-       <option value="2">Entered</option>
-        <option value="3">Tokenized</option>
-         <option value="4">Paid</option>
-    </select>
-  </h4>
-    <button class="bulletin" id="button_bottom">List Opens</button>
-    <button class="openDates" id="button_bottom">List Open Dates</button>
-    <br>
-    <p id="openDateList"></p>
-    <br>
-    <p id="bulletinState">-----</p>
-    <br>
-          <br>
-      <br>
-  <div id= "bottom_box"><div class="H2_h"><h2> + How to Use:</h2></div>
-   {{#if howto}}<p>--Click List Open Dates, to see a summary of all contracts that are currently open (settled in the future).
-    <br>-- To list specific open contract details:
-    <br>----Pick a contract start date (one from the open date list).
-    <br>----Pick a contract state (Open is one side entered, Created is pre-funds being sent, Entered is two sides, Tokenized means that tokens are created and then Paid is closed (these will be expired contracts)).
-    <br>--Click 'List Opens.'
-</p>
-{{/if}}
+  <div id= "bottom_box"><div class="H2_h"><h2>Place holder for exchange contract</h2></div>
 </div>
 </template>
 
 
 
-<template name="cashout">
+<template name="about">
 
-    <button class="balances" id="button_bottom">Get Balances</button>
-    <br><br>
-    <div id='Balances' style = "visibility: hidden">
-      <p><h5>Balance Base 1 Token:</h5>  <i> {{longbalance2}} </i></p>
-      <p><h5>Balance Base 2 Token:</h5>  <i> {{shortbalance2}} </i></p>
-    </div>
-    <button class="cashout" id="button_bottom">Cash Out</button>
-    <br>
-          <br>
-      <br>
-  <div id= "bottom_box"><div class="H2_h"><h2> + How to Use:</h2></div>
+  <div id= "bottom_box"><div class="H2_h"><h2>Place holder for about (how to use)</h2></div>
   {{#if howto}}<p>--Click 'Get Balances' to see how many wrapped Ether you have to cash out.
     <br>-- Once you click 'Cash Out', you will have to withdraw two separate wrapped Ethers (two MetaMask calls) if positive balances.
 </p>
@@ -211,8 +131,23 @@
 
 
 
-<template name ="mySwaps">
+<template name ="portfolio">
+<div>
+  <h2>My Portfolio</h2>
+  <div class="container">
+    <div class="flex-item">
+      <h3 style="border-bottom: 2px solid rgba(61, 155, 233, 1)">Open Postions</h3>
+      <p id="openswaplist"> </p>
+    </div>
+    <div style="width:5%;"></div>
+    <div class="flex-item">
+      <h3 style="border-bottom: 2px solid rgba(61, 155, 233, 1)">Transactions</h3>
+    </div>
+  </div>
 
+
+</div>
+<!--
  <h4>Start Date:  <input type="date" id="startDate"></h4>
     <div id='CapValues'>
       <p>Cap Values are +/- 100% of the starting value.</p>
@@ -237,18 +172,18 @@
         </form>
     <button class="sendToken" id="button_bottom">Send Token</button>
   </div>
-    <button class="MySwaps" id="button_bottom"> Show My Contracts </button>
+    <button class="Portfolio" id="button_bottom"> Show My Contracts </button>
     <br><br><p id="openswaplist"> </p>
     <br>
           <br>
       <br>
   <div id= "bottom_box"><div class="H2_h"><h2> + How to Use:</h2></div> {{#if howto}} 
-   <p>--To see the amount of long or short token's you have for a given start date (along with the start Oracle value and cap values), click 'Get Open Token Balances.'
-    <br>-- To send a long or short token, enter the reciever address and the amount and then click 'Send Token.'
-    <br>--To see all positions from your address, click 'Show My Contracts.'
+   <p>To see the amount of long or short token's you have for a given start date (along with the start Oracle value and cap values), click 'Get Open Token Balances.'
+    <br> To send a long or short token, enter the reciever address and the amount and then click 'Send Token.'
+    <br>To see all positions from your address, click 'Show My Contracts.'
 </p>
 {{/if}}
-</div>
+</div>-->
 </template>
 
 

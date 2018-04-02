@@ -1,4 +1,15 @@
 /* CSS declarations go here */
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
+}
+
 #main {
     width: 130px;
     height: 40px;
@@ -20,10 +31,23 @@
     font-weight: bold;
 }
 
+#bottomcontainer {
+    position: absolute;
+    bottom:140px;
+    width:90%;
+    right:50px;
+    text-align:left;
+
+}
+
 .mainpart{
     margin: auto;
     width: 85%;
     padding: 10px;
+}
+.fullstyle{
+    min-height:100%;
+   position:relative;
 }
 
 .centered{
@@ -135,4 +159,22 @@ button:active {
     font-size:14px;
     font-family:open sans,sans-serif;
 
+
+}
+.footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   padding:0px;bottom:0%; background-color:rgba(6, 69, 115, 1); text-align:right;
+}
+
+.container{
+    display:flex;
+    padding: 10px;
+}
+
+.flex-item{
+    flex-grow: 1;
+    padding: 10px;
+    display: inline-block;
 }
