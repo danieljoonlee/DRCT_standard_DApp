@@ -1,6 +1,13 @@
 //$ SET DEPLOY_HOSTNAME=galaxy.meteor.com
 //$ meteor deploy drct.meteorapp.com --settings settings.json
 
+
+
+/*For future
+Pull ABI from contract (deployed link?)
+Save state and block number from last time queried for each user in database (just pull logs from here)
+Have events work on contract creation?
+*/
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
@@ -10,20 +17,6 @@ import './Lib/lib.js';
 //You can minimize the ABI's for easier reading...
 var fABI =[
     {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_tdeployer",
-          "type": "address"
-        }
-      ],
-      "name": "settokenDeployer",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "constant": true,
       "inputs": [],
       "name": "duration",
@@ -31,48 +24,6 @@ var fABI =[
         {
           "name": "",
           "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_new_owner",
-          "type": "address"
-        }
-      ],
-      "name": "setOwner",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "token_ratio1",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "token_a",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
         }
       ],
       "payable": false,
@@ -94,25 +45,6 @@ var fABI =[
       "type": "function"
     },
     {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_start_date",
-          "type": "uint256"
-        }
-      ],
-      "name": "deployContract",
-      "outputs": [
-        {
-          "name": "created",
-          "type": "address"
-        }
-      ],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
       "constant": true,
       "inputs": [
         {
@@ -125,20 +57,6 @@ var fABI =[
         {
           "name": "",
           "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "token_ratio2",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
         }
       ],
       "payable": false,
@@ -165,29 +83,6 @@ var fABI =[
       "type": "function"
     },
     {
-      "constant": false,
-      "inputs": [],
-      "name": "withdrawFees",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_new_oracle_address",
-          "type": "address"
-        }
-      ],
-      "name": "setOracleAddress",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "constant": true,
       "inputs": [
         {
@@ -207,17 +102,17 @@ var fABI =[
       "type": "function"
     },
     {
-      "constant": false,
-      "inputs": [
+      "constant": true,
+      "inputs": [],
+      "name": "token_ratio",
+      "outputs": [
         {
-          "name": "_fee",
+          "name": "",
           "type": "uint256"
         }
       ],
-      "name": "setFee",
-      "outputs": [],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -232,41 +127,6 @@ var fABI =[
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_supply",
-          "type": "uint256"
-        },
-        {
-          "name": "_party",
-          "type": "address"
-        },
-        {
-          "name": "_long",
-          "type": "bool"
-        },
-        {
-          "name": "_start_date",
-          "type": "uint256"
-        }
-      ],
-      "name": "createToken",
-      "outputs": [
-        {
-          "name": "created",
-          "type": "address"
-        },
-        {
-          "name": "token_ratio",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -286,150 +146,10 @@ var fABI =[
     {
       "constant": true,
       "inputs": [],
-      "name": "getVariables",
-      "outputs": [
-        {
-          "name": "oracle_addr",
-          "type": "address"
-        },
-        {
-          "name": "operator",
-          "type": "address"
-        },
-        {
-          "name": "swap_duration",
-          "type": "uint256"
-        },
-        {
-          "name": "swap_multiplier",
-          "type": "uint256"
-        },
-        {
-          "name": "token_a_addr",
-          "type": "address"
-        },
-        {
-          "name": "token_b_addr",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_deployer",
-          "type": "address"
-        }
-      ],
-      "name": "setDeployer",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_userContract",
-          "type": "address"
-        }
-      ],
-      "name": "setUserContract",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getCount",
-      "outputs": [
-        {
-          "name": "count",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_start_date",
-          "type": "uint256"
-        },
-        {
-          "name": "_long",
-          "type": "bool"
-        }
-      ],
-      "name": "deployTokenContract",
-      "outputs": [
-        {
-          "name": "_token",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getBase",
-      "outputs": [
-        {
-          "name": "_base1",
-          "type": "address"
-        },
-        {
-          "name": "base2",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
       "name": "user_contract",
       "outputs": [
         {
           "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "_date",
-          "type": "uint256"
-        }
-      ],
-      "name": "getTokens",
-      "outputs": [
-        {
-          "name": "_ltoken",
-          "type": "address"
-        },
-        {
-          "name": "_stoken",
           "type": "address"
         }
       ],
@@ -473,7 +193,128 @@ var fABI =[
     {
       "constant": true,
       "inputs": [],
-      "name": "token_b",
+      "name": "token",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "_created",
+          "type": "address"
+        }
+      ],
+      "name": "ContractCreation",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_date",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "setFee",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_deployer",
+          "type": "address"
+        }
+      ],
+      "name": "setDeployer",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_tdeployer",
+          "type": "address"
+        }
+      ],
+      "name": "settokenDeployer",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_userContract",
+          "type": "address"
+        }
+      ],
+      "name": "setUserContract",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getBase",
       "outputs": [
         {
           "name": "",
@@ -488,18 +329,185 @@ var fABI =[
       "constant": false,
       "inputs": [
         {
-          "name": "_token_a",
-          "type": "address"
+          "name": "_token_ratio",
+          "type": "uint256"
         },
         {
-          "name": "_token_b",
-          "type": "address"
+          "name": "_duration",
+          "type": "uint256"
+        },
+        {
+          "name": "_multiplier",
+          "type": "uint256"
         }
       ],
-      "name": "setBaseTokens",
+      "name": "setVariables",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "setBaseToken",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_start_date",
+          "type": "uint256"
+        }
+      ],
+      "name": "deployContract",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_start_date",
+          "type": "uint256"
+        },
+        {
+          "name": "_long",
+          "type": "bool"
+        }
+      ],
+      "name": "deployTokenContract",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_supply",
+          "type": "uint256"
+        },
+        {
+          "name": "_party",
+          "type": "address"
+        },
+        {
+          "name": "_start_date",
+          "type": "uint256"
+        }
+      ],
+      "name": "createToken",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_new_oracle_address",
+          "type": "address"
+        }
+      ],
+      "name": "setOracleAddress",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_new_owner",
+          "type": "address"
+        }
+      ],
+      "name": "setOwner",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "withdrawFees",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getVariables",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -521,53 +529,18 @@ var fABI =[
       "type": "function"
     },
     {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_token_ratio1",
-          "type": "uint256"
-        },
-        {
-          "name": "_token_ratio2",
-          "type": "uint256"
-        },
-        {
-          "name": "_duration",
-          "type": "uint256"
-        },
-        {
-          "name": "_multiplier",
-          "type": "uint256"
-        }
-      ],
-      "name": "setVariables",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
+      "constant": true,
       "inputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
+      "name": "getCount",
+      "outputs": [
         {
-          "indexed": false,
-          "name": "_sender",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "name": "_created",
-          "type": "address"
+          "name": "",
+          "type": "uint256"
         }
       ],
-      "name": "ContractCreation",
-      "type": "event"
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
     }
   ]
 var oABI =[
@@ -591,12 +564,79 @@ var oABI =[
       "type": "function"
     },
     {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "oracle_values",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "_key",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "DocumentStored",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "description",
+          "type": "string"
+        }
+      ],
+      "name": "newOraclizeQuery",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_date",
+          "type": "uint256"
+        }
+      ],
+      "name": "RetrieveData",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "constant": false,
       "inputs": [],
-      "name": "PushData",
+      "name": "pushData",
       "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
+      "payable": true,
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -640,41 +680,12 @@ var oABI =[
       "type": "function"
     },
     {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "_date",
-          "type": "uint256"
-        }
-      ],
-      "name": "RetrieveData",
-      "outputs": [
-        {
-          "name": "data",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "oracle_values",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
+      "constant": false,
+      "inputs": [],
+      "name": "fund",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -688,51 +699,13 @@ var oABI =[
       "name": "getQuery",
       "outputs": [
         {
-          "name": "_isValue",
+          "name": "",
           "type": "bool"
         }
       ],
       "payable": false,
       "stateMutability": "view",
       "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "fund",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "_key",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "name": "_value",
-          "type": "uint256"
-        }
-      ],
-      "name": "DocumentStored",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "description",
-          "type": "string"
-        }
-      ],
-      "name": "newOraclizeQuery",
-      "type": "event"
     }
   ]
 var weABI =[
@@ -751,150 +724,12 @@ var weABI =[
       "type": "function"
     },
     {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_spender",
-          "type": "address"
-        },
-        {
-          "name": "_amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "approve",
-      "outputs": [
-        {
-          "name": "success",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_from",
-          "type": "address"
-        },
-        {
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "name": "_amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "transferFrom",
-      "outputs": [
-        {
-          "name": "success",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_value",
-          "type": "uint256"
-        }
-      ],
-      "name": "withdraw",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "constant": true,
       "inputs": [],
       "name": "total_supply",
       "outputs": [
         {
           "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "_owner",
-          "type": "address"
-        }
-      ],
-      "name": "balanceOf",
-      "outputs": [
-        {
-          "name": "bal",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "CreateToken",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "name": "_amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "transfer",
-      "outputs": [
-        {
-          "name": "success",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "_owner",
-          "type": "address"
-        },
-        {
-          "name": "_spender",
-          "type": "address"
-        }
-      ],
-      "name": "allowance",
-      "outputs": [
-        {
-          "name": "remaining",
           "type": "uint256"
         }
       ],
@@ -962,40 +797,12 @@ var weABI =[
       ],
       "name": "StateChanged",
       "type": "event"
-    }
-  ]
-var userABI = [
+    },
     {
       "constant": false,
-      "inputs": [
-        {
-          "name": "_swapadd",
-          "type": "address"
-        },
-        {
-          "name": "_amounta",
-          "type": "uint256"
-        },
-        {
-          "name": "_amountb",
-          "type": "uint256"
-        },
-        {
-          "name": "_premium",
-          "type": "uint256"
-        },
-        {
-          "name": "_isLong",
-          "type": "bool"
-        }
-      ],
-      "name": "Initiate",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
+      "inputs": [],
+      "name": "CreateToken",
+      "outputs": [],
       "payable": true,
       "stateMutability": "payable",
       "type": "function"
@@ -1004,47 +811,133 @@ var userABI = [
       "constant": false,
       "inputs": [
         {
-          "name": "_amounta",
+          "name": "_value",
           "type": "uint256"
-        },
-        {
-          "name": "_amountb",
-          "type": "uint256"
-        },
-        {
-          "name": "_isLong",
-          "type": "bool"
-        },
-        {
-          "name": "_swapadd",
-          "type": "address"
         }
       ],
-      "name": "Enter",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_factory_address",
-          "type": "address"
-        }
-      ],
-      "name": "setFactory",
+      "name": "withdraw",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "function"
     },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "name": "bal",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_spender",
+          "type": "address"
+        },
+        {
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "name": "_spender",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+var userABI = [
     {
       "constant": true,
       "inputs": [],
@@ -1064,13 +957,45 @@ var userABI = [
       "payable": false,
       "stateMutability": "nonpayable",
       "type": "constructor"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_swapadd",
+          "type": "address"
+        },
+        {
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Initiate",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_factory_address",
+          "type": "address"
+        }
+      ],
+      "name": "setFactory",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
   ]
 var sABI = [
     {
       "constant": true,
       "inputs": [],
-      "name": "token_a_amount",
+      "name": "token_amount",
       "outputs": [
         {
           "name": "",
@@ -1079,32 +1004,6 @@ var sABI = [
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_amount_a",
-          "type": "uint256"
-        },
-        {
-          "name": "_amount_b",
-          "type": "uint256"
-        },
-        {
-          "name": "_sender_is_long",
-          "type": "bool"
-        },
-        {
-          "name": "_senderAdd",
-          "type": "address"
-        }
-      ],
-      "name": "EnterSwap",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -1122,158 +1021,6 @@ var sABI = [
       "type": "function"
     },
     {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_amount_a",
-          "type": "uint256"
-        },
-        {
-          "name": "_amount_b",
-          "type": "uint256"
-        },
-        {
-          "name": "_sender_is_long",
-          "type": "bool"
-        },
-        {
-          "name": "_senderAdd",
-          "type": "address"
-        }
-      ],
-      "name": "CreateSwap",
-      "outputs": [],
-      "payable": true,
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "short_party",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_begin",
-          "type": "uint256"
-        },
-        {
-          "name": "_end",
-          "type": "uint256"
-        }
-      ],
-      "name": "forcePay",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "showPrivateVars",
-      "outputs": [
-        {
-          "name": "_userContract",
-          "type": "address"
-        },
-        {
-          "name": "num_DRCT_long",
-          "type": "uint256"
-        },
-        {
-          "name": "numb_DRCT_short",
-          "type": "uint256"
-        },
-        {
-          "name": "swap_share_long",
-          "type": "uint256"
-        },
-        {
-          "name": "swap_share_short",
-          "type": "uint256"
-        },
-        {
-          "name": "long_token_addr",
-          "type": "address"
-        },
-        {
-          "name": "short_token_addr",
-          "type": "address"
-        },
-        {
-          "name": "oracle_addr",
-          "type": "address"
-        },
-        {
-          "name": "token_a_addr",
-          "type": "address"
-        },
-        {
-          "name": "token_b_addr",
-          "type": "address"
-        },
-        {
-          "name": "swap_multiplier",
-          "type": "uint256"
-        },
-        {
-          "name": "swap_duration",
-          "type": "uint256"
-        },
-        {
-          "name": "swap_start_date",
-          "type": "uint256"
-        },
-        {
-          "name": "swap_end_date",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "long_party",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "createTokens",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "constant": true,
       "inputs": [],
       "name": "factory_address",
@@ -1281,43 +1028,6 @@ var sABI = [
         {
           "name": "",
           "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "Exit",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "premium",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "token_b_amount",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
         }
       ],
       "payable": false,
@@ -1352,12 +1062,7 @@ var sABI = [
       "inputs": [
         {
           "indexed": false,
-          "name": "_token_a",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "name": "_token_b",
+          "name": "_token_address",
           "type": "address"
         },
         {
@@ -1372,8 +1077,8 @@ var sABI = [
         },
         {
           "indexed": false,
-          "name": "_creating_party",
-          "type": "address"
+          "name": "_token_amount",
+          "type": "uint256"
         }
       ],
       "name": "SwapCreation",
@@ -1384,21 +1089,112 @@ var sABI = [
       "inputs": [
         {
           "indexed": false,
-          "name": "_long_token",
-          "type": "address"
+          "name": "pay_to_long",
+          "type": "uint256"
         },
         {
           "indexed": false,
-          "name": "_short_token",
-          "type": "address"
+          "name": "pay_to_short",
+          "type": "uint256"
         }
       ],
       "name": "PaidOut",
       "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "showPrivateVars",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "name": "_senderAdd",
+          "type": "address"
+        }
+      ],
+      "name": "CreateSwap",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_begin",
+          "type": "uint256"
+        },
+        {
+          "name": "_end",
+          "type": "uint256"
+        }
+      ],
+      "name": "forcePay",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
   ]
 
-var factoryAddress ="0xaf7d69fc8a14eb37ae07ddef4b209d157cbe4738";
+var factoryAddress ="0x420b54282ae202bdfc45d53d15b5656f6d260e19";
 
 Session.set('showPortfolio', true);  
 
