@@ -1,0 +1,336 @@
+{
+  "contractName": "Oracle_Interface",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_date",
+          "type": "uint256"
+        }
+      ],
+      "name": "getQuery",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_date",
+          "type": "uint256"
+        }
+      ],
+      "name": "RetrieveData",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "pushData",
+      "outputs": [],
+      "payable": true,
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.17;\r\n\r\n//Swap Oracle functions - descriptions can be found in Oracle.sol\r\ninterface Oracle_Interface{\r\n  function getQuery(uint _date) public view returns(bool);\r\n  function RetrieveData(uint _date) public view returns (uint);\r\n  function pushData() public payable;\r\n}\r\n",
+  "sourcePath": "C:\\company\\code\\drct_standard\\contracts\\interfaces\\Oracle_Interface.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/company/code/drct_standard/contracts/interfaces/Oracle_Interface.sol",
+      "exportedSymbols": {
+        "Oracle_Interface": [
+          4069
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".17"
+          ]
+        },
+        "id": 4051,
+        "name": "PragmaDirective",
+        "src": "0:24:15"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "interface",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            4069
+          ],
+          "name": "Oracle_Interface",
+          "scope": 4070
+        },
+        "children": [
+          {
+            "attributes": {
+              "body": null,
+              "constant": true,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getQuery",
+              "payable": false,
+              "scope": 4069,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_date",
+                      "scope": 4058,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 4052,
+                        "name": "ElementaryTypeName",
+                        "src": "144:4:15"
+                      }
+                    ],
+                    "id": 4053,
+                    "name": "VariableDeclaration",
+                    "src": "144:10:15"
+                  }
+                ],
+                "id": 4054,
+                "name": "ParameterList",
+                "src": "143:12:15"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 4058,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 4055,
+                        "name": "ElementaryTypeName",
+                        "src": "176:4:15"
+                      }
+                    ],
+                    "id": 4056,
+                    "name": "VariableDeclaration",
+                    "src": "176:4:15"
+                  }
+                ],
+                "id": 4057,
+                "name": "ParameterList",
+                "src": "175:6:15"
+              }
+            ],
+            "id": 4058,
+            "name": "FunctionDefinition",
+            "src": "126:56:15"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": true,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "RetrieveData",
+              "payable": false,
+              "scope": 4069,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_date",
+                      "scope": 4065,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 4059,
+                        "name": "ElementaryTypeName",
+                        "src": "208:4:15"
+                      }
+                    ],
+                    "id": 4060,
+                    "name": "VariableDeclaration",
+                    "src": "208:10:15"
+                  }
+                ],
+                "id": 4061,
+                "name": "ParameterList",
+                "src": "207:12:15"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 4065,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 4062,
+                        "name": "ElementaryTypeName",
+                        "src": "241:4:15"
+                      }
+                    ],
+                    "id": 4063,
+                    "name": "VariableDeclaration",
+                    "src": "241:4:15"
+                  }
+                ],
+                "id": 4064,
+                "name": "ParameterList",
+                "src": "240:6:15"
+              }
+            ],
+            "id": 4065,
+            "name": "FunctionDefinition",
+            "src": "186:61:15"
+          },
+          {
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "pushData",
+              "payable": true,
+              "scope": 4069,
+              "stateMutability": "payable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 4066,
+                "name": "ParameterList",
+                "src": "268:2:15"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 4067,
+                "name": "ParameterList",
+                "src": "285:0:15"
+              }
+            ],
+            "id": 4068,
+            "name": "FunctionDefinition",
+            "src": "251:35:15"
+          }
+        ],
+        "id": 4069,
+        "name": "ContractDefinition",
+        "src": "95:194:15"
+      }
+    ],
+    "id": 4070,
+    "name": "SourceUnit",
+    "src": "0:291:15"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.19+commit.c4cbbb05.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-04-03T18:51:52.969Z"
+}
