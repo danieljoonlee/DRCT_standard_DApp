@@ -78,6 +78,10 @@ export default class Portfolio extends React.Component {
 	 })
 	}
 
+  //This code is for when a party clicks on a position, they can get the details in a popup
+      getDetails(){
+  }
+
   render() {
     return (
       <div dangerouslySetInnerHTML={{__html: this.state.openswaplist}}></div>

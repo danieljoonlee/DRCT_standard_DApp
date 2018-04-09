@@ -3,7 +3,7 @@
     // Use Mist/MetaMask's provider
     web3 = new Web3(web3.currentProvider);
   } else {
-    alert('No web3? You should consider trying MetaMask! - www.metamask.io')
+    //alert('No web3? You should consider trying MetaMask! - www.metamask.io')
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
     web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
   }
@@ -16,13 +16,13 @@ web3.version.getNetwork((err, netId) => {
       break
     case "2":
       console.log('This is the deprecated Morden test network.');
-         alert('Please connect to the Main Ethereum network via MetaMask');
+         //alert('Please connect to the Main Ethereum network via MetaMask');
       break
     case "3":
       console.log('This is the ropsten test network.')
       break
     default:
-         alert('Please connect to the Main Ethereum network via MetaMask');
+         //alert('Please connect to the Main Ethereum network via MetaMask');
       console.log('This is an unknown network.')
   }
 })

@@ -15,11 +15,9 @@ import './main.html';
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { render } from 'react-dom';
-import Portfolio from '../imports/Portfolio.js';
 import Transactions from '../imports/Transactions.js';
 
 Meteor.startup(() => {
-  render(<Portfolio />, document.getElementById('openswaplist'));
   render(<Transactions/>,document.getElementById('transactionlist'));
 });
 
