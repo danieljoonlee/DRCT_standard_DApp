@@ -178,3 +178,11 @@ button:active {
     padding: 10px;
     display: inline-block;
 }
+
+.ReactModal__Overlay {
+    z-index: 1000;
+}
+
+.react_div{
+    height: 80%;
+}

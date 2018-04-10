@@ -390,7 +390,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 4253,
+          "SourceUnit": 4351,
           "absolutePath": "/C/company/code/drct_standard/contracts/libraries/SafeMath.sol",
           "file": "./libraries/SafeMath.sol",
           "scope": 981,
@@ -427,7 +427,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "SafeMath",
-                  "referencedDeclaration": 4252,
+                  "referencedDeclaration": 4350,
                   "type": "library SafeMath"
                 },
                 "id": 3,
@@ -1233,7 +1233,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 10015,
+                              "referencedDeclaration": 10113,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -1274,7 +1274,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 10012,
+                                      "referencedDeclaration": 10110,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -1646,7 +1646,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 4234,
+                                  "referencedDeclaration": 4332,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -1782,7 +1782,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 4234,
+                                  "referencedDeclaration": 4332,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -3327,7 +3327,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "sub",
-                                  "referencedDeclaration": 4210,
+                                  "referencedDeclaration": 4308,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -3463,7 +3463,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "sub",
-                                  "referencedDeclaration": 4210,
+                                  "referencedDeclaration": 4308,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -4046,7 +4046,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "sub",
-                              "referencedDeclaration": 4210,
+                              "referencedDeclaration": 4308,
                               "type": "function (uint256,uint256) pure returns (uint256)"
                             },
                             "children": [
@@ -4917,7 +4917,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "sub",
-                                  "referencedDeclaration": 4210,
+                                  "referencedDeclaration": 4308,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -5297,7 +5297,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "sub",
-                                  "referencedDeclaration": 4210,
+                                  "referencedDeclaration": 4308,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -5973,7 +5973,7 @@
                                                   "isPure": false,
                                                   "lValueRequested": false,
                                                   "member_name": "sub",
-                                                  "referencedDeclaration": 4210,
+                                                  "referencedDeclaration": 4308,
                                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                                 },
                                                 "children": [
@@ -6639,7 +6639,7 @@
                                                           "isPure": false,
                                                           "lValueRequested": false,
                                                           "member_name": "add",
-                                                          "referencedDeclaration": 4234,
+                                                          "referencedDeclaration": 4332,
                                                           "type": "function (uint256,uint256) pure returns (uint256)"
                                                         },
                                                         "children": [
@@ -8535,7 +8535,7 @@
                                                           "isPure": false,
                                                           "lValueRequested": false,
                                                           "member_name": "add",
-                                                          "referencedDeclaration": 4234,
+                                                          "referencedDeclaration": 4332,
                                                           "type": "function (uint256,uint256) pure returns (uint256)"
                                                         },
                                                         "children": [
@@ -9845,7 +9845,7 @@
                                                   "isPure": false,
                                                   "lValueRequested": false,
                                                   "member_name": "sub",
-                                                  "referencedDeclaration": 4210,
+                                                  "referencedDeclaration": 4308,
                                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                                 },
                                                 "children": [
@@ -10221,7 +10221,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 10012,
+                                  "referencedDeclaration": 10110,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -10341,7 +10341,7 @@
                                               "overloadedDeclarations": [
                                                 null
                                               ],
-                                              "referencedDeclaration": 10012,
+                                              "referencedDeclaration": 10110,
                                               "type": "msg",
                                               "value": "msg"
                                             },
@@ -10657,7 +10657,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 10012,
+                                  "referencedDeclaration": 10110,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -10763,7 +10763,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 10012,
+                                      "referencedDeclaration": 10110,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -10809,7 +10809,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "sub",
-                                  "referencedDeclaration": 4210,
+                                  "referencedDeclaration": 4308,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -10855,7 +10855,7 @@
                                               "overloadedDeclarations": [
                                                 null
                                               ],
-                                              "referencedDeclaration": 10012,
+                                              "referencedDeclaration": 10110,
                                               "type": "msg",
                                               "value": "msg"
                                             },
@@ -10991,7 +10991,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 4234,
+                                  "referencedDeclaration": 4332,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -11134,7 +11134,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 10012,
+                                  "referencedDeclaration": 10110,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -11543,7 +11543,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 10012,
+                                  "referencedDeclaration": 10110,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -12148,7 +12148,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "sub",
-                                  "referencedDeclaration": 4210,
+                                  "referencedDeclaration": 4308,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -12313,7 +12313,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 4234,
+                                  "referencedDeclaration": 4332,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -12478,7 +12478,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 10012,
+                                      "referencedDeclaration": 10110,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -12524,7 +12524,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "sub",
-                                  "referencedDeclaration": 4210,
+                                  "referencedDeclaration": 4308,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -12599,7 +12599,7 @@
                                               "overloadedDeclarations": [
                                                 null
                                               ],
-                                              "referencedDeclaration": 10012,
+                                              "referencedDeclaration": 10110,
                                               "type": "msg",
                                               "value": "msg"
                                             },
@@ -12959,7 +12959,7 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 10012,
+                                          "referencedDeclaration": 10110,
                                           "type": "msg",
                                           "value": "msg"
                                         },
@@ -13082,7 +13082,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 10012,
+                                  "referencedDeclaration": 10110,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -14192,5 +14192,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-04-08T18:29:13.464Z"
+  "updatedAt": "2018-04-10T18:30:00.725Z"
 }

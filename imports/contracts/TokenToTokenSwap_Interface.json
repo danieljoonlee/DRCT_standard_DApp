@@ -31,7 +31,7 @@
       "absolutePath": "/C/company/code/drct_standard/contracts/interfaces/TokenToTokenSwap_Interface.sol",
       "exportedSymbols": {
         "TokenToTokenSwap_Interface": [
-          4079
+          4177
         ]
       }
     },
@@ -45,7 +45,7 @@
             ".17"
           ]
         },
-        "id": 4071,
+        "id": 4169,
         "name": "PragmaDirective",
         "src": "0:24:16"
       },
@@ -61,10 +61,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            4079
+            4177
           ],
           "name": "TokenToTokenSwap_Interface",
-          "scope": 4080
+          "scope": 4178
         },
         "children": [
           {
@@ -78,7 +78,7 @@
               ],
               "name": "CreateSwap",
               "payable": false,
-              "scope": 4079,
+              "scope": 4177,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -90,7 +90,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_amount",
-                      "scope": 4078,
+                      "scope": 4176,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -103,12 +103,12 @@
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 4072,
+                        "id": 4170,
                         "name": "ElementaryTypeName",
                         "src": "159:4:16"
                       }
                     ],
-                    "id": 4073,
+                    "id": 4171,
                     "name": "VariableDeclaration",
                     "src": "159:12:16"
                   },
@@ -116,7 +116,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_senderAdd",
-                      "scope": 4078,
+                      "scope": 4176,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -129,17 +129,17 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 4074,
+                        "id": 4172,
                         "name": "ElementaryTypeName",
                         "src": "173:7:16"
                       }
                     ],
-                    "id": 4075,
+                    "id": 4173,
                     "name": "VariableDeclaration",
                     "src": "173:18:16"
                   }
                 ],
-                "id": 4076,
+                "id": 4174,
                 "name": "ParameterList",
                 "src": "158:34:16"
               },
@@ -150,22 +150,22 @@
                   ]
                 },
                 "children": [],
-                "id": 4077,
+                "id": 4175,
                 "name": "ParameterList",
                 "src": "199:0:16"
               }
             ],
-            "id": 4078,
+            "id": 4176,
             "name": "FunctionDefinition",
             "src": "139:61:16"
           }
         ],
-        "id": 4079,
+        "id": 4177,
         "name": "ContractDefinition",
         "src": "97:106:16"
       }
     ],
-    "id": 4080,
+    "id": 4178,
     "name": "SourceUnit",
     "src": "0:205:16"
   },
@@ -175,5 +175,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-04-08T18:29:13.477Z"
+  "updatedAt": "2018-04-10T18:30:00.739Z"
 }
