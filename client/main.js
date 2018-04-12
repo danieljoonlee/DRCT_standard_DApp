@@ -16,9 +16,11 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { render } from 'react-dom';
 import Transactions from '../imports/Transactions.js';
+import Exchange from '../imports/Exchange.js';
 
 Meteor.startup(() => {
-  render(<Transactions/>,document.getElementById('transactionlist'));
+  //render(<Transactions/>,document.getElementById('transactionlist'));
+  render(<Exchange/>,document.getElementById('exchange'));
 });
 
 Session.set('showPortfolio', true);  
