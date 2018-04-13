@@ -108,7 +108,6 @@ export default class Transactions extends React.Component {
     var o_prices = [];
     var openDates = [];
     var date;
-    console.log(date);
     this.state.factory.setProvider(this.state.web3.currentProvider);
     this.state.exchange.setProvider(this.state.web3.currentProvider);
     this.state.exchange.deployed().then((instance2) =>{
@@ -126,7 +125,6 @@ export default class Transactions extends React.Component {
                           o_adds.push(token_addresses[0]);
                           o_longs.push("Long");
                           o_starts.push(date );
-                          console.log('res2',res2);
                           o_bals.push(res2[2].c[0]);
                           o_prices.push(res2[1].c[0]);
                         })

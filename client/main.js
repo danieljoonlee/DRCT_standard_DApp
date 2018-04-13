@@ -17,9 +17,11 @@ import React from 'react';
 import { render } from 'react-dom';
 import Transactions from '../imports/Transactions.js';
 import Exchange from '../imports/Exchange.js';
+import Portfolio from '../imports/Portfolio.js';
 
 Meteor.startup(() => {
-  //render(<Transactions/>,document.getElementById('transactionlist'));
+  render(<Portfolio/>,document.getElementById('myportfolio'));
+  render(<Transactions/>,document.getElementById('transactionlist'));
   render(<Exchange/>,document.getElementById('exchange'));
 });
 
