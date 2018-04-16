@@ -238,7 +238,7 @@ export default class Transactions extends React.Component {
     rowHeight={40}
     rowsCount={rows.length}
     width={600}
-    height={rows.length * 40 + 42 }
+    height={Math.min(rows.length,5) * 40 + 42 }
     headerHeight={40}>
     <Column
       header={<Cell>Transactions</Cell>}

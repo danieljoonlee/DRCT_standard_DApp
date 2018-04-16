@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Dropdown from 'react-dropdown'
+import 'react-dropdown/style.css'
 import Factory from './contracts/Factory.json'
 import Swap from './contracts/TokenToTokenSwap.json'
 import UserContract from './contracts/UserContract.json'
@@ -10,7 +12,6 @@ const { DateCell, ImageCell, LinkCell, TextCell } = require('./helpers/cells');
 import {Table, Column, Cell} from 'fixed-data-table-2';
 import 'fixed-data-table-2/dist/fixed-data-table.css';
 import Modal from 'react-modal';
-
 
 const customStyles = {
   content : {
@@ -58,6 +59,7 @@ export default class Portfolio extends React.Component {
       price:0, //The price to sell on exchange
       exchangeAmount:0,//amount to sell on exchange
       order:"", //orderId for cancelling or taking order
+      addressResult:"",
       tradedToken:"" //token you're placing an order for
     };
 
@@ -142,7 +144,8 @@ export default class Portfolio extends React.Component {
           for(i=0;i<result;i++){
               instance.startDates.call(i).then((res4)=>{
                   date = res4.c[0];
-                  thisDates.push(res4.c[0]); 
+                  thisDates.push({value: res4.c[0] , label: res4.c[0]}); 
+                  console.log('thisdates',thisDates);
                   this.setState({openDates: thisDates})     
                   instance.getTokens(date).then((token_addresses)=>{
                   this.state.token.at(token_addresses[0]).then((instance2)=>{
@@ -195,9 +198,9 @@ export default class Portfolio extends React.Component {
     this.state.userContract.setProvider(this.state.web3.currentProvider)
       this.state.web3.eth.getAccounts((error, accounts) => {
         this.state.userContract.deployed().then((instance) => {
-        this.eventWatcherSwapToken()
+        this.eventWatcherSwap("SwapCreation")
         console.log(this.state.amount)
-        return instance.Initiate(this.state.swapAdd,this.state.amount,{from: accounts[0],value:this.state.amount*2*1e18,gas:4000000})
+        return instance.Initiate(this.state.swapAdd,this.state.amount*1e18,{from: accounts[0],value:this.state.amount*2*1e18,gas:4000000})
         })
       })
   }
@@ -208,7 +211,7 @@ export default class Portfolio extends React.Component {
       this.state.web3.eth.getAccounts((error, accounts) => {
         this.state.wrapped.deployed().then((instance) => {
           instance.balanceOf(accounts[0]).then((result) =>{
-            return wrapped.withdraw(result,{from: accounts[0],gas:2000000})
+            return instance.withdraw(result,{from: accounts[0],gas:2000000})
           })
         })
       })
@@ -231,6 +234,7 @@ export default class Portfolio extends React.Component {
 
   //event watcher for factory contract
   eventWatcherFactory(){
+    this.setState({addressResult : "...loading"})
     this.state.factory.setProvider(this.state.web3.currentProvider)
     this.state.factory.deployed().then((instance)=>{
     let events = instance.ContractCreation({}, {fromBlock:this.state.currentBlock, toBlock: 'latest'});
@@ -239,42 +243,17 @@ export default class Portfolio extends React.Component {
             console.log(err)
         }
         else {
-          this.reload()
+          this.setState({addressResult : event.args._created})
         }
     })
   })
   }
 
 
-  //event watcher for DRCT token contract
-  eventWatcherToken(_event){
-    this.state.token.setProvider(this.state.web3.currentProvider);
-    this.state.token.deployed().then((instance)=>{
-      console.log(_event);
-      var at = {
-          Transfer: instance.Transfer({}, {fromBlock:this.state.currentBlock, toBlock: 'latest'}),
-          Approval: instance.Approval({}, {fromBlock:this.state.currentBlock, toBlock: 'latest'}),
-          CreateToken: instance.CreateToken({}, {fromBlock:this.state.currentBlock, toBlock: 'latest'})
-      };
-
-      let events = at[_event];
-      events.watch((err: any, event: any) => {
-          if (err) {
-              console.log(err)
-          }
-          else {
-            this.reload()
-          }
-      })
-    })
-  }
-
-
   //event watcher for TokentoTokenSwap contract
     eventWatcherSwap(_event){
     this.state.swap.setProvider(this.state.web3.currentProvider)
-    this.state.swap.deployed().then((instance)=>{
-    console.log(_event);
+    this.state.swap.at(this.state.addressResult).then((instance)=>{
     var at = {
         SwapCreation: instance.SwapCreation({}, {fromBlock:this.state.currentBlock, toBlock: 'latest'}),
         PaidOut: instance.PaidOut({}, {fromBlock:this.state.currentBlock, toBlock: 'latest'})
@@ -286,35 +265,12 @@ export default class Portfolio extends React.Component {
             console.log(err)
         }
         else {
-          this.reload()
+          this.getDRCTpositions()
         }
     })
   })
   }
 
-    //event watcher for the Exchange contract
-    eventWatcherExchange(_event){
-    this.state.exchange.setProvider(this.state.web3.currentProvider)
-    this.state.exchange.deployed().then((instance)=>{
-    console.log(_event);
-    var at = {
-        OrderPlaced: instance.OrderPlaced({}, {fromBlock:this.state.currentBlock, toBlock: 'latest'}),
-        Sale: instance.Sale({}, {fromBlock:this.state.currentBlock, toBlock: 'latest'}),
-        OrderRemoved: instance.OrderRemoved({}, {fromBlock:this.state.currentBlock, toBlock: 'latest'})
-    
-    };
-
-    let events = at[_event];
-    events.watch((err: any, event: any) => {
-        if (err) {
-            console.log(err)
-        }
-        else {
-          this.reload()
-        }
-    })
-  })
-  }
 
   openModal() {
     this.setState({modalIsOpen: true});
@@ -343,9 +299,19 @@ export default class Portfolio extends React.Component {
     this.setState({detailModalIsOpen: false});
   }
 
-      handleChange(e) {
-        this.setState({selected: e.target.value});
-    }
+  selectChange(e) {
+    this.setState({selected: e.target.value});
+  }
+
+  handleSChange(e) {
+     this.setState({startDate: e.value});
+  }
+
+  handleAChange(e) {
+    console.log(e.target.value);
+     this.setState({amount: e.target.value});
+  }
+
 
 
 
@@ -359,23 +325,20 @@ export default class Portfolio extends React.Component {
     var oracle_address =this.state.oracle_address;
     var duration = this.state.duration;
     var multiplier = this.state.multiplier;
-    console.log(oracle_address);
-    console.log(duration);
-    console.log(multiplier);
-
+const options = this.state.openDates;
     return (
       <div id="react_div">
     <Table
     rowHeight={40}
     rowsCount={rows2.length}
     width={600}
-    height={rows2.length * 40 + 42 }
+    height={Math.min(rows2.length,5) * 40 + 42 }
     headerHeight={40}>
     <Column
       header={<Cell>My Tokens</Cell>}
       cell={({rowIndex, ...props}) => (
         <Cell {...props}>
-          <button id="link" value={rows2[rowIndex]} onMouseOver={this.handleChange.bind(this)} onClick={this.openDetailModal}>{rows2[rowIndex]}</button>
+          <button id="link" value={rows2[rowIndex]} onMouseOver={this.selectChange.bind(this)} onClick={this.openDetailModal}>{rows2[rowIndex]}</button>
         </Cell>
       )}
       width={400}
@@ -399,14 +362,21 @@ export default class Portfolio extends React.Component {
           contentLabel="Example Modal"
         >
 
+
           <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
-          <div>I am a modal</div>
-          <p>Start Date:&nbsp;<input type="text" name="startDate" pattern="[0-9]*" onInput={this.handleChange}/></p>
-          <p>Amount:&nbsp;<input type="text" name="amount" pattern="[0-9]*" onInput={this.handleChange}/></p>
+          <div>
+             <Dropdown options={options} onChange={this.handleSChange.bind(this)} value={this.state.startDate} placeholder="Select an option" />
+          </div>
+          <p>Amount:&nbsp;<input type="text" pattern="[0-9]*" onInput={this.handleAChange.bind(this)}/></p>
+          <div>
            <button onClick={this.createContract.bind(this)}>Create Contract</button>
-           {this.state.addressResult}
+           </div>
+           <p>Address Result: {this.state.addressResult}</p>
+           <div>
            <p><button onClick={this.initiateContract.bind(this)}>Initiate Contract</button>&nbsp;</p>
+            </div>
            <p><button onClick={this.closeModal}>close</button></p>
+
 
         </Modal>
 
