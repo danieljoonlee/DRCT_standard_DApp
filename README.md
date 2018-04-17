@@ -1,4 +1,4 @@
-# DRCT Decentarlized Application
+# DRCT Decentralized Application
 
 ![Wormhole](./public/readme.png)
 
