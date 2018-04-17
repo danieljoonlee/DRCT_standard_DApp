@@ -181,6 +181,10 @@ export default class Portfolio extends React.Component {
     //create list of open contracts for createContract choices
     //get balances
   }
+
+  reload(){
+    this.getDRCTpositions();
+  }
   //allows a party to create a new swap contract
   createContract(){
     this.state.factory.setProvider(this.state.web3.currentProvider)
@@ -265,7 +269,7 @@ export default class Portfolio extends React.Component {
             console.log(err)
         }
         else {
-          this.getDRCTpositions()
+          this.reload()
         }
     })
   })
@@ -282,6 +286,7 @@ export default class Portfolio extends React.Component {
   }
 
   closeModal() {
+    this.reload()
     this.setState({modalIsOpen: false});
   }
 
@@ -296,6 +301,7 @@ export default class Portfolio extends React.Component {
   }
 
   closeDetailModal() {
+    this.reload()
     this.setState({detailModalIsOpen: false});
   }
 
