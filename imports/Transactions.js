@@ -104,7 +104,6 @@ export default class Transactions extends React.Component {
                 tlist.push(logs[i].transactionHash);
     				}
   			}
-  			console.log(check);
   			this.setState({ openswaplist: check })
         this.setState({ myTransactions: tlist})
 	  	})

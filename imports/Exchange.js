@@ -41,7 +41,8 @@ export default class Transactions extends React.Component {
       openDates:[],
       tokenadds:[],
       tokenbals:[],
-      myOrders:[],
+      Orders:[],
+      Parties:[],
       currentBlock: 0,
       contract: require('truffle-contract'),
       factory:null,
@@ -80,6 +81,7 @@ export default class Transactions extends React.Component {
     await this.setState({ exchange : this.state.contract(Exchange)})
     await this.setState({ wrapped :this.state.contract(Wrapped)})
    await this.getOrderbook();
+   await this.getOrders();
    await this.getDRCTpositions();
    this.getBlock();
   }
@@ -105,6 +107,40 @@ export default class Transactions extends React.Component {
     })
   }
 
+
+      //This gets all your interactions with the contracts:Factory,Swap Contract, DRCT Tokens
+  getOrders(){
+    var _this = this;
+    var Orders = [];
+    var Parties = [];
+    this.state.exchange.setProvider(this.state.web3.currentProvider);
+    this.state.exchange.deployed().then((instance) =>{
+      instance.getBookCount().then((result)=>{
+        for(i=0;i<result.c[0];i++){
+          instance.openBooks(i).then((result2)=>{
+            instance.getOrders(result2).then((result3)=>{
+              console.log('res3',result3);
+              if(result3.length>1){
+                console.log('re32',result3[1].c[0]);
+                for(j=1;j<result3.length;j++){
+                      Orders.push(result3[j].c[0])
+                      instance.getOrder(result3[j].c[0]).then((result4)=>{
+                          Parties.push(result4[0].toUpperCase())
+                          _this.setState((prevState,props)=>({Orders:Orders}));
+                          _this.setState((prevState,props)=>({Parties:Parties}))
+                      })
+                }
+              }
+            })
+          })
+        }
+
+      })
+    })
+  }
+
+
+
     //This gets all your interactions with the contracts:Factory,Swap Contract, DRCT Tokens
   getOrderbook(){
     var _this = this;
@@ -114,7 +150,6 @@ export default class Transactions extends React.Component {
     var o_starts = [];
     var o_prices = [];
     var openDates = [];
-    var myOrders = [];;
     var date;
     this.state.factory.setProvider(this.state.web3.currentProvider);
     this.state.exchange.setProvider(this.state.web3.currentProvider);
@@ -126,35 +161,28 @@ export default class Transactions extends React.Component {
                   date = res4.c[0];
                   openDates.push(res4.c[0]);      
                   instance.getTokens(date).then((token_addresses)=>{
-                  instance2.getOrders(token_addresses[0]).then((res)=>{
-                    if(res.length>0){
-                      for(j=0;j<res.length;j++){
+                  instance2.getOrders(token_addresses[0]).then((res)=>{ 
+                    if(res.length>1){
+                      for(j=1;j<res.length;j++){
                         instance2.getOrder(res[j]).then((res2)=>{
                           o_adds.push(token_addresses[0]);
                           o_longs.push("Long");
                           o_starts.push(date );
                           o_bals.push(res2[2].c[0]);
                           o_prices.push(res2[1].c[0]);
-                          if(res2[0] == this.state.myAccount){
-                            myOrders.push(res[j])
-                          }
                         })
                       }
                 }
               }).then(()=>{
                   instance2.getOrders(token_addresses[1]).then((res)=>{
-                    if(res.length>0){
-                      for(j=0;j<res.length;j++){
-                        instance2.getOrder(res[j]).then((res2)=>{
+                    val = res;
+                    if(res.length>1){
+                      for(j=1;j<res.length;j++){
+                        instance2.getOrder(res[j].c[0]).then((res2)=>{
                           o_adds.push(token_addresses[1]);
                           o_longs.push("Short");
                           o_starts.push(date );
                           o_bals.push(res2[2].c[0]);
-                          console.log(res2[0],this.state.myAccount)
-                          if(res2[0] == this.state.myAccount){
-                            myOrders.push(res[j]);
-                            _this.setState((prevState,props)=>({myOrders: myOrders}));
-                          }
                           o_prices.push(res2[1].c[0]);
                               _this.setState((prevState,props)=>({openDates: openDates}));
                               _this.setState((prevState,props)=>({orderadds: o_adds}));
@@ -205,7 +233,6 @@ export default class Transactions extends React.Component {
                   }).then(()=>{
                     this.state.token.at(token_addresses[1]).then((instance2)=>{
                       instance2.balanceOf(accounts[0]).then((result)=>{
-                        console.log('result',result)
                         if(result.c[0]>0){
                           tokenadds.push(token_addresses[1]);
                           tokenbals.push(result.c[0]);
@@ -428,7 +455,12 @@ export default class Transactions extends React.Component {
     var rows6 = this.state.orderStartDate;
     var rows7 = this.state.orderPrices;
     var options = this.state.mytokens;
-    var options2 = this.state.myOrders;
+    var options2 = [];
+    for(i=0;i<this.state.Parties.length;i++){
+      if(this.state.Parties[i] = this.state.myAccount.toUpperCase()){
+        options2.push(this.state.Orders[i])
+      }
+    }
     console.log(options2)
     return (
       <div id="react_div">
