@@ -124,7 +124,6 @@ export default class Portfolio extends React.Component {
                 tlist.push(logs[i].transactionHash);
             }
         }
-        console.log(check);
         this.setState({ openswaplist: check })
         this.setState({ myTransactions: tlist})
       })
@@ -145,7 +144,6 @@ export default class Portfolio extends React.Component {
               instance.startDates.call(i).then((res4)=>{
                   date = res4.c[0];
                   thisDates.push({value: res4.c[0] , label: res4.c[0]}); 
-                  console.log('thisdates',thisDates);
                   this.setState({openDates: thisDates})     
                   instance.getTokens(date).then((token_addresses)=>{
                   this.state.token.at(token_addresses[0]).then((instance2)=>{
@@ -160,7 +158,6 @@ export default class Portfolio extends React.Component {
                   }).then(()=>{
                     this.state.token.at(token_addresses[1]).then((instance2)=>{
                       instance2.balanceOf(accounts[0]).then((result)=>{
-                        console.log('result',result)
                         if(result.c[0]>0){
                           tokenadds.push(token_addresses[1]);
                           tokenbals.push(result.c[0]);
@@ -331,7 +328,7 @@ export default class Portfolio extends React.Component {
     var oracle_address =this.state.oracle_address;
     var duration = this.state.duration;
     var multiplier = this.state.multiplier;
-const options = this.state.openDates;
+var options = this.state.openDates;
     return (
       <div id="react_div">
     <Table
@@ -369,14 +366,16 @@ const options = this.state.openDates;
         >
 
 
-          <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
+          <h2 ref={subtitle => this.subtitle = subtitle}>Enter Contract Details</h2>
           <div>
              <Dropdown options={options} onChange={this.handleSChange.bind(this)} value={this.state.startDate} placeholder="Select an option" />
           </div>
-          <p>Amount:&nbsp;<input type="text" pattern="[0-9]*" onInput={this.handleAChange.bind(this)}/></p>
           <div>
            <button onClick={this.createContract.bind(this)}>Create Contract</button>
            </div>
+           <div>
+                     <p>Amount:&nbsp;<input type="text" pattern="[0-9]*" onInput={this.handleAChange.bind(this)}/></p>
+            </div>
            <p>Address Result: {this.state.addressResult}</p>
            <div>
            <p><button onClick={this.initiateContract.bind(this)}>Initiate Contract</button>&nbsp;</p>

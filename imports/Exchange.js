@@ -119,9 +119,7 @@ export default class Transactions extends React.Component {
         for(i=0;i<result.c[0];i++){
           instance.openBooks(i).then((result2)=>{
             instance.getOrders(result2).then((result3)=>{
-              console.log('res3',result3);
               if(result3.length>1){
-                console.log('re32',result3[1].c[0]);
                 for(j=1;j<result3.length;j++){
                       Orders.push(result3[j].c[0])
                       instance.getOrder(result3[j].c[0]).then((result4)=>{
@@ -461,14 +459,13 @@ export default class Transactions extends React.Component {
         options2.push(this.state.Orders[i])
       }
     }
-    console.log(options2)
     return (
       <div id="react_div">
     <Table
     rowHeight={40}
     rowsCount={rows4.length}
-    width={600}
-    height={rows4.length *40 +45}
+    width={1000}
+    height={rows4.length *40 + 60}
     headerHeight={40}>
     <Column
       header={<Cell>Longs</Cell>}
@@ -477,7 +474,7 @@ export default class Transactions extends React.Component {
           {rows4[rowIndex]}
         </Cell>
       )}
-      width={200}
+      width={100}
     />
         <Column
       header={<Cell>Address</Cell>}
@@ -486,7 +483,7 @@ export default class Transactions extends React.Component {
           {rows3[rowIndex]}
         </Cell>
       )}
-      width={200}
+      width={400}
     />
             <Column
       header={<Cell>Start Date</Cell>}
@@ -504,7 +501,7 @@ export default class Transactions extends React.Component {
           {rows5[rowIndex]}
         </Cell>
       )}
-      width={200}
+      width={150}
     />
                     <Column
       header={<Cell>Price</Cell>}
@@ -513,7 +510,7 @@ export default class Transactions extends React.Component {
           {rows7[rowIndex]}
         </Cell>
       )}
-      width={200}
+      width={150}
     />
   </Table>
 
@@ -561,7 +558,6 @@ export default class Transactions extends React.Component {
       <button onClick={this.openModal}>Place Order</button>&nbsp;
       <button onClick={this.openCModal}>Cancel Order</button>&nbsp;
       <button onClick={this.withdraw.bind(this)}>Withdraw</button>&nbsp;
-      <p>Longs: {rows4}</p>
   </div>
     );
   }
