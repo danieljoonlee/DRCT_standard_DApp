@@ -5,18 +5,16 @@
 Code for drct.decentralizedderivatives.org
 
 
-Download Node.js
-Download Meteor
+    Download Node.js
+    Download Meteor
  
- 
-So then you should be able to do:
- 
+
 
 
 To clone on local machine:
 
 
-Download most recent drct_standard and drct_standard_dapp from github (my branches are single_token and react respectively)
+    Download most recent drct_standard and drct_standard_dapp from github (my branches are single_token and react respectively)
 
 Now:
 
