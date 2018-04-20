@@ -19,6 +19,8 @@ import Transactions from '../imports/Transactions.js';
 import Exchange from '../imports/Exchange.js';
 import Portfolio from '../imports/Portfolio.js';
 import Navbar from '../imports/Navbar.js';
+import footer from '../imports/footer.html';
+import dashboard from '../imports/dashboard.html';
 
 Meteor.startup(() => {
   render(<Navbar/>,document.getElementById('navbar'));
@@ -48,7 +50,12 @@ Template.connection.helpers({
 	},
 	funds(){
 		return Template.instance().funds.get();
-	}
+	},
+	//footer
+	'showFooter' : function() {
+        return '<div class="container-fluid footer"><div class="row"><div class="col-md-3 copyright">Copyright @2018</div><div class="col-md-offset-6 col-md-3"><i class="fa fa-facebook-square"></i><i class="fa fa-twitter-square"></i><i class="fa fa-linkedin"></i></div></div></div>';
+    }
+
 })
 
 Template.connection.events({
