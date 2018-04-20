@@ -2,190 +2,46 @@
   <link rel="stylesheet" href="main.css"/>
  <link rel="icon" href="/favicon2.png?v=3">
   <title >DDA -- DRCT</title>
+  <div id="navbar"></div>
 </head>
 
 <body>
-<div style=" width: 100%; height:100%; position: absolute; top: 10px;">
-<h1 style="line-height:1em; text-align:center;">
-<br><br>
-<span style="color:#064573;"><span style="font-family: open sans,sans-serif; font-size:38px;"> DECENTRALIZED DERIVATIVES ASSOCIATION
-  <div style="padding:10px">
- 
-  <div  style=" margin:0 auto;text-align:center;padding:0;border-bottom: 2px solid rgba(61, 155, 233, 1); width: 738px; height: 5px;"></div></div>
-  </span></span>
+  <div id="app"></div>
 
-  <div id="inner">{{> radioform}}</div>
-  </h1>
+<div style=" width: 100%; height:100%; position: absolute; top: 10px;">
 <div class="mainpart">
 <br> 
 
-<p id="radioselection"></p>
-  {{#if showFactory}}   {{> factory}}  {{/if}}
-  {{#if showAbout}}   {{> about}}  {{/if}}
-  {{#if showExchange}}  {{> exchange}} {{/if}}
-  {{#if showPortfolio}}   {{> portfolio}}  {{/if}}
+<div>
+  <div class="container">
+    <div class="flex-item">
+      <div id="myportfolio"> </div>
+    </div>
+    </div>
+  <div class="container">
+    <div class="flex-item">
+      <div id="transactionlist"> </div>
+    </div>
+  </div>
+
+  <h3>Exchange</h3>
+    <div class="container">
+    <div class="flex-item">
+      <div id="exchange"> </div>
+    </div>
+  </div>
+
+
+</div>
 
 <div id="bottomcontainer">
 
-  {{> connection}}
- <div id= "bottom_box2" style="text-align:right"><div id="disclaimer_h">
-    <h4> + Disclaimer:</h4></div>
-    <div id="disclaimer_b" style="display:none;text-align:left">
-      <p> --DDA contracts and this DApp are still in a beta stage.</p>
-      <p> --Use of the Site and participation in transactions may carry financial risk. You acknowledge and agree that you are aware of such risks.</p>
-      <p> --The site may not be appropriate or available for use in some jurisdictions.</p>
-    </div>
-  </div>
+<!--{{> connection}}-->
 </div>
 </div>
-<div class="footer">
-      <img src="/favicon.png" alt="favicon" style="width:100px;"  align="left">
- <div id="foot"><br>
-    <p><a href="https://www.decentralizedderivatives.org" id="foot">www.decentralizedderivatives.org</a></p>
-    <p><a href="mailto:info@decentralizedderivatives.org" id="foot">info@decentralizedderivatives.org</a></p>
-  <br>
-</div>
-</div>
-
 </div>
 
 </body>
-
-
-
-<template name="radioform">
-  <div style="width:100%; text-align: center;">
-<div class="centered">
-<button class="radioPortfolio" id='main' >MY PORTFOLIO</button>
-<button class="radioExchange" id='main'>EXCHANGE</button>
-
-<button class="radioFactory" id="main">CREATE CONTRACT</button>
-<button class="radioAbout" id='main' style = "border-right:none" >HOW TO</button>
-</div>
-</div>
-</template>
-
-<template name ="factory">
-  <h4>Start Date:  <input type="date" id="startDate"><i>  Must be within the next 20 days</i></h4>
-    <h4> Long or Short:
-    <select id="isLong">
-      <option value="true">Long</option>
-      <option value="false">Short</option>
-    </select>
-  </h4>
-      <h4>Amount of Ether: <input type="text" id='amount_a' name="" value=0><i>  Must be greater than or equal to 0.1</i></h4>
-      <h4>Premium Amount: <input type="text" id='premium' name="" value=0></h4>
-    <div><div id="inner">
-      <button class="create" id="button_bottom"> Create Contract </button>
-    </div></div>
-    <div id = "CreationResult" style="visibility:visible">
-      <button class="addresult" id="button_bottom">Address Result</button>
-    </div>
-      <button class="initiate" name="sendbutton" id="button_bottom" style="visibility:visible;"> Send Funds </button>
-          <br><br><br>
-          <h4>Contract Address: <input type="text" id="sendfund_add" name="" value={{returnedadd}} style="width:400px"><br></h4>
-        <br>
-          <i>Note: If you are the first DRCT contract for a given start date, you will need to create long/short DRCT token contracts in the Oracle tab. </i>
-      <br>
-      <br>
-      <br>
-  <div id= "bottom_box"><div class="H2_h"><h2> + How to Use:</h2></div>
-   {{#if howto}}
-   <p>
-   <ul style="margin-top: 0;">
-   <li>Pick the start date of the contract (end date is 7 days after this).</li>
-    <li>Choose long or short the rate.</li>
-    <li>Enter amount of Ether you want to put into Contract.</li>
-    <li>Enter the Premium in Ether you are willing to pay someone to accept an opposing position (how desperate are you)?</li>
-    <li>Click create contract.</li>
-    <li>Wait for transaction to be mined (check your MetaMask) and click 'Address Result'.  The address result button gives you the last created address from your MetaMask account.  If you want to manually enter an address, you can do that in the text field.</li>
-    <li>Click 'Send Funds' to complete your transation.</li>
-    <li>Note that a 'Transaction Error. Exception thrown...' is actually just a warning from MetaMask about gas (no worries, the contract will go through).</li> 
-    <li>Check the 'My Positions' page to see your Token Balance when someone enters an opposing position to your contract.</li>
-    <li>After the contract is paid out, be sure to go cash out your tokens.</li>
-    <li>For a step-by-step guide, check out our: <a href="https://www.youtube.com/watch?v=NdBqfzAeHFg">DRCT DApp tutorial video.</a></li>
-    </ul>     
-	</p>
-  {{/if}}
-
-</div>
-</template>
-
-<template name ="exchange">
-
-  <div id= "bottom_box"><div class="H2_h"><h2>Place holder for exchange contract</h2></div>
-</div>
-</template>
-
-
-
-<template name="about">
-
-  <div id= "bottom_box"><div class="H2_h"><h2>Place holder for about (how to use)</h2></div>
-  {{#if howto}}<p>--Click 'Get Balances' to see how many wrapped Ether you have to cash out.
-    <br>-- Once you click 'Cash Out', you will have to withdraw two separate wrapped Ethers (two MetaMask calls) if positive balances.
-</p>
-{{/if}}
-</div>
-</template>
-
-
-
-<template name ="portfolio">
-<div>
-  <h2>My Portfolio</h2>
-  <div class="container">
-    <div class="flex-item">
-      <h3 style="border-bottom: 2px solid rgba(61, 155, 233, 1)">Open Postions</h3>
-      <p id="openswaplist"> </p>
-    </div>
-    <div style="width:5%;"></div>
-    <div class="flex-item">
-      <h3 style="border-bottom: 2px solid rgba(61, 155, 233, 1)">Transactions</h3>
-    </div>
-  </div>
-
-
-</div>
-<!--
- <h4>Start Date:  <input type="date" id="startDate"></h4>
-    <div id='CapValues'>
-      <p>Cap Values are +/- 100% of the starting value.</p>
-      <p>Start Value:  <i>{{startvalue}}</i></p>
-      <p>Cap Value (Min):  <i>{{capmin}}</i></p>
-      <p>Cap Value (Max):  <i>{{capmax}}</i></p>
-    </div>
-    <button class="balances" id="button_bottom">Get Open Token Balances</button>
-    <br><br>
-    <div id='Balances' style = "visibility: visible">
-      <p>Balance Long Token:  <i> {{longbalance}} </i></p>
-      <p>Balance Short Token:  <i> {{shortbalance}} </i></p>
-    <br>
-    <form id="exit" action="/action_page.php"
-        onsubmit = "return validateForm()" method = "post">
-          Reciever Address:  <input type="text" id="receiver" name="" value=""><br><br>
-          Type: <select id="isLong">
-            <option value="true">Long</option>
-            <option value="false">Short</option>
-          </select>
-          / Amount:      <input type="text" id='amount_send' name="" value=0><i>  Must be greater than 1</i><br><br>
-        </form>
-    <button class="sendToken" id="button_bottom">Send Token</button>
-  </div>
-    <button class="Portfolio" id="button_bottom"> Show My Contracts </button>
-    <br><br><p id="openswaplist"> </p>
-    <br>
-          <br>
-      <br>
-  <div id= "bottom_box"><div class="H2_h"><h2> + How to Use:</h2></div> {{#if howto}} 
-   <p>To see the amount of long or short token's you have for a given start date (along with the start Oracle value and cap values), click 'Get Open Token Balances.'
-    <br> To send a long or short token, enter the reciever address and the amount and then click 'Send Token.'
-    <br>To see all positions from your address, click 'Show My Contracts.'
-</p>
-{{/if}}
-</div>-->
-</template>
-
 
 
 <template name="connection">

@@ -32,7 +32,11 @@ export default class Example extends React.Component {
   render() {
     return (
       <div>
+<<<<<<< HEAD
         <Navbar style={navbar} color="rgba(6, 69, 115, 1)" light expand="md">
+=======
+        <Navbar style={navbar} color="light" light expand="md">
+>>>>>>> 6b308d768f7c08c74b3be3a2fb27c9a986c9b022
           <NavbarBrand href="/">DDA</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -47,10 +51,6 @@ export default class Example extends React.Component {
                 <NavLink href="https://github.com/DecentralizedDerivatives">My Portfolio</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://www.decentralizedderivatives.org/about">About</NavLink>
-              </NavItem>              
-              <NavItem>
-                <NavLink href="https://www.decentralizedderivatives.org/contact">Contact Us</NavLink>
               </NavItem>
               <NavItem>  
                 <NavLink href="https://github.com/DecentralizedDerivatives">Connected</NavLink>                

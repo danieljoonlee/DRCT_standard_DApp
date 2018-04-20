@@ -66,7 +66,7 @@ body {
   animation: pulse 1s;
   background-color:rgba(6, 69, 115, 1);
   color:white;
-  background-color: 
+  background-color:rgba(6, 69, 115, 1); 
   margin:0 auto;
 }
 
@@ -177,4 +177,22 @@ button:active {
     flex-grow: 1;
     padding: 10px;
     display: inline-block;
+}
+
+.ReactModal__Overlay {
+    z-index: 1000;
+}
+
+.react_div{
+    height: 80%;
+}
+
+#link {
+     background:none!important;
+     color:inherit;
+     border:none; 
+     padding:0!important;
+     font: inherit;
+     cursor: pointer;
+
 }
