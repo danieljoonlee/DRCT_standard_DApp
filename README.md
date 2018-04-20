@@ -15,33 +15,49 @@ So then you should be able to do:
 
 To clone on local machine:
 
-        --change factory contract in your main.js file to your own
-        
-        --Change lib.js file to point to preffered network (currently on mainnet)
-        
-        git clone https://github.com/DecentralizedDerivatives/DRCT_standard_DApp.git
-        
-        cd DRCT_standard_DApp
-        
-        npm install  
-        
-        meteor
+
+Download most recent drct_standard and drct_standard_dapp from github (my branches are single_token and react respectively)
+
+Now:
+
+    In drct_standard folder, delete ‘build’ folder
+
+Open 3 command terminals (ct):
+
+CT1:
+
+    ganache-cli -m waxfang
+
+CT2:
+
+    Cd …./drct_standard (cd to your location)
+    Truffle compile
+    Truffle migrate
+
+--Now copy and overwrite the ‘./build/contracts’ from drct_standard to the ‘./imports/contracts’ folder in drct_standard_dapp
+
+CT2 cont”
+
+    Truffle exec scripts/setup.js
+    Truffle exec scripts/contract_setup.js
+    Truffle exec scripts/new_contract.js
+    Truffle exec scripts/scenario.js
+
+
+Ct3:
+
+    Cd …./drct_standard_dapp (cd to your location)
+    Meteor
+
+In metamask:
+
+    Import the account with private key: e495a0d39ae99327ea09eace1f6096a5a3cddeec3b52a3ff80b719831be3d695
+
+Now you should have 4 tokens, some tokens for sale, and some transactions
+
         
 
 This webpage builds the DApp at drct.decentralizedderivatives.org 
 
-Follow our video tutorial here: https://www.youtube.com/watch?v=NdBqfzAeHFg
+Follow our video tutorial (deprecated) here: https://www.youtube.com/watch?v=NdBqfzAeHFg
 
-To launch a private instance on your machine, you will need to install Truffle and Ganache-cli
-
-Then follow deploy steps on the base code:
-
-        https://github.com/DecentralizedDerivatives/DRCT_standard
-        
-Lastly, start your local host
-
-        ganache-cli
-
-Change your metamask to Localhost 8545
-
-Import private keys from top of Ganache-cli
