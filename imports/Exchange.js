@@ -292,7 +292,7 @@ export default class Transactions extends React.Component {
       this.state.web3.eth.getAccounts((error, accounts) => {
         this.state.wrapped.deployed().then((instance) => {
           instance.balanceOf(accounts[0]).then((result) =>{
-            return wrapped.withdraw(result,{from: accounts[0],gas:2000000})
+            return instance.withdraw(result,{from: accounts[0],gas:2000000})
           })
         })
       })

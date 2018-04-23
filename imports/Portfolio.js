@@ -189,7 +189,7 @@ export default class Portfolio extends React.Component {
       this.state.factory.deployed().then((instance) => {
       this.eventWatcherFactory()
       console.log(this.state.startDate)
-      return instance.deployContract(this.state.startDate,{from: accounts[0],gas:4000000})
+      instance.deployContract(this.state.startDate,{from: accounts[0],gas:4000000});
       })
     })
   }

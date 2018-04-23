@@ -1,4 +1,5 @@
 import React from 'react';
+import Child from './CreateContract.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import {
   Collapse,
@@ -29,6 +30,10 @@ export default class Example extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
+
+  onClick = () => {
+    this.child.method() // do stuff
+  }
   render() {
     return (
       <div>
@@ -41,7 +46,8 @@ export default class Example extends React.Component {
                 <NavLink href="/components/">Exchange</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/DecentralizedDerivatives">Create Contract</NavLink>
+                <Child onRef={ref => (this.child = ref)} />
+               <button onClick={this.onClick}>Child.method()</button>
               </NavItem>
               <NavItem>
                 <NavLink href="https://github.com/DecentralizedDerivatives">My Portfolio</NavLink>
